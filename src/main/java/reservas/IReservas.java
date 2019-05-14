@@ -21,20 +21,20 @@ public interface IReservas {
     ReservasVO findByPk(int pk) throws SQLException;
     
     // Método para insertar un registro
-    int insertPersona (ReservasVO reserva) throws SQLException;
+    int insertReserva (ReservasVO reserva) throws SQLException;
     
     // Método para insertar varios registros
-    int insertPersona (List<ReservasVO> lista) throws SQLException;
+    int insertReserva (List<ReservasVO> lista) throws SQLException;
     
     // Método para borrar una persona
-    int deletePersona (ReservasVO r) throws SQLException;
+    int deleteReserva (ReservasVO r) throws SQLException;
     
     // Método para borrar toda la tabla
-    int deletePersona() throws SQLException;
+    int deletereserva() throws SQLException;
     
     // Método para modificar una persona. Se modifica a la persona que tenga esa 'pk'
     // con los nuevos datos que traiga la persona 'nuevosDatos'
-    int updatePersona (int pk, ReservasVO nuevosDatos) throws SQLException;
+    int updatereserva (int pk, ReservasVO nuevosDatos) throws SQLException;
     
     
 }

@@ -83,7 +83,7 @@ public class ReservasDAO implements IReservas {
     }
 
     @Override
-    public int insertPersona(ReservasVO reserva) throws SQLException {
+    public int insertReserva(ReservasVO reserva) throws SQLException {
         int numFilas = 0;
         String sql = "insert into reservas values (?,?,?)";
 
@@ -109,18 +109,18 @@ public class ReservasDAO implements IReservas {
     }
 
     @Override
-    public int insertPersona(List<ReservasVO> lista) throws SQLException {
+    public int insertReserva(List<ReservasVO> lista) throws SQLException {
         int numFilas = 0;
 
         for (ReservasVO tmp : lista) {
-            numFilas += insertPersona(tmp);
+            numFilas += insertReserva(tmp);
         }
 
         return numFilas;
     }
 
     @Override
-    public int deletePersona(ReservasVO r) throws SQLException {
+    public int deleteReserva(ReservasVO r) throws SQLException {
         int numFilas = 0;
 
         String sql = "delete from reservas where pk = ?";
@@ -137,7 +137,7 @@ public class ReservasDAO implements IReservas {
     }
 
     @Override
-    public int deletePersona() throws SQLException {
+    public int deletereserva() throws SQLException {
 
         String sql = "delete from reservas";
 
@@ -152,12 +152,10 @@ public class ReservasDAO implements IReservas {
 
         // El borrado se realizó con éxito, devolvemos filas afectadas
         return nfilas;
-
     }
 
     @Override
-    public int updatePersona(int pk, ReservasVO nuevosDatos) throws SQLException {
-
+    public int updatereserva(int pk, ReservasVO nuevosDatos) throws SQLException {
         int numFilas = 0;
         String sql = "update reservas set matricula = ?, numplaza = ? , pin_fij=? where pk=?";
 
