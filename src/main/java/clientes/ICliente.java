@@ -15,10 +15,10 @@ import java.util.List;
 public interface ICliente {
 
     // Método para obtener todos los registros de la tabla clientes
-    List<ClienteVO> getAll() throws SQLException;
+    public List<ClienteVO> getAll() throws SQLException;
 
     // Método para obtener un registro a partir de la matricula (la pk)
-    ClienteVO findByPk(String matricula) throws SQLException;
+    public ClienteVO findByPk(String matricula) throws SQLException;
 
     // Método para insertar un cliente
     public int insertCliente(ClienteVO cliente) throws SQLException;
