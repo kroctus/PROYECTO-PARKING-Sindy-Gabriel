@@ -17,7 +17,7 @@ import parking.Conexion;
 
 /**
  *
- * @author gabriel
+ * @author Sindy Ferreira
  */
 public class ClienteDAO implements ICliente {
 
@@ -40,7 +40,7 @@ public class ClienteDAO implements ICliente {
             while (res.next()) {
                 ClienteVO c = new ClienteVO();
                 int tipoAbono = 0;
-                // Recogemos los datos de la persona, guardamos en un objeto
+                // Recogemos los datos del cliente, guardamos en un objeto
                 c.setMatricula(res.getString("matricula"));
                 c.setNombre(res.getString("nombre"));
                 c.setApellido1(res.getString("apellido"));
@@ -92,7 +92,7 @@ public class ClienteDAO implements ICliente {
             // Nos posicionamos en el primer registro del Resultset. Sólo debe haber una fila
             // si existe esa pk
             if (res.first()) {
-                // Recogemos los datos de la persona, guardamos en un objeto
+                // Recogemos los datos del cliente, guardamos en un objeto
                 c.setMatricula(res.getString("matricula"));
                 c.setNombre(res.getString("nombre"));
                 c.setApellido1(res.getString("apellido"));
@@ -224,7 +224,7 @@ public class ClienteDAO implements ICliente {
                 + "email = ?, feciniabono = ?, fecfinabono = ? where matricula=?";
 
         if (findByPk(matricula) == null) {
-            // La persona a actualizar no existe
+            // El cliente a actualizar no existe
             return numFilas;
         } else {
             // Instanciamos el objeto PreparedStatement para inserción
