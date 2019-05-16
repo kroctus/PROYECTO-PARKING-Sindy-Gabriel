@@ -32,8 +32,8 @@ public interface ITickets {
     // Método para borrar toda la tabla
     int deleteTickets() throws SQLException;
 
-    // Método para modificar una persona. Se modifica a la persona que tenga esa 'pk'
-    // con los nuevos datos que traiga la persona 'nuevosDatos'
+    // Método para modificar un ticket. Se modifica el ticket que tenga esa 'pk'
+    // con los nuevos datos que traiga el ticket 'nuevosDatos'
     int updateTickets(int pk, TicketsVO nuevosDatos) throws SQLException;
 
     

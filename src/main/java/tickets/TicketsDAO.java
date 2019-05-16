@@ -41,7 +41,7 @@ public class TicketsDAO implements ITickets {
             // Ahora construimos la lista, recorriendo el ResultSet y mapeando los datos
             while (res.next()) {
                 TicketsVO p = new TicketsVO();
-                // Recogemos los datos de la persona, guardamos en un objeto
+                // Recogemos los datos del ticket, guardamos en un objeto
 
                 p.setNumplaza(res.getInt("numplaza"));
                 p.setMatricula(res.getString("matricula"));
@@ -74,7 +74,7 @@ public class TicketsDAO implements ITickets {
             // Nos posicionamos en el primer registro del Resultset. Sólo debe haber una fila
             // si existe esa pk
             if (res.first()) {
-                // Recogemos los datos de la persona, guardamos en un objeto
+                // Recogemos los datos del ticket, guardamos en un objeto
 
                 p.setNumplaza(res.getInt("numplaza"));
                 p.setMatricula(res.getString("matricula"));
@@ -171,7 +171,7 @@ public class TicketsDAO implements ITickets {
         String sql = "update reservas set numplaza = ?, matricula = ? , pin_desechable=?, fecinipin = ?, fecfinpin = ? where pk=?";
 
         if (findByPk(pk) == null) {
-            // La persona a actualizar no existe
+            // El tickets a actualizar no existe
             return numFilas;
         } else {
             // Instanciamos el objeto PreparedStatement para inserción
