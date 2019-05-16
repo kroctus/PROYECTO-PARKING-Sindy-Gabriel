@@ -5,18 +5,15 @@
  */
 package parking;
 
-/**
- *
- * @author gabriel
- */
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
  *
- * @author J. Carlos F. Vico <jcarlosvico@maralboran.es>
+ * @author gabriel
  */
+
 public class Conexion {
 
     private static final String SERVIDOR = "jdbc:mysql://192.168.56.101:3306/";
@@ -50,5 +47,5 @@ public class Conexion {
         }
         return instancia;
     }
-    
+
 }
