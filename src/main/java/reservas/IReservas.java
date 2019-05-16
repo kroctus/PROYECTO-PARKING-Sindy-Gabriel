@@ -26,14 +26,14 @@ public interface IReservas {
     // Método para insertar varios registros
     int insertReserva (List<ReservasVO> lista) throws SQLException;
     
-    // Método para borrar una persona
+    // Método para borrar una reserva
     int deleteReserva (ReservasVO r) throws SQLException;
     
     // Método para borrar toda la tabla
     int deletereserva() throws SQLException;
     
-    // Método para modificar una persona. Se modifica a la persona que tenga esa 'pk'
-    // con los nuevos datos que traiga la persona 'nuevosDatos'
+    // Método para modificar una reserva. Se modifica a la reserva que tenga esa 'pk'
+    // con los nuevos datos que traiga la reserva 'nuevosDatos'
     int updatereserva (int pk, ReservasVO nuevosDatos) throws SQLException;
     
     

@@ -40,7 +40,7 @@ public class ReservasDAO implements IReservas {
             // Ahora construimos la lista, recorriendo el ResultSet y mapeando los datos
             while (res.next()) {
                 ReservasVO p = new ReservasVO();
-                // Recogemos los datos de la persona, guardamos en un objeto
+                // Recogemos los datos de la reserva, guardamos en un objeto
                 p.setMatricula(res.getString("matricula"));
                 p.setNumplaza(res.getInt("numplaza"));
                 p.setPin_fijo(res.getString("pin_fijo"));
@@ -70,7 +70,7 @@ public class ReservasDAO implements IReservas {
             // Nos posicionamos en el primer registro del Resultset. Sólo debe haber una fila
             // si existe esa pk
             if (res.first()) {
-                // Recogemos los datos de la persona, guardamos en un objeto
+                // Recogemos los datos de la reserva, guardamos en un objeto
                 p.setMatricula(res.getString("matricula"));
                 p.setNumplaza(res.getInt("numplaza"));
                 p.setPin_fijo(res.getString("pin_fijo"));
@@ -160,7 +160,7 @@ public class ReservasDAO implements IReservas {
         String sql = "update reservas set matricula = ?, numplaza = ? , pin_fij=? where pk=?";
 
         if (findByPk(pk) == null) {
-            // La persona a actualizar no existe
+            // La reserva a actualizar no existe
             return numFilas;
         } else {
             // Instanciamos el objeto PreparedStatement para inserción
