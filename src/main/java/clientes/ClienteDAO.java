@@ -39,7 +39,6 @@ public class ClienteDAO implements ICliente {
             // Ahora construimos la lista, recorriendo el ResultSet y mapeando los datos
             while (res.next()) {
                 ClienteVO c = new ClienteVO();
-                int tipoAbono = 0;
                 // Recogemos los datos del cliente, guardamos en un objeto
                 c.setMatricula(res.getString("matricula"));
                 c.setNombre(res.getString("nombre"));
@@ -50,22 +49,7 @@ public class ClienteDAO implements ICliente {
                 c.setNumTarjeta(0);
                 c.setFecFinAbono(res.getDate("fecfinabono").toLocalDate());
                 c.setFecIniAbono(res.getDate("feciniabono").toLocalDate());
-                switch (res.getString("tipoAbono")) {
-                    case "mensual":
-                        tipoAbono = 1;
-                        break;
-                    case "trimestral":
-                        tipoAbono = 2;
-                        break;
-                    case "semestral":
-                        tipoAbono = 3;
-                        break;
-                    case "anual":
-                        tipoAbono = 4;
-                        break;
-                }
-                c.setTipoAbono(tipoAbono);
-
+                c.setTipoAbono(ClienteVO.obtenerTipoAbono(res.getString("tipoAbono")));
                 //Añadimos el objeto a la lista
                 lista.add(c);
             }
@@ -78,8 +62,6 @@ public class ClienteDAO implements ICliente {
     public ClienteVO findByPk(String matricula) throws SQLException {
         ResultSet res = null;
         ClienteVO c = new ClienteVO();
-        int tipoAbono = 0;
-
         String sql = "select * from clientes where matricula=?";
 
         try (PreparedStatement prest = conexion.prepareStatement(sql)) {
@@ -102,21 +84,7 @@ public class ClienteDAO implements ICliente {
                 c.setNumTarjeta(0);
                 c.setFecFinAbono(res.getDate("fecfinabono").toLocalDate());
                 c.setFecIniAbono(res.getDate("feciniabono").toLocalDate());
-                switch (res.getString("tipoAbono")) {
-                    case "mensual":
-                        tipoAbono = 1;
-                        break;
-                    case "trimestral":
-                        tipoAbono = 2;
-                        break;
-                    case "semestral":
-                        tipoAbono = 3;
-                        break;
-                    case "anual":
-                        tipoAbono = 4;
-                        break;
-                }
-                c.setTipoAbono(tipoAbono);
+                c.setTipoAbono(ClienteVO.obtenerTipoAbono(res.getString("tipoAbono")));
                 return c;
             }
 
@@ -128,7 +96,6 @@ public class ClienteDAO implements ICliente {
     public int insertCliente(ClienteVO cliente) throws SQLException {
         int numFilas = 0;
         String sql = "insert into clientes values (?,?,?,?,?,?,?,?,?,?)";
-        String tipoAbono = "";
         if (findByPk(cliente.getMatricula()) != null) {
             // Existe un registro con esa pk
             // No se hace la inserción
@@ -145,21 +112,7 @@ public class ClienteDAO implements ICliente {
                 prest.setString(4, cliente.getApellido1());
                 prest.setString(5, cliente.getApellido2());
                 prest.setInt(6, cliente.getNumTarjeta());
-                switch (cliente.getTipoAbono()) {
-                    case 1:
-                        tipoAbono = "mensual";
-                        break;
-                    case 2:
-                        tipoAbono = "trimestral";
-                        break;
-                    case 3:
-                        tipoAbono = "semestral";
-                        break;
-                    case 4:
-                        tipoAbono = "anual";
-                        break;
-                }
-                prest.setString(7, tipoAbono);
+                prest.setString(7, ClienteVO.obtenerTipoAbono(cliente));
                 prest.setString(8, cliente.getEmail());
                 prest.setDate(9, Date.valueOf(cliente.getFecIniAbono()));
                 prest.setDate(10, Date.valueOf(cliente.getFecFinAbono()));
@@ -217,7 +170,6 @@ public class ClienteDAO implements ICliente {
 
     @Override
     public int updateCliente(String matricula, ClienteVO nuevosDatos) throws SQLException {
-        String tipoAbono = null;
         int numFilas = 0;
         String sql = "update clientes set dni = ?, nombre = ?, apellido = ?, "
                 + "apellido2 = ?, numTarjetaCredito = ?, tipoAbono = ?, "
@@ -238,21 +190,7 @@ public class ClienteDAO implements ICliente {
                 prest.setString(3, nuevosDatos.getApellido1());
                 prest.setString(4, nuevosDatos.getApellido2());
                 prest.setInt(5, nuevosDatos.getNumTarjeta());
-                switch (nuevosDatos.getTipoAbono()) {
-                    case 1:
-                        tipoAbono = "mensual";
-                        break;
-                    case 2:
-                        tipoAbono = "trimestral";
-                        break;
-                    case 3:
-                        tipoAbono = "semestral";
-                        break;
-                    case 4:
-                        tipoAbono = "anual";
-                        break;
-                }
-                prest.setString(6, tipoAbono);
+                prest.setString(6, ClienteVO.obtenerTipoAbono(nuevosDatos));
                 prest.setString(7, nuevosDatos.getEmail());
                 prest.setDate(8, Date.valueOf(nuevosDatos.getFecIniAbono()));
                 prest.setDate(9, Date.valueOf(nuevosDatos.getFecFinAbono()));
