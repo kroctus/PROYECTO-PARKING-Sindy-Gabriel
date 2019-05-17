@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import parking.Conexion;
@@ -58,15 +59,17 @@ public class TicketsDAO implements ITickets {
     }
 
     @Override
-    public TicketsVO findByPk(int pk) throws SQLException {
+    public TicketsVO findByPk(int numplaza,String matricula,LocalDate fecinipin) throws SQLException {
         ResultSet res = null;
         TicketsVO p = new TicketsVO();
 
-        String sql = "select * from tickets where pk=?";
+        String sql = "select * from tickets where numplaza= ? and matricula= ? and fecinipin= ?";
 
         try (PreparedStatement prest = con.prepareStatement(sql)) {
             // Preparamos la sentencia parametrizada
-            prest.setInt(1, pk);
+            prest.setInt(1, numplaza);
+            prest.setString(2, matricula);
+            prest.setDate(3, Date.valueOf(fecinipin));
 
             // Ejecutamos la sentencia y obtenemos las filas en el objeto ResultSet
             res = prest.executeQuery();
@@ -93,7 +96,7 @@ public class TicketsDAO implements ITickets {
         int numFilas = 0;
         String sql = "insert into tickets values (?,?,?,?,?)";
 
-        if (findByPk(ticket.getNumplaza()) != null) {
+        if (findByPk(ticket.getNumplaza(), ticket.getMatricula(), ticket.getFecinipin()) != null) {
             // Existe un registro con esa pk
             // No se hace la inserción
             return numFilas;
@@ -133,7 +136,7 @@ public class TicketsDAO implements ITickets {
 
         int numFilas = 0;
 
-        String sql = "delete from tickets where pk = ?";
+        String sql = "delete from tickets  where numplaza= ? and matricula= ? and fecinipin= ?";
 
         ///PROBLEMA AQUÍ LA CLAVE PRIMARIA ES COMPUESTA
         // Sentencia parametrizada
@@ -166,11 +169,11 @@ public class TicketsDAO implements ITickets {
     }
 
     @Override
-    public int updateTickets(int pk, TicketsVO nuevosDatos) throws SQLException {
+    public int updateTickets(int numplaza,String matricula,LocalDate fecinipin, TicketsVO nuevosDatos) throws SQLException {
         int numFilas = 0;
         String sql = "update reservas set numplaza = ?, matricula = ? , pin_desechable=?, fecinipin = ?, fecfinpin = ? where pk=?";
 
-        if (findByPk(pk) == null) {
+        if (findByPk( numplaza,matricula,fecinipin) == null) {
             // El tickets a actualizar no existe
             return numFilas;
         } else {
