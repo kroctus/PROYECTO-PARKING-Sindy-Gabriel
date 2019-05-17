@@ -54,15 +54,17 @@ public class ReservasDAO implements IReservas {
     }
 
     @Override
-    public ReservasVO findByPk(int pk) throws SQLException {
+    public ReservasVO findByPk(String matricula, int numplaza) throws SQLException {
         ResultSet res = null;
         ReservasVO p = new ReservasVO();
 
-        String sql = "select * from reservas where pk=?";
+        String sql = "select * from reservas where matricula=? and numplaza?";
 
         try (PreparedStatement prest = con.prepareStatement(sql)) {
             // Preparamos la sentencia parametrizada
-            prest.setInt(1, pk);
+//            prest.setInt(1, pk);
+                prest.setString(1, matricula);
+                prest.setInt(2, numplaza);
 
             // Ejecutamos la sentencia y obtenemos las filas en el objeto ResultSet
             res = prest.executeQuery();
@@ -85,9 +87,9 @@ public class ReservasDAO implements IReservas {
     @Override
     public int insertReserva(ReservasVO reserva) throws SQLException {
         int numFilas = 0;
-        String sql = "insert into reservas values (?,?,?)";
+        String sql = "insert into reservas values (?,?,?,?,?)";
 
-        if (findByPk(reserva.getNumplaza()) != null) {
+        if (findByPk(reserva.getMatricula(),reserva.getNumplaza()) != null) {
             // Existe un registro con esa pk
             // No se hace la inserción
             return numFilas;
@@ -123,7 +125,7 @@ public class ReservasDAO implements IReservas {
     public int deleteReserva(ReservasVO r) throws SQLException {
         int numFilas = 0;
 
-        String sql = "delete from reservas where pk = ?";
+        String sql = "delete from reservas where matricula=? and numplaza?";
 
         // Sentencia parametrizada
         try (PreparedStatement prest = con.prepareStatement(sql)) {
@@ -155,11 +157,11 @@ public class ReservasDAO implements IReservas {
     }
 
     @Override
-    public int updatereserva(int pk, ReservasVO nuevosDatos) throws SQLException {
+    public int updatereserva(String matricula, int numplaza, ReservasVO nuevosDatos) throws SQLException {
         int numFilas = 0;
-        String sql = "update reservas set matricula = ?, numplaza = ? , pin_fij=? where pk=?";
+        String sql = "update reservas set matricula = ?, numplaza = ? , pin_fij=? where matricula=? and numplaza?";
 
-        if (findByPk(pk) == null) {
+        if (findByPk(matricula,numplaza) == null) {
             // La reserva a actualizar no existe
             return numFilas;
         } else {
