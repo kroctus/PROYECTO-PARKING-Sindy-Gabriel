@@ -46,7 +46,7 @@ public class ClienteDAO implements ICliente {
                 c.setApellido2(res.getString("apellido2"));
                 c.setDni(res.getString("dni"));
                 c.setEmail(res.getString("email"));
-                c.setNumTarjeta(0);
+                c.setNumTarjeta("numTarjetaCredito");
                 c.setFecFinAbono(res.getDate("fecfinabono").toLocalDate());
                 c.setFecIniAbono(res.getDate("feciniabono").toLocalDate());
                 c.setTipoAbono(ClienteVO.obtenerTipoAbono(res.getString("tipoAbono")));
@@ -81,7 +81,7 @@ public class ClienteDAO implements ICliente {
                 c.setApellido2(res.getString("apellido2"));
                 c.setDni(res.getString("dni"));
                 c.setEmail(res.getString("email"));
-                c.setNumTarjeta(0);
+                c.setNumTarjeta("numTarjetaCredito");
                 c.setFecFinAbono(res.getDate("fecfinabono").toLocalDate());
                 c.setFecIniAbono(res.getDate("feciniabono").toLocalDate());
                 c.setTipoAbono(ClienteVO.obtenerTipoAbono(res.getString("tipoAbono")));
@@ -111,7 +111,7 @@ public class ClienteDAO implements ICliente {
                 prest.setString(3, cliente.getNombre());
                 prest.setString(4, cliente.getApellido1());
                 prest.setString(5, cliente.getApellido2());
-                prest.setInt(6, cliente.getNumTarjeta());
+                prest.setString(6, cliente.getNumTarjeta());
                 prest.setString(7, ClienteVO.obtenerTipoAbono(cliente));
                 prest.setString(8, cliente.getEmail());
                 prest.setDate(9, Date.valueOf(cliente.getFecIniAbono()));
@@ -189,7 +189,7 @@ public class ClienteDAO implements ICliente {
                 prest.setString(2, nuevosDatos.getNombre());
                 prest.setString(3, nuevosDatos.getApellido1());
                 prest.setString(4, nuevosDatos.getApellido2());
-                prest.setInt(5, nuevosDatos.getNumTarjeta());
+                prest.setString(5, nuevosDatos.getNumTarjeta());
                 prest.setString(6, ClienteVO.obtenerTipoAbono(nuevosDatos));
                 prest.setString(7, nuevosDatos.getEmail());
                 prest.setDate(8, Date.valueOf(nuevosDatos.getFecIniAbono()));

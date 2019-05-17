@@ -19,7 +19,7 @@ class ClienteVO {
     private String nombre;
     private String apellido1;
     private String apellido2;
-    private int numTarjeta;
+    private String numTarjeta;
     private int tipoAbono;
     private String email;
     private LocalDate fecIniAbono;
@@ -27,7 +27,7 @@ class ClienteVO {
 
     //Constructores
     public ClienteVO(String matricula, String dni, String nombre, String apellido1,
-            String apellido2, int numTarjeta, int tipoAbono, String email,
+            String apellido2, String numTarjeta, int tipoAbono, String email,
             LocalDate fecIniAbono, LocalDate fecFinAbono) {
         this.matricula = matricula;
         this.dni = dni;
@@ -42,7 +42,7 @@ class ClienteVO {
     }
 
     public ClienteVO(String matricula, String dni, String nombre, String apellido1,
-            String apellido2, int numTarjeta, int tipoAbono, String email,
+            String apellido2, String numTarjeta, int tipoAbono, String email,
             LocalDate fecIniAbono) {
         this.matricula = matricula;
         this.dni = dni;
@@ -100,11 +100,11 @@ class ClienteVO {
         this.apellido2 = apellido2;
     }
 
-    public int getNumTarjeta() {
+    public String getNumTarjeta() {
         return numTarjeta;
     }
 
-    public void setNumTarjeta(int numTarjeta) {
+    public void setNumTarjeta(String numTarjeta) {
         this.numTarjeta = numTarjeta;
     }
 
