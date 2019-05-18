@@ -6,7 +6,6 @@
 package clientes;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -47,8 +46,6 @@ public class ClienteDAO implements ICliente {
                 c.setDni(res.getString("dni"));
                 c.setEmail(res.getString("email"));
                 c.setNumTarjeta("numTarjetaCredito");
-                c.setFecFinAbono(res.getDate("fecfinabono").toLocalDate());
-                c.setFecIniAbono(res.getDate("feciniabono").toLocalDate());
                 c.setTipoAbono(ClienteVO.obtenerTipoAbono(res.getString("tipoAbono")));
                 //Añadimos el objeto a la lista
                 lista.add(c);
@@ -82,8 +79,6 @@ public class ClienteDAO implements ICliente {
                 c.setDni(res.getString("dni"));
                 c.setEmail(res.getString("email"));
                 c.setNumTarjeta("numTarjetaCredito");
-                c.setFecFinAbono(res.getDate("fecfinabono").toLocalDate());
-                c.setFecIniAbono(res.getDate("feciniabono").toLocalDate());
                 c.setTipoAbono(ClienteVO.obtenerTipoAbono(res.getString("tipoAbono")));
                 return c;
             }
@@ -95,7 +90,7 @@ public class ClienteDAO implements ICliente {
     @Override
     public int insertCliente(ClienteVO cliente) throws SQLException {
         int numFilas = 0;
-        String sql = "insert into clientes values (?,?,?,?,?,?,?,?,?,?)";
+        String sql = "insert into clientes values (?,?,?,?,?,?,?,?)";
         if (findByPk(cliente.getMatricula()) != null) {
             // Existe un registro con esa pk
             // No se hace la inserción
@@ -114,8 +109,6 @@ public class ClienteDAO implements ICliente {
                 prest.setString(6, cliente.getNumTarjeta());
                 prest.setString(7, ClienteVO.obtenerTipoAbono(cliente));
                 prest.setString(8, cliente.getEmail());
-                prest.setDate(9, Date.valueOf(cliente.getFecIniAbono()));
-                prest.setDate(10, Date.valueOf(cliente.getFecFinAbono()));
                 numFilas = prest.executeUpdate();
             }
             return numFilas;
@@ -138,7 +131,7 @@ public class ClienteDAO implements ICliente {
     public int deleteCliente(ClienteVO c) throws SQLException {
         int numFilas = 0;
 
-        String sql = "delete from clientes where pk = ?";
+        String sql = "delete from clientes where matricula = ?";
 
         // Sentencia parametrizada
         try (PreparedStatement prest = conexion.prepareStatement(sql)) {
@@ -173,7 +166,7 @@ public class ClienteDAO implements ICliente {
         int numFilas = 0;
         String sql = "update clientes set dni = ?, nombre = ?, apellido = ?, "
                 + "apellido2 = ?, numTarjetaCredito = ?, tipoAbono = ?, "
-                + "email = ?, feciniabono = ?, fecfinabono = ? where matricula=?";
+                + "email = ? where matricula=?";
 
         if (findByPk(matricula) == null) {
             // El cliente a actualizar no existe
@@ -184,7 +177,7 @@ public class ClienteDAO implements ICliente {
             try (PreparedStatement prest = conexion.prepareStatement(sql)) {
 
                 // Establecemos los parámetros de la sentencia
-                prest.setString(10, nuevosDatos.getMatricula());
+                prest.setString(8, nuevosDatos.getMatricula());
                 prest.setString(1, nuevosDatos.getDni());
                 prest.setString(2, nuevosDatos.getNombre());
                 prest.setString(3, nuevosDatos.getApellido1());
@@ -192,8 +185,6 @@ public class ClienteDAO implements ICliente {
                 prest.setString(5, nuevosDatos.getNumTarjeta());
                 prest.setString(6, ClienteVO.obtenerTipoAbono(nuevosDatos));
                 prest.setString(7, nuevosDatos.getEmail());
-                prest.setDate(8, Date.valueOf(nuevosDatos.getFecIniAbono()));
-                prest.setDate(9, Date.valueOf(nuevosDatos.getFecFinAbono()));
 
                 numFilas = prest.executeUpdate();
             }

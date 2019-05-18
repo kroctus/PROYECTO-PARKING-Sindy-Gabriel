@@ -5,8 +5,6 @@
  */
 package clientes;
 
-import java.time.LocalDate;
-
 /**
  *
  * @author Sindy Ferreira
@@ -22,13 +20,10 @@ class ClienteVO {
     private String numTarjeta;
     private int tipoAbono;
     private String email;
-    private LocalDate fecIniAbono;
-    private LocalDate fecFinAbono;
 
     //Constructores
     public ClienteVO(String matricula, String dni, String nombre, String apellido1,
-            String apellido2, String numTarjeta, int tipoAbono, String email,
-            LocalDate fecIniAbono, LocalDate fecFinAbono) {
+            String apellido2, String numTarjeta, int tipoAbono, String email) {
         this.matricula = matricula;
         this.dni = dni;
         this.nombre = nombre;
@@ -37,23 +32,6 @@ class ClienteVO {
         this.numTarjeta = numTarjeta;
         this.tipoAbono = tipoAbono;
         this.email = email;
-        this.fecIniAbono = fecIniAbono;
-        this.fecFinAbono = fecFinAbono;
-    }
-
-    public ClienteVO(String matricula, String dni, String nombre, String apellido1,
-            String apellido2, String numTarjeta, int tipoAbono, String email,
-            LocalDate fecIniAbono) {
-        this.matricula = matricula;
-        this.dni = dni;
-        this.nombre = nombre;
-        this.apellido1 = apellido1;
-        this.apellido2 = apellido2;
-        this.numTarjeta = numTarjeta;
-        this.tipoAbono = tipoAbono;
-        this.email = email;
-        this.fecIniAbono = fecIniAbono;
-        this.fecFinAbono = LocalDate.of(1, 1, 1);
     }
 
     public ClienteVO() {
@@ -124,30 +102,13 @@ class ClienteVO {
         this.email = email;
     }
 
-    public LocalDate getFecIniAbono() {
-        return fecIniAbono;
-    }
-
-    public void setFecIniAbono(LocalDate fecIniAbono) {
-        this.fecIniAbono = fecIniAbono;
-    }
-
-    public LocalDate getFecFinAbono() {
-        return fecFinAbono;
-    }
-
-    public void setFecFinAbono(LocalDate fecFinAbono) {
-        this.fecFinAbono = fecFinAbono;
-    }
-
     //Método toString()
     @Override
     public String toString() {
         return "ClienteVO" + "matricula=" + matricula + ", dni=" + dni
                 + ", nombre=" + nombre + ", apellido1=" + apellido1
                 + ", apellido2=" + apellido2 + ", numTarjeta=" + numTarjeta
-                + ", tipoAbono=" + tipoAbono + ", email=" + email
-                + ", fecIniAbono=" + fecIniAbono + ", fecFinAbono=" + fecFinAbono;
+                + ", tipoAbono=" + tipoAbono + ", email=" + email;
     }
 
     //Método que muestra el número asociado al tipo de abono.
