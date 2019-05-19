@@ -5,6 +5,9 @@
  */
 package reservas;
 
+import java.sql.Date;
+import java.time.LocalDate;
+
 /**
  *
  * @author gabriel
@@ -15,6 +18,8 @@ public class ReservasVO {
     private String matricula;
     private int numplaza;
     private String pin_fijo;
+    private LocalDate feciniabono;
+    private LocalDate fecfinabono;
     
     //Constructor por defecto
 
@@ -23,12 +28,15 @@ public class ReservasVO {
     
     //Constructor parametrizado
 
-    public ReservasVO(String matricula, int numplaza, String pin_fijo) {
+    public ReservasVO(String matricula, int numplaza, String pin_fijo, LocalDate feciniabono, LocalDate fecfinabono) {
         this.matricula = matricula;
         this.numplaza = numplaza;
         this.pin_fijo = pin_fijo;
+        this.feciniabono = feciniabono;
+        this.fecfinabono = fecfinabono;
     }
-    
+
+
     //Getters and setters
 
     public String getMatricula() {
@@ -54,6 +62,23 @@ public class ReservasVO {
     public void setPin_fijo(String pin_fijo) {
         this.pin_fijo = pin_fijo;
     }
+
+    public LocalDate getFeciniabono() {
+        return feciniabono;
+    }
+
+    public void setFeciniabono(LocalDate feciniabono) {
+        this.feciniabono = feciniabono;
+    }
+
+    public LocalDate getFecfinabono() {
+        return fecfinabono;
+    }
+
+    public void setFecfinabono(LocalDate fecfinabono) {
+        this.fecfinabono = fecfinabono;
+    }
+    
     
     //ToString
 
