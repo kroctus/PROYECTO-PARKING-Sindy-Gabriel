@@ -6,6 +6,7 @@
 package tickets;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  *
@@ -18,12 +19,12 @@ public class TicketsVO {
     private int numplaza;
     private String matricula;
     private String pin_desechable;
-    private LocalDate fecinipin;
-    private LocalDate fecfinpin;
+    private LocalDateTime fecinipin;
+    private LocalDateTime fecfinpin;
     
     //Constructores
 
-    public TicketsVO(int numplaza, String matricula, String pin_desechable, LocalDate fecinipin, LocalDate fecfinpin) {
+    public TicketsVO(int numplaza, String matricula, String pin_desechable, LocalDateTime fecinipin, LocalDateTime fecfinpin) {
         this.numplaza = numplaza;
         this.matricula = matricula;
         this.pin_desechable = pin_desechable;
@@ -34,7 +35,7 @@ public class TicketsVO {
     public TicketsVO() {
     }
     
-    //Getters and setters
+    
 
     public int getNumplaza() {
         return numplaza;
@@ -60,21 +61,23 @@ public class TicketsVO {
         this.pin_desechable = pin_desechable;
     }
 
-    public LocalDate getFecinipin() {
+    public LocalDateTime getFecinipin() {
         return fecinipin;
     }
 
-    public void setFecinipin(LocalDate fecinipin) {
+    public void setFecinipin(LocalDateTime fecinipin) {
         this.fecinipin = fecinipin;
     }
 
-    public LocalDate getFecfinpin() {
+    public LocalDateTime getFecfinpin() {
         return fecfinpin;
     }
 
-    public void setFecfinpin(LocalDate fecfinpin) {
+    public void setFecfinpin(LocalDateTime fecfinpin) {
         this.fecfinpin = fecfinpin;
     }
+
+    
     
     // to String
 
