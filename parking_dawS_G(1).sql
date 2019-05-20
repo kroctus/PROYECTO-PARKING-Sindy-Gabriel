@@ -22,7 +22,6 @@ create table vehiculos
 (
     matricula char(8),
     tipoVehiculo enum('turismos','motocicletas','caravanas'),
-    descripcion varchar(60),
     constraint pk_vehiculo primary key (matricula)
 
 ) ;
@@ -57,8 +56,8 @@ create table ticket
 	numplaza int,
 	matricula char(8),
     pin_desechable char(6),
-    fecinipin date,
-    fecfinpin date,
+    fecinipin datetime,
+    fecfinpin datetime,
     constraint pk_gestionPines primary key(numplaza,matricula,fecinipin),
 	constraint fk_gestionPines_plazas foreign key(numplaza)references plazas(numplaza)
 		on delete no action on update cascade,
