@@ -14,19 +14,11 @@ public class VehiculoVO {
     //Atributos: 
     private String matricula;
     private int tipoVehiculo;
-    private String descripcion;
-
+    
     //Constructores:
-    public VehiculoVO(String matricula, int tipoVehiculo, String descripcion) {
-        this.matricula = matricula;
-        this.tipoVehiculo = tipoVehiculo;
-        this.descripcion = descripcion;
-    }
-
     public VehiculoVO(String matricula, int tipoVehiculo) {
         this.matricula = matricula;
         this.tipoVehiculo = tipoVehiculo;
-        this.descripcion = "";
     }
 
     public VehiculoVO() {
@@ -49,19 +41,11 @@ public class VehiculoVO {
         this.tipoVehiculo = tipoVehiculo;
     }
 
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
     //Método toString()
     @Override
     public String toString() {
         return "matricula=" + matricula + ", tipoVehiculo="
-                + tipoVehiculo + ", descripcion=" + descripcion;
+                + tipoVehiculo;
     }
 
     //Método que muestra el tipo de vehiculo

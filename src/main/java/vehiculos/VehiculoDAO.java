@@ -40,8 +40,7 @@ public class VehiculoDAO implements IVehiculo{
                 // Recogemos los datos del vehiculo, guardamos en un objeto
                 v.setMatricula(res.getString("matricula"));
                 v.setTipoVehiculo(VehiculoVO.obtenerTipoVehiculo(res.getString("tipoVehiculo")));
-                v.setDescripcion(res.getString("descripcion"));
-
+                
                 //Añadimos el objeto a la lista
                 lista.add(v);
             }
@@ -69,7 +68,6 @@ public class VehiculoDAO implements IVehiculo{
                 // Recogemos los datos del vehiculo, guardamos en un objeto
                 v.setMatricula(res.getString("matricula"));
                 v.setTipoVehiculo(VehiculoVO.obtenerTipoVehiculo(res.getString("tipoVehiculo")));
-                v.setDescripcion(res.getString("descripcion"));
                 return v;
 
             }
@@ -81,7 +79,7 @@ public class VehiculoDAO implements IVehiculo{
     @Override
     public int insertVehiculo(VehiculoVO vehiculo) throws SQLException {
         int numFilas = 0;
-        String sql = "insert into vehiculos values (?,?,?)";
+        String sql = "insert into vehiculos values (?,?)";
         if (findByPk(vehiculo.getMatricula()) != null) {
             // Existe un registro con esa pk
             // No se hace la inserción
@@ -94,7 +92,6 @@ public class VehiculoDAO implements IVehiculo{
                 // Establecemos los parámetros de la sentencia
                 prest.setString(1, vehiculo.getMatricula());
                 prest.setString(2, VehiculoVO.obtenerTipoVehiculo(vehiculo));
-                prest.setString(3, vehiculo.getDescripcion());
                 numFilas = prest.executeUpdate();
             }
             return numFilas;
@@ -150,7 +147,7 @@ public class VehiculoDAO implements IVehiculo{
     @Override
     public int updateVehiculo(String matricula, VehiculoVO nuevosDatos) throws SQLException {
         int numFilas = 0;
-        String sql = "update vehiculos set tipoVehiculo = ?, descripcion = ? "
+        String sql = "update vehiculos set tipoVehiculo = ? "
                 + "where matricula=?";
 
         if (findByPk(matricula) == null) {
@@ -163,8 +160,7 @@ public class VehiculoDAO implements IVehiculo{
 
                 // Establecemos los parámetros de la sentencia
                 prest.setString(1, VehiculoVO.obtenerTipoVehiculo(nuevosDatos));
-                prest.setString(2, nuevosDatos.getDescripcion());
-                prest.setString(3, nuevosDatos.getMatricula());
+                prest.setString(2, nuevosDatos.getMatricula());
                 
                 numFilas = prest.executeUpdate();
             }
