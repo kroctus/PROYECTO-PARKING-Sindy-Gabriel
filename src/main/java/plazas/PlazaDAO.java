@@ -166,10 +166,10 @@ public class PlazaDAO implements IPlaza {
             try (PreparedStatement prest = conexion.prepareStatement(sql)) {
 
                 // Establecemos los parámetros de la sentencia
-                prest.setInt(1, nuevosDatos.getNumPlaza());
-                prest.setString(2, PlazaVO.obtenerTipoPlaza(nuevosDatos));
-                prest.setString(3, PlazaVO.obtenerEstado(nuevosDatos));
-                prest.setDouble(4, nuevosDatos.getTarifa());
+                prest.setInt(4, nuevosDatos.getNumPlaza());
+                prest.setString(1, PlazaVO.obtenerTipoPlaza(nuevosDatos));
+                prest.setString(2, PlazaVO.obtenerEstado(nuevosDatos));
+                prest.setDouble(3, nuevosDatos.getTarifa());
                 numFilas = prest.executeUpdate();
             }
             return numFilas;
