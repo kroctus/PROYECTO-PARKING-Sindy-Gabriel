@@ -12,8 +12,8 @@ import javax.swing.JOptionPane;
  * @author sindy
  */
 public class Menu {
-
-    public static void main(String[] args) {
+    
+    public static void mostrarMenu() {
         int opcion1;//Seleccionar zona
         int opcion2;//¿Es abonado?
         int opcion3;//Abonado: depositar y retirar 
