@@ -7,6 +7,7 @@ package tickets;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 /**
  *
@@ -14,29 +15,30 @@ import java.time.LocalDateTime;
  */
 public class TicketsVO {
 
-    
     //Atributos de la clase
     private int numplaza;
     private String matricula;
     private String pin_desechable;
-    private LocalDateTime fecinipin;
-    private LocalDateTime fecfinpin;
-    
-    //Constructores
+    private LocalDate fecinipin;
+    private LocalDate fecfinpin;
+    private LocalTime horaenticket;
+    private LocalTime horasalticket;
 
-    public TicketsVO(int numplaza, String matricula, String pin_desechable, LocalDateTime fecinipin, LocalDateTime fecfinpin) {
+    //Constructores
+    public TicketsVO(int numplaza, String matricula, String pin_desechable, LocalDate fecinipin, LocalDate fecfinpin, LocalTime horaenticket, LocalTime horasalticket) {
         this.numplaza = numplaza;
         this.matricula = matricula;
         this.pin_desechable = pin_desechable;
         this.fecinipin = fecinipin;
         this.fecfinpin = fecfinpin;
+        this.horaenticket = horaenticket;
+        this.horasalticket = horasalticket;
     }
 
     public TicketsVO() {
     }
-    
-    
 
+    //Getters and settes
     public int getNumplaza() {
         return numplaza;
     }
@@ -61,31 +63,44 @@ public class TicketsVO {
         this.pin_desechable = pin_desechable;
     }
 
-    public LocalDateTime getFecinipin() {
+    public LocalDate getFecinipin() {
         return fecinipin;
     }
 
-    public void setFecinipin(LocalDateTime fecinipin) {
+    public void setFecinipin(LocalDate fecinipin) {
         this.fecinipin = fecinipin;
     }
 
-    public LocalDateTime getFecfinpin() {
+    public LocalDate getFecfinpin() {
         return fecfinpin;
     }
 
-    public void setFecfinpin(LocalDateTime fecfinpin) {
+    public void setFecfinpin(LocalDate fecfinpin) {
         this.fecfinpin = fecfinpin;
     }
 
-    
-    
+    public LocalTime getHoraenticket() {
+        return horaenticket;
+    }
+
+    public void setHoraenticket(LocalTime horaenticket) {
+        this.horaenticket = horaenticket;
+    }
+
+    public LocalTime getHorasalticket() {
+        return horasalticket;
+    }
+
+    public void setHorasalticket(LocalTime horasalticket) {
+        this.horasalticket = horasalticket;
+    }
+
     // to String
 
     @Override
     public String toString() {
-        return "TicketsVO{" + "numplaza=" + numplaza + ", matricula=" + matricula + ", pin_desechable=" + pin_desechable + ", fecinipin=" + fecinipin + ", fecfinpin=" + fecfinpin + '}';
+        return "TicketsVO{" + "numplaza=" + numplaza + ", matricula=" + matricula + ", pin_desechable=" + pin_desechable + ", fecinipin=" + fecinipin + ", fecfinpin=" + fecfinpin + ", horaenticket=" + horaenticket + ", horasalticket=" + horasalticket + '}';
     }
-    
-    
+
 
 }
