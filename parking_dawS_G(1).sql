@@ -1,4 +1,4 @@
--- drop database parkingdawS_G;
+ drop database parkingdawS_G;
 CREATE database parkingdawS_G;
 use parkingdawS_G;
 
@@ -50,15 +50,17 @@ create table reservas
 
 );
 
-drop table if exists ticket;
-create table ticket
+drop table if exists tickets;
+create table tickets
 (
 	numplaza int,
 	matricula char(8),
     pin_desechable char(6),
-    fecinipin datetime,
-    fecfinpin datetime,
-    constraint pk_gestionPines primary key(numplaza,matricula,fecinipin),
+    fecinipin date,
+    fecfinpin date,
+	horaenticket time,
+    horasalticket time,  
+    constraint pk_gestionPines primary key(numplaza,matricula,fecinipin,horaenticket),
 	constraint fk_gestionPines_plazas foreign key(numplaza)references plazas(numplaza)
 		on delete no action on update cascade,
 	constraint fk_gestionPines_vehiculos foreign key(matricula)references vehiculos(matricula)
@@ -66,6 +68,20 @@ create table ticket
 );
 
 
+
+select *
+from ticket;
+
+select *
+from vehiculos;
+
+select *
+from plazas;
+
+select *
+from reservas;
+
+delete from reservas;
 
 
 
