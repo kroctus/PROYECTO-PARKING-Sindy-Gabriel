@@ -41,7 +41,7 @@ public class ReservasDAO implements IReservas {
             // Ahora construimos la lista, recorriendo el ResultSet y mapeando los datos
             while (res.next()) {
                 ReservasVO p = new ReservasVO();
-             // Recogemos los datos de la reserva, guardamos en un objeto
+                // Recogemos los datos de la reserva, guardamos en un objeto
                 p.setMatricula(res.getString("matricula"));
                 p.setNumplaza(res.getInt("numplaza"));
                 p.setPin_fijo(res.getString("pin_fijo"));
@@ -61,12 +61,13 @@ public class ReservasDAO implements IReservas {
         ResultSet res = null;
         ReservasVO p = new ReservasVO();
 
-        String sql = "select * from reservas where matricula=?";
+        String sql = "select * from reservas where matricula=? and numplaza=?";
 
         try (PreparedStatement prest = con.prepareStatement(sql)) {
             // Preparamos la sentencia parametrizada
 //            prest.setInt(1, pk);
             prest.setString(1, matricula);
+            prest.setInt(2, numplaza);
 
             // Ejecutamos la sentencia y obtenemos las filas en el objeto ResultSet
             res = prest.executeQuery();
@@ -103,8 +104,8 @@ public class ReservasDAO implements IReservas {
             try (PreparedStatement prest = con.prepareStatement(sql)) {
 
                 // Establecemos los parámetros de la sentencia
-                prest.setInt(1, reserva.getNumplaza());
-                prest.setString(2, reserva.getMatricula());
+                prest.setString(1, reserva.getMatricula());
+                prest.setInt(2, reserva.getNumplaza());
                 prest.setString(3, reserva.getPin_fijo());
                 prest.setDate(4, Date.valueOf(reserva.getFecfinabono()));
                 prest.setDate(5, Date.valueOf(reserva.getFecfinabono()));
@@ -137,7 +138,7 @@ public class ReservasDAO implements IReservas {
         try (PreparedStatement prest = con.prepareStatement(sql)) {
 
             // Establecemos los parámetros de la sentencia
-            prest.setInt(1, r.getNumplaza());
+            prest.setInt(2, r.getNumplaza());
             // Ejecutamos la sentencia
             numFilas = prest.executeUpdate();
         }
@@ -165,7 +166,7 @@ public class ReservasDAO implements IReservas {
     @Override
     public int updatereserva(String matricula, int numplaza, ReservasVO nuevosDatos) throws SQLException {
         int numFilas = 0;
-        String sql = "update reservas set matricula = ?, numplaza = ? , pin_fij=? where matricula=? and numplaza?";
+        String sql = "update reservas set matricula = ?, numplaza = ? , pin_fij=? where matricula=? and numplaza=?";
 
         if (findByPk(matricula, numplaza) == null) {
             // La reserva a actualizar no existe
@@ -176,11 +177,12 @@ public class ReservasDAO implements IReservas {
             try (PreparedStatement prest = con.prepareStatement(sql)) {
 
                 // Establecemos los parámetros de la sentencia
-                prest.setInt(1, nuevosDatos.getNumplaza());
-                prest.setString(2, nuevosDatos.getMatricula());
+                prest.setString(1, nuevosDatos.getMatricula());
+                prest.setInt(2, nuevosDatos.getNumplaza());
                 prest.setString(3, nuevosDatos.getPin_fijo());
                 prest.setDate(4, Date.valueOf(nuevosDatos.getFecfinabono()));
                 prest.setDate(5, Date.valueOf(nuevosDatos.getFecfinabono()));
+
                 numFilas = prest.executeUpdate();
             }
             return numFilas;
