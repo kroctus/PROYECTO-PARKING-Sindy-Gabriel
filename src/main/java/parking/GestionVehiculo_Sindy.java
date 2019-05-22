@@ -9,8 +9,15 @@ import plazas.PlazaDAO;
 import plazas.PlazaVO;
 import vehiculos.VehiculoVO;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.Month;
 import java.util.ArrayList;
+import java.util.Random;
 import javax.swing.JOptionPane;
+import tickets.TicketsDAO;
+import tickets.TicketsVO;
+import vehiculos.VehiculoDAO;
 
 /**
  *
@@ -47,4 +54,12 @@ public class GestionVehiculo_Sindy {
         }
         return true;
     }
+
+    //Método que genera de forma aleatoria un pin de seis digitos numéricos
+    private static String generarPin() {
+        Random rnd = new Random();
+        return Integer.toString(rnd.nextInt(999999 - 100000 + 1) + 100000);
+    }
+
+   
 }
