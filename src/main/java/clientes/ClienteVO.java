@@ -9,7 +9,7 @@ package clientes;
  *
  * @author Sindy Ferreira
  */
-class ClienteVO {
+public class ClienteVO {
 
     //Atributos:
     private String matricula; //La tabla cliente tiene como pk matricula
