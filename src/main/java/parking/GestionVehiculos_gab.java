@@ -13,7 +13,11 @@ import plazas.PlazaDAO;
 import plazas.PlazaVO;
 import vehiculos.VehiculoVO;
 import clientes.ClienteVO;
+import java.time.LocalDate;
+import java.time.Month;
+import reservas.ReservasDAO;
 import java.util.Random;
+import reservas.ReservasVO;
 
 /**
  *
@@ -101,62 +105,72 @@ public class GestionVehiculos_gab {
     // El 14-29 Turismos.
     // del 29-44 para Caravanas
     /*Las plazas de los reservados siempre estan ocupadas (false)*/
-    public void gestionPlazas(ClienteAbonado cliente) {
+    public static void gestionPlazas(ClienteAbonado cliente) {
 
         Integer[] plazasEstado = new Integer[45];
         //Conseguimos las plazas de nuestro parking
 
         PlazaDAO plazas = new PlazaDAO();
+        ReservasDAO reservaDAO = new ReservasDAO();
         ArrayList<PlazaVO> listaPlazas = new ArrayList<>();
-
+        int numPlaza;
         try {
             listaPlazas = (ArrayList<PlazaVO>) plazas.getAll();
 
             for (int i = 0; i < listaPlazas.size(); i++) {
                 plazasEstado[i] = listaPlazas.get(i).getEstadoPlaza();
             }
-        } catch (SQLException sqle) {
-            System.out.println("No se ha podido realizar la operación:");
-            System.out.println(sqle.getMessage());
-        }
 
-        //Miramos el estado y el tipo de vehiculo
-        //Del 0-14 solo guardaremos las motos
-        if (cliente.getTipoVehiculo().equalsIgnoreCase("motocicleta")) {
+            //Miramos el estado y el tipo de vehiculo
+            //Del 0-14 solo guardaremos las motos
+            if (cliente.getTipoVehiculo().equalsIgnoreCase("motocicleta")) {
 
-            for (int i = 0; i < 14; i++) {
-                // Plaza libre
-                if (plazasEstado[i] == 1) {
-                    System.out.println("Hago el insert");
-                }
-
-               
-
-                //Miramos si es un caravana
-                if (cliente.getTipoVehiculo().equalsIgnoreCase("Caravana")) {
-                    //Las carvaanas se guardaran del 16 al 44
-                    for (int j = 16; j < 44; j++) {
-                        //PlazaLibre
-                        if (plazasEstado[i] == 1) {
-                            System.out.println("Hago el insert");
-                        }
+                for (int i = 0; i < 14; i++) {
+                    // Plaza libre
+                    if (plazasEstado[i] == 1) {
+                        numPlaza = plazasEstado[i];
+                        ReservasVO persona = new ReservasVO(cliente.getMatricula(), (numPlaza + 100), generarPin(), LocalDate.now(), null);
+                        reservaDAO.insertReserva(persona);
+                        System.out.println("Hago el insert");
                     }
 
                 }
             }
-        }
-        
-        //Miramos si es un turismo
-                if (cliente.getTipoVehiculo().equalsIgnoreCase("turismo")) {
-                    //Los turismo se guardaran del 15 hasta el 29
-                    for (int j = 15; j < 29; j++) {
-                        //PlazaLibre
-                        if (plazasEstado[j] == 1) {
-                            System.out.println("Hago el insert");
-                        }
-                    }
 
+            //Miramos si es un turismo
+            if (cliente.getTipoVehiculo().equalsIgnoreCase("turismo")) {
+                //Los turismo se guardaran del 15 hasta el 29
+                for (int j = 15; j < 29; j++) {
+                    //PlazaLibre
+                    if (plazasEstado[j] == 1) {
+                        numPlaza = plazasEstado[j];
+                        ReservasVO persona = new ReservasVO(cliente.getMatricula(), (numPlaza + 100), generarPin(), LocalDate.now(), null);
+                        reservaDAO.insertReserva(persona);
+                        System.out.println("Hago el insert");
+                    }
                 }
+
+            }
+
+            //Miramos si es un caravana
+            if (cliente.getTipoVehiculo().equalsIgnoreCase("Caravana")) {
+                //Las carvaanas se guardaran del 16 al 44
+                for (int j = 16; j < 44; j++) {
+                    //PlazaLibre
+                    if (plazasEstado[j] == 1) {
+                        numPlaza = plazasEstado[j];
+                        ReservasVO persona = new ReservasVO(cliente.getMatricula(), (numPlaza + 100), generarPin(), LocalDate.now(), null);
+                        reservaDAO.insertReserva(persona);
+                        System.out.println("Hago el insert");
+                    }
+                }
+
+            }
+
+        } catch (SQLException sqle) {
+            System.out.println("No se ha podido realizar la operación:");
+            System.out.println(sqle.getMessage());
+        }
 
     }
 
@@ -201,8 +215,9 @@ public class GestionVehiculos_gab {
 
     public static void main(String[] args) {
 
-//        GestionVehiculos_gab.IngresarVehiculoAbonado();
+        ClienteAbonado aux= GestionVehiculos_gab.IngresarVehiculoAbonado();
         generarPin();
+        gestionPlazas(aux);
 
     }
 
