@@ -13,6 +13,7 @@ import plazas.PlazaDAO;
 import plazas.PlazaVO;
 import vehiculos.VehiculoVO;
 import clientes.ClienteVO;
+import java.util.Random;
 
 /**
  *
@@ -69,13 +70,13 @@ public class GestionVehiculos_gab {
         int opcion = JOptionPane.showConfirmDialog(null, "Estos son los datos que has introducido: " + " \n DNI: " + dni + "\n Matricula: " + matricula + "\n Tipo de vehiculo: " + tipoVehiculo);
         // En caso de que los campos no sean los que desea el cliente se volveran a pedir.
         if (opcion == 0) {
-            System.out.println("La opcion es yes");
+            //     System.out.println("La opcion es yes");
             cliente = new ClienteAbonado(dni, tipoVehiculo, matricula);
             return cliente;
 
         } else if (opcion == 1) {
             JOptionPane.showConfirmDialog(null, "Se volveran a pedir los datos :D");
-            System.out.println("La opcion deberia ser no");
+            //     System.out.println("La opcion deberia ser no");
             GestionVehiculos_gab.IngresarVehiculoAbonado();
         }
 
@@ -118,8 +119,6 @@ public class GestionVehiculos_gab {
             System.out.println("No se ha podido realizar la operación:");
             System.out.println(sqle.getMessage());
         }
-        
-        
 
         //Miramos el estado y el tipo de vehiculo
         //Del 0-14 solo guardaremos las motos
@@ -158,33 +157,50 @@ public class GestionVehiculos_gab {
         }
 
     }
-    
+
     //Método para comprobar si el cliente que se recibe es abonado o no para ello compara las matriculas
     // si son iguales es reservado entonces devuelve true, sino false.
-    public static boolean esAbonado(ClienteAbonado clienteAux){
+    public static boolean esAbonado(ClienteAbonado clienteAux) {
         ClienteDAO cliente = new ClienteDAO();
-        ArrayList <ClienteVO> clientesAbonados = new ArrayList<>();
-        
-        try{
-        clientesAbonados= (ArrayList<ClienteVO>) cliente.getAll();
-        
+        ArrayList<ClienteVO> clientesAbonados = new ArrayList<>();
+
+        try {
+            clientesAbonados = (ArrayList<ClienteVO>) cliente.getAll();
+
             for (ClienteVO clientesAbonado : clientesAbonados) {
                 if (clientesAbonado.getMatricula().equalsIgnoreCase(clienteAux.getMatricula())) {
                     return true;
-                }else if (!(clientesAbonado.getMatricula().equalsIgnoreCase(clienteAux.getMatricula()))) {
+                } else if (!(clientesAbonado.getMatricula().equalsIgnoreCase(clienteAux.getMatricula()))) {
                     return false;
                 }
             }
-         } catch (SQLException sqle) {
+        } catch (SQLException sqle) {
             System.out.println("No se ha podido realizar la operación:");
             System.out.println(sqle.getMessage());
         }
         return false;
     }
 
+    //Método que se encarga de generar un pin aleatorio para las reservas
+    public static String generarPin() {
+        int num = 0;
+        int[] pin = new int[6];
+        String pinS = "";
+        Random aleo = new Random();
+        for (int i = 0; i < 6; i++) {
+            num = aleo.nextInt(9);
+            pin[i] = num;
+            pinS += String.valueOf(pin[i]);
+        }
+
+        System.out.println("El pin final es: " + pinS);
+        return pinS;
+    }
+
     public static void main(String[] args) {
 
-        GestionVehiculos_gab.IngresarVehiculoAbonado();
+//        GestionVehiculos_gab.IngresarVehiculoAbonado();
+        generarPin();
 
     }
 
