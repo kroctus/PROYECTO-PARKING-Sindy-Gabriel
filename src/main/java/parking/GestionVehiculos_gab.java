@@ -130,17 +130,7 @@ public class GestionVehiculos_gab {
                     System.out.println("Hago el insert");
                 }
 
-                //Miramos si es un turismo
-                if (cliente.getTipoVehiculo().equalsIgnoreCase("turismo")) {
-                    //Los turismo se guardaran del 15 hasta el 29
-                    for (int j = 15; j < 29; j++) {
-                        //PlazaLibre
-                        if (plazasEstado[i] == 1) {
-                            System.out.println("Hago el insert");
-                        }
-                    }
-
-                }
+               
 
                 //Miramos si es un caravana
                 if (cliente.getTipoVehiculo().equalsIgnoreCase("Caravana")) {
@@ -155,6 +145,18 @@ public class GestionVehiculos_gab {
                 }
             }
         }
+        
+        //Miramos si es un turismo
+                if (cliente.getTipoVehiculo().equalsIgnoreCase("turismo")) {
+                    //Los turismo se guardaran del 15 hasta el 29
+                    for (int j = 15; j < 29; j++) {
+                        //PlazaLibre
+                        if (plazasEstado[j] == 1) {
+                            System.out.println("Hago el insert");
+                        }
+                    }
+
+                }
 
     }
 
