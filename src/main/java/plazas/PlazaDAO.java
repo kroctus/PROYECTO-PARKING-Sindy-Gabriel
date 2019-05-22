@@ -42,7 +42,7 @@ public class PlazaDAO implements IPlaza {
                 p.setNumPlaza(res.getInt("numplaza"));
                 p.setTarifa(res.getDouble("tarifa"));
                 p.setEstadoPlaza(PlazaVO.obtenerEstado(res.getString("estadoplaza")));
-                p.setTipoPlaza(PlazaVO.obtenerEstado(res.getString("tipoPlaza")));
+                p.setTipoPlaza(PlazaVO.obtenerTipoPlaza(res.getString("tipoPlaza")));
 
                 //Añadimos el objeto a la lista
                 lista.add(p);
