@@ -5,12 +5,14 @@
  */
 package parking;
 
+import clientes.ClienteDAO;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import plazas.PlazaDAO;
 import plazas.PlazaVO;
 import vehiculos.VehiculoVO;
+import clientes.ClienteVO;
 
 /**
  *
@@ -91,14 +93,14 @@ public class GestionVehiculos_gab {
         return true;
     }
 
-    //Método ESTADO_PLAZA
+    //Método GESTION_PLAZAS
     // Este método se encargará de ver si las plazas están o no ocupadas y el tipo de coche que la ocupa
     /*Para ello este método se apoya de un array de 45 posiciones siendo estas: */
     // Del 0-14 Motocicletas
     // El 14-29 Turismos.
     // del 29-44 para Caravanas
     /*Las plazas de los reservados siempre estan ocupadas (false)*/
-    public void estadoPlazas(ClienteAbonado cliente) {
+    public void gestionPlazas(ClienteAbonado cliente) {
 
         Integer[] plazasEstado = new Integer[45];
         //Conseguimos las plazas de nuestro parking
@@ -116,6 +118,8 @@ public class GestionVehiculos_gab {
             System.out.println("No se ha podido realizar la operación:");
             System.out.println(sqle.getMessage());
         }
+        
+        
 
         //Miramos el estado y el tipo de vehiculo
         //Del 0-14 solo guardaremos las motos
@@ -153,6 +157,29 @@ public class GestionVehiculos_gab {
             }
         }
 
+    }
+    
+    //Método para comprobar si el cliente que se recibe es abonado o no para ello compara las matriculas
+    // si son iguales es reservado entonces devuelve true, sino false.
+    public static boolean esAbonado(ClienteAbonado clienteAux){
+        ClienteDAO cliente = new ClienteDAO();
+        ArrayList <ClienteVO> clientesAbonados = new ArrayList<>();
+        
+        try{
+        clientesAbonados= (ArrayList<ClienteVO>) cliente.getAll();
+        
+            for (ClienteVO clientesAbonado : clientesAbonados) {
+                if (clientesAbonado.getMatricula().equalsIgnoreCase(clienteAux.getMatricula())) {
+                    return true;
+                }else if (!(clientesAbonado.getMatricula().equalsIgnoreCase(clienteAux.getMatricula()))) {
+                    return false;
+                }
+            }
+         } catch (SQLException sqle) {
+            System.out.println("No se ha podido realizar la operación:");
+            System.out.println(sqle.getMessage());
+        }
+        return false;
     }
 
     public static void main(String[] args) {
