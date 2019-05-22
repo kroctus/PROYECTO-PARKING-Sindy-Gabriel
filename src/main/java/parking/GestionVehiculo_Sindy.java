@@ -61,5 +61,18 @@ public class GestionVehiculo_Sindy {
         return Integer.toString(rnd.nextInt(999999 - 100000 + 1) + 100000);
     }
 
-   
+    //Método que a partir de un vehiculo y una plaza genera un ticket
+    private static TicketsVO crearTicket(VehiculoVO vehiculo, PlazaVO plaza) {
+        TicketsVO ticket = new TicketsVO();
+        ticket.setMatricula(vehiculo.getMatricula());
+        ticket.setNumplaza(plaza.getNumPlaza());
+        ticket.setFecinipin(LocalDate.now());
+        ticket.setHoraenticket(LocalTime.now());
+        ticket.setFecfinpin(LocalDate.MIN);
+        ticket.setHorasalticket(LocalTime.MIN);
+        ticket.setPin_desechable(generarPin());
+        return ticket;
+
+    }
+
 }
