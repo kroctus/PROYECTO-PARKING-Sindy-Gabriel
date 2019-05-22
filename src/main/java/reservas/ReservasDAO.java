@@ -107,7 +107,7 @@ public class ReservasDAO implements IReservas {
                 prest.setString(1, reserva.getMatricula());
                 prest.setInt(2, reserva.getNumplaza());
                 prest.setString(3, reserva.getPin_fijo());
-                prest.setDate(4, Date.valueOf(reserva.getFecfinabono()));
+                prest.setDate(4, Date.valueOf(reserva.getFeciniabono()));
                 prest.setDate(5, Date.valueOf(reserva.getFecfinabono()));
 
                 numFilas = prest.executeUpdate();
@@ -180,7 +180,7 @@ public class ReservasDAO implements IReservas {
                 prest.setString(1, nuevosDatos.getMatricula());
                 prest.setInt(2, nuevosDatos.getNumplaza());
                 prest.setString(3, nuevosDatos.getPin_fijo());
-                prest.setDate(4, Date.valueOf(nuevosDatos.getFecfinabono()));
+                prest.setDate(4, Date.valueOf(nuevosDatos.getFeciniabono()));
                 prest.setDate(5, Date.valueOf(nuevosDatos.getFecfinabono()));
 
                 numFilas = prest.executeUpdate();
