@@ -154,6 +154,7 @@ public class GestionVehiculos_gab {
 
             //Miramos si es un turismo
             if (cliente.getTipoVehiculo().equalsIgnoreCase("turismo")) {
+                System.out.println("Estoy en turismo");
                 //Los turismo se guardaran del 15 hasta el 29
                 for (int j = 15; j < 29; j++) {
                     //PlazaLibre
@@ -171,6 +172,7 @@ public class GestionVehiculos_gab {
 
             //Miramos si es un caravana
             if (cliente.getTipoVehiculo().equalsIgnoreCase("Caravana")) {
+                System.out.println("Estoy rn cara");
                 //Las carvaanas se guardaran del 16 al 44
                 for (int j = 16; j < 45; j++) {
                     //PlazaLibre
