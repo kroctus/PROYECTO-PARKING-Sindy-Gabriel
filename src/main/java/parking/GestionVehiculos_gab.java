@@ -106,10 +106,13 @@ public class GestionVehiculos_gab {
     // del 29-44 para Caravanas
     /*Las plazas de los reservados siempre estan ocupadas (false)*/
     public static void gestionPlazas(ClienteAbonado cliente) {
+        System.out.println("");
         System.out.println("Estoy en gestión de plazas");
-        Integer[] plazasEstado = new Integer[45];
+        Integer[] plazasEstado = new Integer[46];
         //Conseguimos las plazas de nuestro parking
-
+//        System.out.println("");
+//        System.out.println("Atributos de cliente: " + "\n matricula : " + cliente.getMatricula()
+//                + "\n tipoVehiculo: " + cliente.getTipoVehiculo() + " \n DNI " + cliente.getDni());
         PlazaDAO plazas = new PlazaDAO();
         ReservasDAO reservaDAO = new ReservasDAO();
         ArrayList<PlazaVO> listaPlazas = new ArrayList<>();
@@ -117,19 +120,29 @@ public class GestionVehiculos_gab {
         try {
             listaPlazas = (ArrayList<PlazaVO>) plazas.getAll();
 
+            System.out.println("Mostramos las plazas: ");
+            System.out.println("");
+            listaPlazas.forEach(System.out::println);
+
             for (int i = 0; i < listaPlazas.size(); i++) {
-                plazasEstado[i] = listaPlazas.get(i).getEstadoPlaza();
-                System.out.println("Estado Plaza1: " + plazasEstado[i]);
+                int estado=listaPlazas.get(i).getEstadoPlaza();
+//                System.out.println("El estado en lista1 es : " + estado );
+                plazasEstado[i] = estado;
+                System.out.println("Estado Plaza: " + i + " : " + plazasEstado[i]);
             }
 
             //Miramos el estado y el tipo de vehiculo
             //Del 0-14 solo guardaremos las motos
+
             if (cliente.getTipoVehiculo().equalsIgnoreCase("motocicleta")) {
 
+                System.out.println("Estoy en  motocicleta");
                 for (int i = 0; i < 14; i++) {
                     // Plaza libre
+
                     if (plazasEstado[i] == 1) {
                         numPlaza = plazasEstado[i];
+                        System.out.println("Estado Plaza: " + i + " : " + plazasEstado[i]);
                         System.out.println("El numero de la plaza será el : " + (numPlaza + 100));
                         ReservasVO persona = new ReservasVO(cliente.getMatricula(), (numPlaza + 100), generarPin(), LocalDate.now(), LocalDate.of(1, 1, 1));
                         reservaDAO.insertReserva(persona);
@@ -144,6 +157,7 @@ public class GestionVehiculos_gab {
                 //Los turismo se guardaran del 15 hasta el 29
                 for (int j = 15; j < 29; j++) {
                     //PlazaLibre
+                    System.out.println("El estado de la plaza " + j + "es:" + plazasEstado[j]);
                     if (plazasEstado[j] == 1) {
                         numPlaza = plazasEstado[j];
                         System.out.println("El numero de la plaza será el : " + (numPlaza + 100));
@@ -158,9 +172,9 @@ public class GestionVehiculos_gab {
             //Miramos si es un caravana
             if (cliente.getTipoVehiculo().equalsIgnoreCase("Caravana")) {
                 //Las carvaanas se guardaran del 16 al 44
-                for (int j = 16; j < 44; j++) {
+                for (int j = 16; j < 45; j++) {
                     //PlazaLibre
-                    System.out.println("El estado de la plaza es: " + plazasEstado[j]);
+                    System.out.println("El estado de la plaza " + j + "es:" + plazasEstado[j]);
                     if (plazasEstado[j] == 1) {
                         numPlaza = plazasEstado[j];
                         System.out.println("El numero de la plaza será el : " + (numPlaza + 100));
