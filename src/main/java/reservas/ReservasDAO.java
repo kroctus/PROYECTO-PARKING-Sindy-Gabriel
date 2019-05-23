@@ -29,7 +29,7 @@ public class ReservasDAO implements IReservas {
     }
 
     @Override
-    public List<ReservasVO> getAll() throws SQLException {
+    public  List<ReservasVO> getAll() throws SQLException {
 
         List<ReservasVO> lista = new ArrayList<>();
 
@@ -45,7 +45,7 @@ public class ReservasDAO implements IReservas {
                 p.setMatricula(res.getString("matricula"));
                 p.setNumplaza(res.getInt("numplaza"));
                 p.setPin_fijo(res.getString("pin_fijo"));
-                p.setFeciniabono(res.getDate("fecinibono").toLocalDate());
+                p.setFeciniabono(res.getDate("feciniabono").toLocalDate());
                 p.setFecfinabono(res.getDate("fecfinabono").toLocalDate());
 
                 //Añadimos el objeto a la lista
@@ -79,7 +79,7 @@ public class ReservasDAO implements IReservas {
                 p.setMatricula(res.getString("matricula"));
                 p.setNumplaza(res.getInt("numplaza"));
                 p.setPin_fijo(res.getString("pin_fijo"));
-                p.setFeciniabono(res.getDate("fecinibono").toLocalDate());
+                p.setFeciniabono(res.getDate("feciniabono").toLocalDate());
                 p.setFecfinabono(res.getDate("fecfinabono").toLocalDate());
                 return p;
             }
