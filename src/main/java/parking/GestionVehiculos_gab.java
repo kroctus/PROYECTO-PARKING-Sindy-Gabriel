@@ -183,7 +183,7 @@ public class GestionVehiculos_gab {
                         ReservasVO persona = new ReservasVO(cliente.getMatricula(), (numPlaza + 100), generarPin(), LocalDate.now(), LocalDate.of(1, 1, 1));
                         reservaDAO.insertReserva(persona);
                         //Cambiamos el estado de la plaza
-                        PlazaVO plazaAux= new PlazaVO();
+                        PlazaVO plazaAux= new PlazaVO((numPlaza+100), cliente.getTipoVehiculo(), generarTarifa());
                         plazas.updatePlaza((numPlaza+100), plazaAux);
                         
                         System.out.println("Hago el insert");
@@ -200,12 +200,12 @@ public class GestionVehiculos_gab {
     }
     
     //Regresa la tarifa en base al vehiculo que recibe
-    public double generarTarifa(ClienteAbonado cliente){
-        if (cliente.getTipoVehiculo().equalsIgnoreCase("motocicleta")) {
+    public double generarTarifa(String tipo){
+        if (tipo.equalsIgnoreCase("motocicleta")) {
             return 0.08;
-        }else if (cliente.getTipoVehiculo().equalsIgnoreCase("turismo")) {
+        }else if (tipo.equalsIgnoreCase("turismo")) {
             return 0.12;
-        }else if (cliente.getTipoVehiculo().equalsIgnoreCase("caravana")) {
+        }else if (tipo.equalsIgnoreCase("caravana")) {
             return 0.45;
         }
         
