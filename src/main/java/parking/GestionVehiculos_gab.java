@@ -31,7 +31,7 @@ public class GestionVehiculos_gab {
     public static ClienteAbonado IngresarVehiculoAbonado() {
 
         ClienteAbonado cliente = new ClienteAbonado();
-        JOptionPane.showMessageDialog(null, "Bienvenido Abonado A continuación te pediremos algunos datos :D");
+        JOptionPane.showMessageDialog(null, "¡Bienvenido Abonado! a continuación te pediremos algunos datos :D");
 
         String matricula;
         String[] matricula1;
@@ -106,7 +106,7 @@ public class GestionVehiculos_gab {
     // del 29-44 para Caravanas
     /*Las plazas de los reservados siempre estan ocupadas (false)*/
     public static void gestionPlazas(ClienteAbonado cliente) {
-
+        System.out.println("Estoy en gestión de plazas");
         Integer[] plazasEstado = new Integer[45];
         //Conseguimos las plazas de nuestro parking
 
@@ -119,6 +119,7 @@ public class GestionVehiculos_gab {
 
             for (int i = 0; i < listaPlazas.size(); i++) {
                 plazasEstado[i] = listaPlazas.get(i).getEstadoPlaza();
+                System.out.println("Estado Plaza1: " + plazasEstado[i]);
             }
 
             //Miramos el estado y el tipo de vehiculo
@@ -129,7 +130,8 @@ public class GestionVehiculos_gab {
                     // Plaza libre
                     if (plazasEstado[i] == 1) {
                         numPlaza = plazasEstado[i];
-                        ReservasVO persona = new ReservasVO(cliente.getMatricula(), (numPlaza + 100), generarPin(), LocalDate.now(), null);
+                        System.out.println("El numero de la plaza será el : " + (numPlaza + 100));
+                        ReservasVO persona = new ReservasVO(cliente.getMatricula(), (numPlaza + 100), generarPin(), LocalDate.now(), LocalDate.of(1, 1, 1));
                         reservaDAO.insertReserva(persona);
                         System.out.println("Hago el insert");
                     }
@@ -144,7 +146,8 @@ public class GestionVehiculos_gab {
                     //PlazaLibre
                     if (plazasEstado[j] == 1) {
                         numPlaza = plazasEstado[j];
-                        ReservasVO persona = new ReservasVO(cliente.getMatricula(), (numPlaza + 100), generarPin(), LocalDate.now(), null);
+                        System.out.println("El numero de la plaza será el : " + (numPlaza + 100));
+                        ReservasVO persona = new ReservasVO(cliente.getMatricula(), (numPlaza + 100), generarPin(), LocalDate.now(), LocalDate.of(1, 1, 1));
                         reservaDAO.insertReserva(persona);
                         System.out.println("Hago el insert");
                     }
@@ -157,9 +160,11 @@ public class GestionVehiculos_gab {
                 //Las carvaanas se guardaran del 16 al 44
                 for (int j = 16; j < 44; j++) {
                     //PlazaLibre
+                    System.out.println("El estado de la plaza es: " + plazasEstado[j]);
                     if (plazasEstado[j] == 1) {
                         numPlaza = plazasEstado[j];
-                        ReservasVO persona = new ReservasVO(cliente.getMatricula(), (numPlaza + 100), generarPin(), LocalDate.now(), null);
+                        System.out.println("El numero de la plaza será el : " + (numPlaza + 100));
+                        ReservasVO persona = new ReservasVO(cliente.getMatricula(), (numPlaza + 100), generarPin(), LocalDate.now(), LocalDate.of(1, 1, 1));
                         reservaDAO.insertReserva(persona);
                         System.out.println("Hago el insert");
                     }
@@ -215,7 +220,7 @@ public class GestionVehiculos_gab {
 
     public static void main(String[] args) {
 
-        ClienteAbonado aux= GestionVehiculos_gab.IngresarVehiculoAbonado();
+        ClienteAbonado aux = GestionVehiculos_gab.IngresarVehiculoAbonado();
         generarPin();
         gestionPlazas(aux);
 
