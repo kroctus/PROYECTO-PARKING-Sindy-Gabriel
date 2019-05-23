@@ -68,7 +68,7 @@ public class GestionVehiculo_Sindy {
         ticket.setNumplaza(plaza.getNumPlaza());
         ticket.setFecinipin(LocalDate.now());
         ticket.setHoraenticket(LocalTime.now());
-        ticket.setFecfinpin(LocalDate.MIN);
+        ticket.setFecfinpin(LocalDate.of(1, 1, 1));
         ticket.setHorasalticket(LocalTime.MIN);
         ticket.setPin_desechable(generarPin());
         return ticket;
