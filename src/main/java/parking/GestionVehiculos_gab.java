@@ -41,6 +41,13 @@ public class GestionVehiculos_gab {
 
         String matricula;
         String[] matricula1;
+
+        matricula = JOptionPane.showInputDialog("Introduzca su matricula: ");
+        matricula1 = matricula.split("-");
+        System.out.println("Tamaño: " + matricula.length());
+        if (!((esNumero(matricula1[0]) && !esNumero(matricula1[1])) && matricula.length() == 8)) {
+            System.out.println("El numero no es correcto");
+        }
         do {
             matricula = JOptionPane.showInputDialog("Introduzca su matricula: ");
             matricula1 = matricula.split("-");
@@ -85,7 +92,7 @@ public class GestionVehiculos_gab {
             return cliente;
 
         } else if (opcion == 1) {
-            JOptionPane.showConfirmDialog(null, "Se volveran a pedir los datos :D");
+            JOptionPane.showMessageDialog(null, "Se volveran a pedir los datos :D");
             //     System.out.println("La opcion deberia ser no");
             GestionVehiculos_gab.IngresarVehiculoAbonado();
         }
@@ -280,7 +287,7 @@ public class GestionVehiculos_gab {
             System.out.println(e.toString());
         }
 
-        String idfichero = directory.toString() +"/" + aux.getDni() + ".txt";
+        String idfichero = directory.toString() + "/" + aux.getDni() + ".txt";
         System.out.println("Fichero: " + idfichero);
 
         try (BufferedWriter flujo = new BufferedWriter(new FileWriter(idfichero))) {
@@ -294,12 +301,90 @@ public class GestionVehiculos_gab {
 
     }
 
+    /*METODO RETIRAR ABONADO*/
+ /*simula la retirada del vehiculo del reservado de la plaza en la que se encuentra haciendo un update de la plaza*/
+ /*Para ello el método recauda la información y la contrasta con la que se tiene en la BD*/
+    public static void retirarAbonados() {
+
+        ReservasDAO reservaDAO = new ReservasDAO();
+        PlazaDAO plazaDAO = new PlazaDAO();
+        ReservasVO reservaAux = new ReservasVO();
+        PlazaVO plazaAux = new PlazaVO();
+        String matricula;
+        String[] matricula1;
+        System.out.println("Hola");
+        matricula = JOptionPane.showInputDialog("Introduzca la matricula del vehiculo que desea retirar: ");
+        String plaza = JOptionPane.showInputDialog(null, "Introduce la plaza donde se encuentra el  coche que deseas retirar: ");
+        String pin = JOptionPane.showInputDialog(null, "Introduce tu pin único:  ");
+
+        //Confirmación de los campos
+        int opcion = JOptionPane.showConfirmDialog(null, "Estos son los datos que has introducido: " + "\n Matricula: " + matricula + "\n Plaza: " + plaza + "\n Pin: " + pin);
+        // En caso de que los campos no sean los que desea el cliente se volveran a pedir.
+        if (opcion == 0) {
+            // comprobamos en la BD
+            System.out.println("Comprobamos en la BD");
+            try {
+
+                ArrayList<ReservasVO> reservasActuales = new ArrayList<>();
+                reservasActuales = (ArrayList<ReservasVO>) reservaDAO.getAll();
+                reservasActuales.forEach(System.out::println);
+                boolean contiene = contiene(matricula,reservasActuales);
+                System.out.println("Contiene : " + contiene);
+
+                if (contiene==true) {
+                    reservaAux = reservaDAO.findByPk(matricula, Integer.valueOf(plaza));
+                    //Si los datos coinciden cambio el estado de la plaza manteniendo los datos anteriores
+                    if (reservaAux.getMatricula().equalsIgnoreCase(matricula) && reservaAux.getNumplaza() == Integer.valueOf(plaza)) {
+                        plazaAux = plazaDAO.findByPk(Integer.valueOf(plaza));
+                        plazaDAO.updatePlaza(Integer.valueOf(plaza), new PlazaVO(plazaAux.getNumPlaza(), plazaAux.getTipoPlaza(), 2, plazaAux.getTarifa()));
+                        JOptionPane.showMessageDialog(null, "Se ha cambiado el estado de la plaza");
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Alguno de los datos que has introducido no coinciden: " + "\n Matricula: " + matricula + "\n Plaza: " + plaza + "\n Pin: " + pin);
+                    int cambio = JOptionPane.showConfirmDialog(null, "¿Deseas cambiar estos datos?");
+                    if (cambio == 0) {
+                        retirarAbonados();
+                    } else if (cambio == 1) {
+                        JOptionPane.showMessageDialog(null, "Se cerrará el menú");
+                    }
+                }
+
+            } catch (SQLException sqle) {
+                System.out.println("No se ha podido realizar la operación:");
+                System.out.println(sqle.getMessage());
+            }
+        } else if (opcion == 1) {
+            JOptionPane.showMessageDialog(null, "Se volveran a pedir los datos :D");
+            retirarAbonados();
+        }
+    }
+
+    //Método que comprueba si la matricula que se le pasa esta en el array que recibe también
+    // si esta devuelve true y sino false.
+    public static boolean contiene(String matricula, ArrayList<ReservasVO> aux) {
+        for (int i = 0; i < aux.size(); i++) {
+            if (!aux.get(i).getMatricula().equalsIgnoreCase(matricula)) {
+                i+=i;
+            }
+
+            if (aux.get(i).getMatricula().equalsIgnoreCase(matricula)) {
+                return true;
+            }
+            
+            if (!aux.get(i).getMatricula().equalsIgnoreCase(matricula) && i==aux.size()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static void main(String[] args) {
 
-        ClienteAbonado aux = GestionVehiculos_gab.IngresarVehiculoAbonado();
-        generarPin();
-        gestionPlazas(aux);
-        generarFicheroAbonado(aux);
+//        ClienteAbonado aux = GestionVehiculos_gab.IngresarVehiculoAbonado();
+//        generarPin();
+//        gestionPlazas(aux);
+//        generarFicheroAbonado(aux);
+        retirarAbonados();
 
     }
 
