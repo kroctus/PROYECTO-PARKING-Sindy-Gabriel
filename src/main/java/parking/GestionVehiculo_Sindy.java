@@ -33,7 +33,7 @@ public class GestionVehiculo_Sindy {
         do {
             matricula = JOptionPane.showInputDialog("Introduzca su matricula: ");
 
-            while (matricula.charAt(4) != '-') {
+            while ( matricula.length() !=8 || matricula.charAt(4) != '-' ) {
                 matricula = JOptionPane.showInputDialog("La matricula es "
                         + " incorrecta, vuelva a intentarlo: ");
             }
