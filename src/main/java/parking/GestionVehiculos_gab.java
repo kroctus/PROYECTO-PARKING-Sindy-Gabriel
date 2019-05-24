@@ -13,6 +13,12 @@ import plazas.PlazaDAO;
 import plazas.PlazaVO;
 import vehiculos.VehiculoVO;
 import clientes.ClienteVO;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.Month;
 import reservas.ReservasDAO;
@@ -75,7 +81,7 @@ public class GestionVehiculos_gab {
         // En caso de que los campos no sean los que desea el cliente se volveran a pedir.
         if (opcion == 0) {
             //     System.out.println("La opcion es yes");
-            cliente = new ClienteAbonado(dni, tipoVehiculo, matricula);
+            cliente = new ClienteAbonado(dni, tipoVehiculo, matricula, generarPin());
             return cliente;
 
         } else if (opcion == 1) {
@@ -125,7 +131,7 @@ public class GestionVehiculos_gab {
             listaPlazas.forEach(System.out::println);
 
             for (int i = 0; i < listaPlazas.size(); i++) {
-                int estado=listaPlazas.get(i).getEstadoPlaza();
+                int estado = listaPlazas.get(i).getEstadoPlaza();
 //                System.out.println("El estado en lista1 es : " + estado );
                 plazasEstado[i] = estado;
                 System.out.println("Estado Plaza: " + i + " : " + plazasEstado[i]);
@@ -133,7 +139,6 @@ public class GestionVehiculos_gab {
 
             //Miramos el estado y el tipo de vehiculo
             //Del 0-14 solo guardaremos las motos
-
             if (cliente.getTipoVehiculo().equalsIgnoreCase("motocicleta")) {
 
                 System.out.println("Estoy en  motocicleta");
@@ -144,13 +149,14 @@ public class GestionVehiculos_gab {
                         numPlaza = plazasEstado[i];
                         System.out.println("Estado Plaza: " + i + " : " + plazasEstado[i]);
                         System.out.println("El numero de la plaza será el : " + (numPlaza + 100));
-                        ReservasVO persona = new ReservasVO(cliente.getMatricula(), (numPlaza + 100), generarPin(), LocalDate.now(), LocalDate.of(1, 1, 1));
+                        ReservasVO persona = new ReservasVO(cliente.getMatricula(), (numPlaza + 100), cliente.getPin(), LocalDate.now(), LocalDate.of(1, 1, 1));
                         reservaDAO.insertReserva(persona);
                         System.out.println("Hago el insert");
-                        
+
                         //Cambiamos el estado de la plaza
-                        PlazaVO plazaAux= new PlazaVO((numPlaza+100), 1 , 2 ,generarTarifa(cliente.getTipoVehiculo()));
-                        plazas.updatePlaza((numPlaza+100), plazaAux);
+                        PlazaVO plazaAux = new PlazaVO((numPlaza + 100), 1, 2, generarTarifa(cliente.getTipoVehiculo()));
+                        plazas.updatePlaza((numPlaza + 100), plazaAux);
+                        JOptionPane.showMessageDialog(null, "Se ha ingresado su Motocicleta");
                     }
 
                 }
@@ -166,13 +172,14 @@ public class GestionVehiculos_gab {
                     if (plazasEstado[j] == 1) {
                         numPlaza = plazasEstado[j];
                         System.out.println("El numero de la plaza será el : " + (numPlaza + 100));
-                        ReservasVO persona = new ReservasVO(cliente.getMatricula(), (numPlaza + 100), generarPin(), LocalDate.now(), LocalDate.of(1, 1, 1));
+                        ReservasVO persona = new ReservasVO(cliente.getMatricula(), (numPlaza + 100), cliente.getPin(), LocalDate.now(), LocalDate.of(1, 1, 1));
                         reservaDAO.insertReserva(persona);
                         System.out.println("Hago el insert");
-                        
+
                         //Cambiamos el estado de la plaza
-                        PlazaVO plazaAux= new PlazaVO((numPlaza+100), 2 , 2 ,generarTarifa(cliente.getTipoVehiculo()));
-                        plazas.updatePlaza((numPlaza+100), plazaAux);
+                        PlazaVO plazaAux = new PlazaVO((numPlaza + 100), 2, 2, generarTarifa(cliente.getTipoVehiculo()));
+                        plazas.updatePlaza((numPlaza + 100), plazaAux);
+                        JOptionPane.showMessageDialog(null, "Se ha ingresado su Turismo");
                     }
                 }
 
@@ -188,13 +195,14 @@ public class GestionVehiculos_gab {
                     if (plazasEstado[j] == 1) {
                         numPlaza = plazasEstado[j];
                         System.out.println("El numero de la plaza será el : " + (numPlaza + 100));
-                        ReservasVO persona = new ReservasVO(cliente.getMatricula(), (numPlaza + 100), generarPin(), LocalDate.now(), LocalDate.of(1, 1, 1));
+                        ReservasVO persona = new ReservasVO(cliente.getMatricula(), (numPlaza + 100), cliente.getPin(), LocalDate.now(), LocalDate.of(1, 1, 1));
                         reservaDAO.insertReserva(persona);
                         //Cambiamos el estado de la plaza
-                        PlazaVO plazaAux= new PlazaVO((numPlaza+100), 3 , 2 ,generarTarifa(cliente.getTipoVehiculo()));
-                        plazas.updatePlaza((numPlaza+100), plazaAux);
-                        
+                        PlazaVO plazaAux = new PlazaVO((numPlaza + 100), 3, 2, generarTarifa(cliente.getTipoVehiculo()));
+                        plazas.updatePlaza((numPlaza + 100), plazaAux);
+
                         System.out.println("Hago el insert");
+                        JOptionPane.showMessageDialog(null, "Se ha ingresado su caravana");
                     }
                 }
 
@@ -206,17 +214,17 @@ public class GestionVehiculos_gab {
         }
 
     }
-    
+
     //Regresa la tarifa en base al vehiculo que recibe
-    public static double generarTarifa(String tipo){
+    public static double generarTarifa(String tipo) {
         if (tipo.equalsIgnoreCase("motocicleta")) {
             return 0.08;
-        }else if (tipo.equalsIgnoreCase("turismo")) {
+        } else if (tipo.equalsIgnoreCase("turismo")) {
             return 0.12;
-        }else if (tipo.equalsIgnoreCase("caravana")) {
+        } else if (tipo.equalsIgnoreCase("caravana")) {
             return 0.45;
         }
-        
+
         return 0.00;
     }
 
@@ -259,11 +267,39 @@ public class GestionVehiculos_gab {
         return pinS;
     }
 
+    //Método FICHEROaBONADO
+    /*MÉTODO que recibe el cliente que se abona y con esos datos se crea un fichero de texto*/
+    public static void generarFicheroAbonado(ClienteAbonado aux) {
+
+        //Creamos el directorio
+        Path directory = Paths.get("./Tickets_Abonados");
+        try {
+            Files.createDirectory(directory);
+        } catch (IOException e) {
+            System.out.println("Problema creando el directorio.");
+            System.out.println(e.toString());
+        }
+
+        String idfichero = directory.toString() +"/" + aux.getDni() + ".txt";
+        System.out.println("Fichero: " + idfichero);
+
+        try (BufferedWriter flujo = new BufferedWriter(new FileWriter(idfichero))) {
+
+            flujo.write(aux.toString());
+            flujo.flush();
+
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+
     public static void main(String[] args) {
 
         ClienteAbonado aux = GestionVehiculos_gab.IngresarVehiculoAbonado();
         generarPin();
         gestionPlazas(aux);
+        generarFicheroAbonado(aux);
 
     }
 
