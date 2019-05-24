@@ -10,6 +10,7 @@ import plazas.PlazaVO;
 import vehiculos.VehiculoVO;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
 import java.util.ArrayList;
@@ -187,4 +188,43 @@ public class GestionVehiculo_Sindy {
         //de vehiculo que ha introducido el usuario.
         return false;
     }
+
+    public static boolean retirarVehiculo() throws SQLException {
+        TicketsDAO daoTicket = new TicketsDAO();
+        ArrayList<TicketsVO> listaTicket = new ArrayList<>();
+        LocalDateTime inicioEstancia, finEstancia;
+        int minutos;
+
+        String matricula, pin, numeroPlaza;
+        int plaza;
+        String[] matricula1;
+        do {
+            matricula = JOptionPane.showInputDialog("Introduzca su matricula: ");
+            matricula1 = matricula.split("-");
+            System.out.println("Tamaño: " + matricula.length());
+        } while (!((esNumero(matricula1[0]) && !esNumero(matricula1[1])) && matricula.length() == 8));
+
+        do {
+            pin = JOptionPane.showInputDialog("Introduzca su pin: ");
+        } while (!(esNumero(pin) && pin.length() == 6));
+
+        do {
+            numeroPlaza = JOptionPane.showInputDialog("Introduzca su número de plaza: ");
+        } while (!(esNumero(numeroPlaza) && (Integer.parseInt(numeroPlaza) >= 100 && Integer.parseInt(numeroPlaza) <= 145)));
+
+        listaTicket = (ArrayList<TicketsVO>) daoTicket.getAll();
+        for (TicketsVO ticket : listaTicket) {
+            if (ticket.getMatricula().equalsIgnoreCase(matricula) && ticket.getPin_desechable().equals(pin) && ticket.getNumplaza() == Integer.parseInt(numeroPlaza)) {
+                inicioEstancia = LocalDateTime.of(ticket.getFecinipin(), ticket.getHoraenticket());
+                finEstancia = LocalDateTime.now();
+                System.out.println("CALCULAR PRECIO");
+                System.out.println("");
+                return true;
+            }
+        }
+
+        return false;
+
+    }
+
 }
