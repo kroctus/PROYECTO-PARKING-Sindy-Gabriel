@@ -29,7 +29,7 @@ import reservas.ReservasVO;
  *
  * @author gabriel
  */
-public class GestionVehiculos_gab {
+public class GestionVehiculosAbonados {
 
     //Metodo ingresar Vehiculo abonado
     //Este método introducirá el vehiculo del abonado solicitando los datos pertinentes
@@ -94,7 +94,7 @@ public class GestionVehiculos_gab {
         } else if (opcion == 1) {
             JOptionPane.showMessageDialog(null, "Se volveran a pedir los datos :D");
             //     System.out.println("La opcion deberia ser no");
-            GestionVehiculos_gab.IngresarVehiculoAbonado();
+            GestionVehiculosAbonados.IngresarVehiculoAbonado();
         }
 
         return cliente;
@@ -380,7 +380,7 @@ public class GestionVehiculos_gab {
 
     public static void main(String[] args) {
 
-//        ClienteAbonado aux = GestionVehiculos_gab.IngresarVehiculoAbonado();
+//        ClienteAbonado aux = GestionVehiculosAbonados.IngresarVehiculoAbonado();
 //        generarPin();
 //        gestionPlazas(aux);
 //        generarFicheroAbonado(aux);
