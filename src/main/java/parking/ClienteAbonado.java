@@ -22,14 +22,17 @@ public class ClienteAbonado {
     private String dni;
     private String tipoVehiculo;
     private String matricula;
+    private String pin;
     
     //Constructores
 
-    public ClienteAbonado(String dni, String tipoVehiculo, String matricula) {
+    public ClienteAbonado(String dni, String tipoVehiculo, String matricula, String pin) {
         this.dni = dni;
         this.tipoVehiculo = tipoVehiculo;
         this.matricula = matricula;
+        this.pin = pin;
     }
+
 
     public ClienteAbonado() {
     }
@@ -59,22 +62,33 @@ public class ClienteAbonado {
     public void setMatricula(String matricula) {
         this.matricula = matricula;
     }
+
+    public String getPin() {
+        return pin;
+    }
+
+    public void setPin(String pin) {
+        this.pin = pin;
+    }
+    
+    
     
     //toString 
 
     @Override
     public String toString() {
-        return "ClienteAbonado{" + "dni=" + dni + ", tipoVehiculo=" + tipoVehiculo + ", matricula=" + matricula + '}';
+        return   "dni: " + dni + ", tipoVehiculo: " + tipoVehiculo + ", matricula: " + matricula + " pin : " + pin;
     }
     
     //Equals and hashCode
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 13 * hash + Objects.hashCode(this.dni);
-        hash = 13 * hash + Objects.hashCode(this.tipoVehiculo);
-        hash = 13 * hash + Objects.hashCode(this.matricula);
+        int hash = 3;
+        hash = 59 * hash + Objects.hashCode(this.dni);
+        hash = 59 * hash + Objects.hashCode(this.tipoVehiculo);
+        hash = 59 * hash + Objects.hashCode(this.matricula);
+        hash = 59 * hash + Objects.hashCode(this.pin);
         return hash;
     }
 
@@ -99,8 +113,13 @@ public class ClienteAbonado {
         if (!Objects.equals(this.matricula, other.matricula)) {
             return false;
         }
+        if (!Objects.equals(this.pin, other.pin)) {
+            return false;
+        }
         return true;
     }
+
+    
     
     
     
