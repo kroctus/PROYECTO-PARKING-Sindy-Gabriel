@@ -328,10 +328,10 @@ public class GestionVehiculosAbonados {
                 ArrayList<ReservasVO> reservasActuales = new ArrayList<>();
                 reservasActuales = (ArrayList<ReservasVO>) reservaDAO.getAll();
                 reservasActuales.forEach(System.out::println);
-                boolean contiene = contiene(matricula,reservasActuales);
+                boolean contiene = contiene(matricula, reservasActuales);
                 System.out.println("Contiene : " + contiene);
 
-                if (contiene==true) {
+                if (contiene == true) {
                     reservaAux = reservaDAO.findByPk(matricula, Integer.valueOf(plaza));
                     //Si los datos coinciden cambio el estado de la plaza manteniendo los datos anteriores
                     if (reservaAux.getMatricula().equalsIgnoreCase(matricula) && reservaAux.getNumplaza() == Integer.valueOf(plaza)) {
@@ -364,14 +364,14 @@ public class GestionVehiculosAbonados {
     public static boolean contiene(String matricula, ArrayList<ReservasVO> aux) {
         for (int i = 0; i < aux.size(); i++) {
             if (!aux.get(i).getMatricula().equalsIgnoreCase(matricula)) {
-                i+=i;
+                i += i;
             }
 
             if (aux.get(i).getMatricula().equalsIgnoreCase(matricula)) {
                 return true;
             }
-            
-            if (!aux.get(i).getMatricula().equalsIgnoreCase(matricula) && i==aux.size()) {
+
+            if (!aux.get(i).getMatricula().equalsIgnoreCase(matricula) && i == aux.size()) {
                 return true;
             }
         }
