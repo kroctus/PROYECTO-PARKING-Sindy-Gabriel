@@ -17,6 +17,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import plazas.PlazaDAO;
 import plazas.PlazaVO;
 import reservas.ReservasDAO;
@@ -75,17 +76,17 @@ public class CopiaDeSeguridad {
             Path subCarpeta = Paths.get(cadenaSub);
 
             Files.createDirectories(subCarpeta);
-            System.out.println("Lo ha creado");
+            
             String idfichero = "";
 
-            System.out.println("Estoy aquí");
+     
 
             idfichero = subCarpeta + "/Plazas.txt";
             BufferedWriter flujo = new BufferedWriter(new FileWriter(idfichero));
             /*Recorremos el arraylist y escribimos los datos cambiando el nombre para cada archivo y lista*/
 
  /*PLAZAS*/
-            System.out.println("Holaaaaaaaaaaa");
+       
 
             for (int i = 0; i < listaPlaza.size(); i++) {
                 flujo.write(listaPlaza.get(i).toString());
@@ -128,6 +129,7 @@ public class CopiaDeSeguridad {
             }
             flujo.flush();
 
+            JOptionPane.showMessageDialog(null, "Se ha realizado la Copia de seguridad exitosamente");
         } catch (SQLException sqle) {
             System.out.println("No se ha podido realizar la operación:");
             System.out.println(sqle.getMessage());
