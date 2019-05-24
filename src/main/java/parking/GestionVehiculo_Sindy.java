@@ -32,6 +32,11 @@ public class GestionVehiculo_Sindy {
         String[] matricula1;
         do {
             matricula = JOptionPane.showInputDialog("Introduzca su matricula: ");
+
+            while (matricula.charAt(4) != '-') {
+                matricula = JOptionPane.showInputDialog("La matricula es "
+                        + " incorrecta, vuelva a intentarlo: ");
+            }
             matricula1 = matricula.split("-");
             System.out.println("Tamaño: " + matricula.length());
         } while (!((esNumero(matricula1[0]) && !esNumero(matricula1[1])) && matricula.length() == 8));
