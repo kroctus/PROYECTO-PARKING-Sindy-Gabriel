@@ -31,7 +31,7 @@ create table plazas
 	numplaza int,
     tipoPlaza enum('plaza_turismos','plaza_motocicletas','plaza_caravanas'),
     estadoplaza enum('ocupada','libre','libre_abono','ocupada_abono'),
-	tarifa decimal,
+	tarifa decimal(7,2),
     constraint pk_plazas primary key(numplaza)
 );
 drop table if exists reservas;
@@ -68,20 +68,6 @@ create table tickets
 );
 
 
-
-select *
-from ticket;
-
-select *
-from vehiculos;
-
-select *
-from plazas;
-
-select *
-from reservas;
-
-delete from reservas;
 
 
 
