@@ -39,17 +39,15 @@ public class GestionVehiculosAbonados {
         ClienteAbonado cliente = new ClienteAbonado();
         JOptionPane.showMessageDialog(null, "¡Bienvenido Abonado! a continuación te pediremos algunos datos :D");
 
-        String matricula;
+         String matricula;
         String[] matricula1;
-
-        matricula = JOptionPane.showInputDialog("Introduzca su matricula: ");
-        matricula1 = matricula.split("-");
-        System.out.println("Tamaño: " + matricula.length());
-        if (!((esNumero(matricula1[0]) && !esNumero(matricula1[1])) && matricula.length() == 8)) {
-            System.out.println("El numero no es correcto");
-        }
         do {
             matricula = JOptionPane.showInputDialog("Introduzca su matricula: ");
+
+            while ( matricula.length() !=8 || matricula.charAt(4) != '-' ) {
+                matricula = JOptionPane.showInputDialog("La matricula es "
+                        + " incorrecta, vuelva a intentarlo: ");
+            }
             matricula1 = matricula.split("-");
             System.out.println("Tamaño: " + matricula.length());
         } while (!((esNumero(matricula1[0]) && !esNumero(matricula1[1])) && matricula.length() == 8));
@@ -380,12 +378,11 @@ public class GestionVehiculosAbonados {
 
     public static void main(String[] args) {
 
-//        ClienteAbonado aux = GestionVehiculosAbonados.IngresarVehiculoAbonado();
-//        generarPin();
-//        gestionPlazas(aux);
-//        generarFicheroAbonado(aux);
+        ClienteAbonado aux = GestionVehiculosAbonados.IngresarVehiculoAbonado();
+        generarPin();
+        gestionPlazas(aux);
+        generarFicheroAbonado(aux);
         retirarAbonados();
-
     }
 
 }
