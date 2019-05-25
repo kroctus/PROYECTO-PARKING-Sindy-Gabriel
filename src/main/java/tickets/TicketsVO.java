@@ -99,7 +99,7 @@ public class TicketsVO {
 
     @Override
     public String toString() {
-        return "TicketsVO{" + "numplaza=" + numplaza + ", matricula=" + matricula + ", pin_desechable=" + pin_desechable + ", fecinipin=" + fecinipin + ", fecfinpin=" + fecfinpin + ", horaenticket=" + horaenticket + ", horasalticket=" + horasalticket + '}';
+        return "numplaza=" + numplaza + "matricula=" + matricula + "pin_desechable=" + pin_desechable + "fecinipin=" + fecinipin + "fecfinpin=" + fecfinpin + "horaenticket=" + horaenticket + "horasalticket=" + horasalticket;
     }
 
 
