@@ -9,11 +9,14 @@ import plazas.PlazaDAO;
 import plazas.PlazaVO;
 import vehiculos.VehiculoVO;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Random;
 import javax.swing.JOptionPane;
 import tickets.TicketsDAO;
@@ -33,7 +36,7 @@ public class GestionVehiculo_Sindy {
         do {
             matricula = JOptionPane.showInputDialog("Introduzca su matricula: ");
 
-            while ( matricula.length() !=8 || matricula.charAt(4) != '-' ) {
+            while (matricula.length() != 8 || matricula.charAt(4) != '-') {
                 matricula = JOptionPane.showInputDialog("La matricula es "
                         + " incorrecta, vuelva a intentarlo: ");
             }
@@ -230,6 +233,71 @@ public class GestionVehiculo_Sindy {
 
         return false;
 
+    }
+
+    public static int calcularMinutos(LocalDate inicioF, LocalDate finF, LocalTime inicioH, LocalTime finH) throws ParseException {
+        if (inicioF.equals(finF) || inicioF.isBefore(finF)) {
+            //Minutos totales que ha pasado un vehiculo en el parking
+            int minutosTotales;
+            //Pasamos los parametros de entrada a string, para luego poder compararlos
+            String inicio, fin;
+            inicio = inicioF.getYear() + "-" + inicioF.getMonthValue() + "-"
+                    + inicioF.getDayOfMonth() + " " + inicioH.getHour() + ":"
+                    + inicioH.getMinute() + ":" + inicioH.getSecond();
+            fin = finF.getYear() + "-" + finF.getMonthValue() + "-"
+                    + finF.getDayOfMonth() + " " + finH.getHour() + ":"
+                    + finH.getMinute() + ":" + finH.getSecond();
+
+            //Establecemos el formato que tendrá los Date
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd H:m:s");
+            Date fechaInicial = dateFormat.parse(inicio);
+            Date fechaFinal = dateFormat.parse(fin);
+
+            //Calculamos los segundos que hay entre una fecha y otra
+            int diferencia = (int) ((fechaFinal.getTime() - fechaInicial.getTime()) / 1000);
+
+            int dias = 0;
+
+            int horas = 0;
+
+            int minutos = 0;
+
+            //Si hay mas de 86400 segundos, entendemos que ha pasado un día o más
+            if (diferencia > 86400) {
+                //Calculamos cuantos dias han pasado
+                dias = (int) Math.floor(diferencia / 86400);
+
+                diferencia = diferencia - (dias * 86400);
+
+            }
+
+            //Si hay más de 3600 segundos entendemos que ha pasado una hora o más
+            if (diferencia > 3600) {
+                //Calculamos cuantas horas han pasado
+                horas = (int) Math.floor(diferencia / 3600);
+
+                diferencia = diferencia - (horas * 3600);
+
+            }
+
+            //Si hay más de 60 segundos entendemos que ha pasado un minuto o más
+            if (diferencia > 60) {
+                //Calculamos cuantas minutos han pasado
+                minutos = (int) Math.floor(diferencia / 60);
+
+                diferencia = diferencia - (minutos * 60);
+
+            }
+
+            //Pasamos todo a minutos, tanto los dias como las horas, para saber 
+            //cuántos minutos ha estado el vehiculo en el parking ya que la 
+            //tarifa se cobra por minuto.
+            minutosTotales = dias * 1440 + horas * 60 + minutos;
+            return minutosTotales;
+        }
+        //Si devuelve -1 sabremos que ha habido un error ya que la fecha 
+        //de salida será anterior a la de entrada
+        return -1;
     }
 
 }
