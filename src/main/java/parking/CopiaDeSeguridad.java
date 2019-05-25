@@ -7,9 +7,14 @@ package parking;
 
 import clientes.ClienteDAO;
 import clientes.ClienteVO;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -146,18 +151,112 @@ public class CopiaDeSeguridad {
                 JOptionPane.QUESTION_MESSAGE, null, new Object[]{
                     "Clientes", "Vehiculos", "Plazas", "Reservas", "Tickets"},
                 "Turismo");
-        
-       switch(tabla){
-           case 1:
-               break;
-           case 2:
-               break;
-           case 3:
-               break;
-           case 4:
-               break;
-       }
 
+        switch (tabla) {
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+        }
+
+    }
+
+    //métodos que leen  cada uno de los archivos de backups y extraen sus datos para actualizar las tablas
+    public static void leerClinetes(String nombre) throws FileNotFoundException, IOException {
+
+        ClienteDAO dao = new ClienteDAO();
+        ArrayList<ClienteVO> clientes = new ArrayList<>();// lista donde guardaremos todos los empleados creados con los tokens
+        // del texto y que posteriormente devolveremos en el método.
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(nombre), "ISO-8859-1"))) {
+
+            // Se crea el objeto FileReader
+            FileReader fr = new FileReader(nombre);
+
+            // Mientras el método readLine() no devuelva null existen datos por leer
+            String[] tokens;
+            String linea;
+
+            /*   this.matricula = matricula;
+        this.dni = dni;
+        this.nombre = nombre;
+        this.apellido1 = apellido1;
+        this.apellido2 = apellido2;
+        this.numTarjeta = numTarjeta;
+        this.tipoAbono = tipoAbono;
+        this.email = email;*/
+            while ((linea = br.readLine()) != null) {
+
+                tokens = linea.split("=");
+                String matricula = tokens[0];
+                String dni = tokens[1];
+                String nombreC = tokens[2];
+                String apellido1 = tokens[3];
+                String apellido2 = tokens[4];
+                String numTarjeta = tokens[5];
+                String tipoAbono = tokens[6];
+                String email = tokens[7];
+
+                clientes.add(new ClienteVO(matricula, dni, nombreC, apellido1, apellido2, numTarjeta, Integer.valueOf(tipoAbono), email));
+                dao.updateCliente(matricula, new ClienteVO(matricula, dni, nombreC, apellido1, apellido2, numTarjeta, Integer.valueOf(tipoAbono), email));
+
+            }
+
+        } catch (FileNotFoundException e) {
+            System.out.println(e.getMessage());
+        } catch (SQLException sqle) {
+            System.out.println("No se ha podido realizar la operación:");
+            System.out.println(sqle.getMessage());
+
+        }
+
+        clientes.forEach(System.out::println);
+    }
+
+    /*PLAZAS*/
+    public static void leerPlazas(String nombre) throws FileNotFoundException, IOException {
+
+        PlazaDAO dao = new PlazaDAO();
+        ArrayList<PlazaVO> plaza = new ArrayList<>();// lista donde guardaremos todos los empleados creados con los tokens
+        // del texto y que posteriormente devolveremos en el método.
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(nombre), "ISO-8859-1"))) {
+
+            // Se crea el objeto FileReader
+            FileReader fr = new FileReader(nombre);
+
+            // Mientras el método readLine() no devuelva null existen datos por leer
+            String[] tokens;
+            String linea;
+
+            /*  private int numPlaza; //Clave primaria en la tabla Plazas
+    private int tipoPlaza;
+    private int estadoPlaza;
+    private double tarifa;*/
+            while ((linea = br.readLine()) != null) {
+
+                tokens = linea.split("=");
+                String numPlaza= tokens[0];
+                String tipoPlaza= tokens[1];
+                String estadoPlaza= tokens[2];
+                String tarifa= tokens[3];
+
+                plaza.add(new PlazaVO(Integer.valueOf(numPlaza),Integer.valueOf(tipoPlaza),Integer.valueOf(estadoPlaza),Double.valueOf(tarifa)));
+                dao.updatePlaza(Integer.valueOf(numPlaza), new PlazaVO(Integer.valueOf(numPlaza),Integer.valueOf(tipoPlaza),Integer.valueOf(estadoPlaza),Double.valueOf(tarifa)));
+
+            }
+
+        } catch (FileNotFoundException e) {
+            System.out.println(e.getMessage());
+        } catch (SQLException sqle) {
+            System.out.println("No se ha podido realizar la operación:");
+            System.out.println(sqle.getMessage());
+
+        }
+
+        plaza.forEach(System.out::println);
     }
 
     public static void main(String[] args) {
