@@ -64,8 +64,8 @@ public class PlazaVO {
     //Método toString()
     @Override
     public String toString() {
-        return "numPlaza=" + numPlaza + ", tipoPlaza=" + obtenerTipoPlaza(this)
-                + ", estadoPlaza=" + obtenerEstado(this) + ", tarifa=" + tarifa;
+        return "numPlaza=" + numPlaza + "tipoPlaza=" + obtenerTipoPlaza(this)
+                + "estadoPlaza=" + obtenerEstado(this) + "tarifa=" + tarifa;
     }
 
     //Método que muestra el estado de la plaza.
