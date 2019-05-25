@@ -76,18 +76,14 @@ public class CopiaDeSeguridad {
             Path subCarpeta = Paths.get(cadenaSub);
 
             Files.createDirectories(subCarpeta);
-            
-            String idfichero = "";
 
-     
+            String idfichero = "";
 
             idfichero = subCarpeta + "/Plazas.txt";
             BufferedWriter flujo = new BufferedWriter(new FileWriter(idfichero));
             /*Recorremos el arraylist y escribimos los datos cambiando el nombre para cada archivo y lista*/
 
  /*PLAZAS*/
-       
-
             for (int i = 0; i < listaPlaza.size(); i++) {
                 flujo.write(listaPlaza.get(i).toString());
                 flujo.newLine();
@@ -141,8 +137,32 @@ public class CopiaDeSeguridad {
 
     }
 
+    // Actualiza el estado de la tabla seleccionada por el que se tiene en las carpertas de backup
+    public static void recuperar() {
+
+        JOptionPane.showMessageDialog(null, "Bienvenido al menú de recuperación de copias de seguridad");
+        int tabla = JOptionPane.showOptionDialog(null, "Selecciona la tabla que deseas recuperar: ",
+                "Menú", JOptionPane.YES_NO_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE, null, new Object[]{
+                    "Clientes", "Vehiculos", "Plazas", "Reservas", "Tickets"},
+                "Turismo");
+        
+       switch(tabla){
+           case 1:
+               break;
+           case 2:
+               break;
+           case 3:
+               break;
+           case 4:
+               break;
+       }
+
+    }
+
     public static void main(String[] args) {
-        crearCopiaSeguridad();
+//        crearCopiaSeguridad();
+        recuperar();
     }
 
 }
