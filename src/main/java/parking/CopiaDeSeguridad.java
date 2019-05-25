@@ -238,13 +238,13 @@ public class CopiaDeSeguridad {
             while ((linea = br.readLine()) != null) {
 
                 tokens = linea.split("=");
-                String numPlaza= tokens[0];
-                String tipoPlaza= tokens[1];
-                String estadoPlaza= tokens[2];
-                String tarifa= tokens[3];
+                String numPlaza = tokens[0];
+                String tipoPlaza = tokens[1];
+                String estadoPlaza = tokens[2];
+                String tarifa = tokens[3];
 
-                plaza.add(new PlazaVO(Integer.valueOf(numPlaza),Integer.valueOf(tipoPlaza),Integer.valueOf(estadoPlaza),Double.valueOf(tarifa)));
-                dao.updatePlaza(Integer.valueOf(numPlaza), new PlazaVO(Integer.valueOf(numPlaza),Integer.valueOf(tipoPlaza),Integer.valueOf(estadoPlaza),Double.valueOf(tarifa)));
+                plaza.add(new PlazaVO(Integer.valueOf(numPlaza), Integer.valueOf(tipoPlaza), Integer.valueOf(estadoPlaza), Double.valueOf(tarifa)));
+                dao.updatePlaza(Integer.valueOf(numPlaza), new PlazaVO(Integer.valueOf(numPlaza), Integer.valueOf(tipoPlaza), Integer.valueOf(estadoPlaza), Double.valueOf(tarifa)));
 
             }
 
@@ -257,6 +257,45 @@ public class CopiaDeSeguridad {
         }
 
         plaza.forEach(System.out::println);
+    }
+
+    /*VEHICULOS*/
+    public static void leerVehiculos(String nombre) throws FileNotFoundException, IOException {
+
+        VehiculoDAO dao = new VehiculoDAO();
+        ArrayList<VehiculoVO> vehiculos = new ArrayList<>();// lista donde guardaremos todos los empleados creados con los tokens
+        // del texto y que posteriormente devolveremos en el método.
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(nombre), "ISO-8859-1"))) {
+
+            // Se crea el objeto FileReader
+            FileReader fr = new FileReader(nombre);
+
+            // Mientras el método readLine() no devuelva null existen datos por leer
+            String[] tokens;
+            String linea;
+
+            /* private String matricula;
+                 private int tipoVehiculo;*/
+            while ((linea = br.readLine()) != null) {
+
+                tokens = linea.split("=");
+                String matricula = tokens[0];
+                String tipoVehiculo = tokens[1];
+
+                vehiculos.add(new VehiculoVO(matricula, Integer.valueOf(tipoVehiculo)));
+                dao.updateVehiculo(matricula, new VehiculoVO(matricula, Integer.valueOf(tipoVehiculo)));
+
+            }
+
+        } catch (FileNotFoundException e) {
+            System.out.println(e.getMessage());
+        } catch (SQLException sqle) {
+            System.out.println("No se ha podido realizar la operación:");
+            System.out.println(sqle.getMessage());
+
+        }
+
+        vehiculos.forEach(System.out::println);
     }
 
     public static void main(String[] args) {
