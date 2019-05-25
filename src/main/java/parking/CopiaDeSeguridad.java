@@ -21,6 +21,7 @@ import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.Month;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import plazas.PlazaDAO;
@@ -296,6 +297,63 @@ public class CopiaDeSeguridad {
         }
 
         vehiculos.forEach(System.out::println);
+    }
+
+    /*RESERVAS*/
+    public static void leerReservas(String nombre) throws FileNotFoundException, IOException {
+
+        ReservasDAO dao = new ReservasDAO();
+        ArrayList<ReservasVO> reserva = new ArrayList<>();// lista donde guardaremos todos los empleados creados con los tokens
+        // del texto y que posteriormente devolveremos en el método.
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(nombre), "ISO-8859-1"))) {
+
+            // Se crea el objeto FileReader
+            FileReader fr = new FileReader(nombre);
+
+            // Mientras el método readLine() no devuelva null existen datos por leer
+            String[] tokens;
+            String linea;
+
+            /*  private String matricula;
+                  private int numplaza;
+                 private String pin_fijo;
+                 private LocalDate feciniabono;
+                  private LocalDate fecfinabono;*/
+            while ((linea = br.readLine()) != null) {
+
+                tokens = linea.split("=");
+                String matricula = tokens[0];
+                String numPlaza = tokens[1];
+                String pinFijo = tokens[2];
+                String feciniabono = tokens[3];
+                String fecfinabono = tokens[4];
+                String anio = feciniabono.substring(4);
+                String mes = feciniabono.substring(5, 5);
+                String dia = feciniabono.substring(6, 7);
+
+                String anio2 = fecfinabono.substring(4);
+                String mes2 = fecfinabono.substring(5, 5);
+                String dia2 = fecfinabono.substring(6, 7);
+
+                reserva.add(new ReservasVO(matricula, Integer.valueOf(numPlaza), pinFijo,
+                        LocalDate.of(Integer.valueOf(anio), Integer.valueOf(mes), Integer.valueOf(dia)),
+                        LocalDate.of(Integer.valueOf(anio2), Integer.valueOf(mes2), Integer.valueOf(dia2))));
+
+                dao.updatereserva(matricula, Integer.valueOf(numPlaza), new ReservasVO(matricula, Integer.valueOf(numPlaza), pinFijo,
+                        LocalDate.of(Integer.valueOf(anio), Integer.valueOf(mes), Integer.valueOf(dia)),
+                        LocalDate.of(Integer.valueOf(anio2), Integer.valueOf(mes2), Integer.valueOf(dia2))));
+
+            }
+
+        } catch (FileNotFoundException e) {
+            System.out.println(e.getMessage());
+        } catch (SQLException sqle) {
+            System.out.println("No se ha podido realizar la operación:");
+            System.out.println(sqle.getMessage());
+
+        }
+
+       reserva.forEach(System.out::println);
     }
 
     public static void main(String[] args) {
