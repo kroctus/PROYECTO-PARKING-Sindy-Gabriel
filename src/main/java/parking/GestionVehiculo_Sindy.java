@@ -9,6 +9,7 @@ import plazas.PlazaDAO;
 import plazas.PlazaVO;
 import vehiculos.VehiculoVO;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -197,15 +198,23 @@ public class GestionVehiculo_Sindy {
         return false;
     }
 
-    public static boolean retirarVehiculo() throws SQLException {
+    public static boolean retirarVehiculo() throws SQLException, ParseException {
+        //Cambiamos el formato del double para que solo muestre dos decimales.
+        DecimalFormat formatoDecimal = new DecimalFormat("#.00");
         TicketsDAO daoTicket = new TicketsDAO();
+        PlazaDAO daoPlaza = new PlazaDAO();
+        VehiculoDAO daoVehiculo = new VehiculoDAO();
         ArrayList<TicketsVO> listaTicket = new ArrayList<>();
-        LocalDateTime inicioEstancia, finEstancia;
+        ArrayList<PlazaVO> listaPlaza = new ArrayList<>();
+        ArrayList<VehiculoVO> listaVehiculo = new ArrayList<>();
         int minutos;
-
         String matricula, pin, numeroPlaza;
-        int plaza;
+        double tarifa = 0.0;
+        double precioTicket;
         String[] matricula1;
+        PlazaVO plazaModificada = new PlazaVO();
+        TicketsVO ticketModificado = new TicketsVO();
+        VehiculoVO vehiculo = new VehiculoVO();
         do {
             matricula = JOptionPane.showInputDialog("Introduzca su matricula: ");
             matricula1 = matricula.split("-");
@@ -219,14 +228,46 @@ public class GestionVehiculo_Sindy {
         do {
             numeroPlaza = JOptionPane.showInputDialog("Introduzca su número de plaza: ");
         } while (!(esNumero(numeroPlaza) && (Integer.parseInt(numeroPlaza) >= 100 && Integer.parseInt(numeroPlaza) <= 145)));
-
+        listaPlaza = (ArrayList<PlazaVO>) daoPlaza.getAll();
         listaTicket = (ArrayList<TicketsVO>) daoTicket.getAll();
         for (TicketsVO ticket : listaTicket) {
-            if (ticket.getMatricula().equalsIgnoreCase(matricula) && ticket.getPin_desechable().equals(pin) && ticket.getNumplaza() == Integer.parseInt(numeroPlaza)) {
-                inicioEstancia = LocalDateTime.of(ticket.getFecinipin(), ticket.getHoraenticket());
-                finEstancia = LocalDateTime.now();
-                System.out.println("CALCULAR PRECIO");
-                System.out.println("");
+            if (ticket.getMatricula().equalsIgnoreCase(matricula)
+                    && ticket.getPin_desechable().equals(pin)
+                    && ticket.getNumplaza() == Integer.parseInt(numeroPlaza)) {
+                //Obtenemos los minutos que el vehiculo ha pasado en el parking
+                minutos = calcularMinutos(ticket.getFecinipin(), LocalDate.now(), ticket.getHoraenticket(), LocalTime.now());
+                //Obtenemos mediante el numero de plaza la tarifa por minuto 
+                //que se la va a aplicar al vehiculo que dependerá del tipo de vehiculo.
+                for (PlazaVO plazaVO : listaPlaza) {
+                    if (plazaVO.getNumPlaza() == ticket.getNumplaza()) {
+                        tarifa = plazaVO.getTarifa();
+                        plazaModificada = plazaVO;
+                    }
+                }
+                //Calculamos el precio multiplicando los minutos que ha estado
+                //el vehiculo en el parking por la tarifa del parking,
+                //que depende del tipo de vehiculo
+                precioTicket = (minutos * tarifa) / 100;
+                //Cambiamos el estado a libre
+                plazaModificada.setEstadoPlaza(1);
+                daoPlaza.updatePlaza(plazaModificada.getNumPlaza(), plazaModificada);
+                //Cambiamos la fecha y la hora de salida 
+                ticketModificado = ticket;
+                ticketModificado.setHorasalticket(LocalTime.now());
+                ticketModificado.setFecfinpin(LocalDate.now());
+                daoTicket.updateTickets(ticket.getNumplaza(), ticket.getMatricula(),
+                        ticket.getFecinipin(), ticket.getHoraenticket(), ticketModificado);
+                //Devolvemos el vehiculo, quitandolo de 
+                //System.out.println(tarifa);
+                JOptionPane.showMessageDialog(null,"El importe a pagar es: " + formatoDecimal.format(precioTicket) );
+                //Eliminamos el vehiculo de la tabla vehiculos (de la base de datos)
+                for (VehiculoVO vehiculos : listaVehiculo) {
+                    if (vehiculos.getMatricula().equalsIgnoreCase(ticket.getMatricula())) {
+                        vehiculo = vehiculos;
+                    }
+                }
+                daoVehiculo.deleteVehiculo(vehiculo);
+                //System.out.println("Precio: " + formatoDecimal.format(precioTicket));
                 return true;
             }
         }
@@ -236,68 +277,63 @@ public class GestionVehiculo_Sindy {
     }
 
     public static int calcularMinutos(LocalDate inicioF, LocalDate finF, LocalTime inicioH, LocalTime finH) throws ParseException {
-        if (inicioF.equals(finF) || inicioF.isBefore(finF)) {
-            //Minutos totales que ha pasado un vehiculo en el parking
-            int minutosTotales;
-            //Pasamos los parametros de entrada a string, para luego poder compararlos
-            String inicio, fin;
-            inicio = inicioF.getYear() + "-" + inicioF.getMonthValue() + "-"
-                    + inicioF.getDayOfMonth() + " " + inicioH.getHour() + ":"
-                    + inicioH.getMinute() + ":" + inicioH.getSecond();
-            fin = finF.getYear() + "-" + finF.getMonthValue() + "-"
-                    + finF.getDayOfMonth() + " " + finH.getHour() + ":"
-                    + finH.getMinute() + ":" + finH.getSecond();
+        //Minutos totales que ha pasado un vehiculo en el parking
+        int minutosTotales;
+        //Pasamos los parametros de entrada a string, para luego poder compararlos
+        String inicio, fin;
+        inicio = inicioF.getYear() + "-" + inicioF.getMonthValue() + "-"
+                + inicioF.getDayOfMonth() + " " + inicioH.getHour() + ":"
+                + inicioH.getMinute() + ":" + inicioH.getSecond();
+        fin = finF.getYear() + "-" + finF.getMonthValue() + "-"
+                + finF.getDayOfMonth() + " " + finH.getHour() + ":"
+                + finH.getMinute() + ":" + finH.getSecond();
 
-            //Establecemos el formato que tendrá los Date
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd H:m:s");
-            Date fechaInicial = dateFormat.parse(inicio);
-            Date fechaFinal = dateFormat.parse(fin);
+        //Establecemos el formato que tendrá los Date
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd H:m:s");
+        Date fechaInicial = dateFormat.parse(inicio);
+        Date fechaFinal = dateFormat.parse(fin);
 
-            //Calculamos los segundos que hay entre una fecha y otra
-            int diferencia = (int) ((fechaFinal.getTime() - fechaInicial.getTime()) / 1000);
+        //Calculamos los segundos que hay entre una fecha y otra
+        int diferencia = (int) ((fechaFinal.getTime() - fechaInicial.getTime()) / 1000);
 
-            int dias = 0;
+        int dias = 0;
 
-            int horas = 0;
+        int horas = 0;
 
-            int minutos = 0;
+        int minutos = 0;
 
-            //Si hay mas de 86400 segundos, entendemos que ha pasado un día o más
-            if (diferencia > 86400) {
-                //Calculamos cuantos dias han pasado
-                dias = (int) Math.floor(diferencia / 86400);
+        //Si hay mas de 86400 segundos, entendemos que ha pasado un día o más
+        if (diferencia > 86400) {
+            //Calculamos cuantos dias han pasado
+            dias = (int) Math.floor(diferencia / 86400);
 
-                diferencia = diferencia - (dias * 86400);
+            diferencia = diferencia - (dias * 86400);
 
-            }
-
-            //Si hay más de 3600 segundos entendemos que ha pasado una hora o más
-            if (diferencia > 3600) {
-                //Calculamos cuantas horas han pasado
-                horas = (int) Math.floor(diferencia / 3600);
-
-                diferencia = diferencia - (horas * 3600);
-
-            }
-
-            //Si hay más de 60 segundos entendemos que ha pasado un minuto o más
-            if (diferencia > 60) {
-                //Calculamos cuantas minutos han pasado
-                minutos = (int) Math.floor(diferencia / 60);
-
-                diferencia = diferencia - (minutos * 60);
-
-            }
-
-            //Pasamos todo a minutos, tanto los dias como las horas, para saber 
-            //cuántos minutos ha estado el vehiculo en el parking ya que la 
-            //tarifa se cobra por minuto.
-            minutosTotales = dias * 1440 + horas * 60 + minutos;
-            return minutosTotales;
         }
-        //Si devuelve -1 sabremos que ha habido un error ya que la fecha 
-        //de salida será anterior a la de entrada
-        return -1;
-    }
 
+        //Si hay más de 3600 segundos entendemos que ha pasado una hora o más
+        if (diferencia > 3600) {
+            //Calculamos cuantas horas han pasado
+            horas = (int) Math.floor(diferencia / 3600);
+
+            diferencia = diferencia - (horas * 3600);
+
+        }
+
+        //Si hay más de 60 segundos entendemos que ha pasado un minuto o más
+        if (diferencia > 60) {
+            //Calculamos cuantas minutos han pasado
+            minutos = (int) Math.floor(diferencia / 60);
+
+            diferencia = diferencia - (minutos * 60);
+
+        }
+
+        //Pasamos todo a minutos, tanto los dias como las horas, para saber 
+        //cuántos minutos ha estado el vehiculo en el parking ya que la 
+        //tarifa se cobra por minuto.
+        minutosTotales = dias * 1440 + horas * 60 + minutos;
+       // System.out.println(minutosTotales);
+        return minutosTotales;
+    }
 }
