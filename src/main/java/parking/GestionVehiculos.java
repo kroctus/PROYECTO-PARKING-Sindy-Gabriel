@@ -28,7 +28,7 @@ import vehiculos.VehiculoDAO;
  *
  * @author Sindy Ferreira
  */
-public class GestionVehiculo_Sindy {
+public class GestionVehiculos {
 
     //Método que solicita al usuario una matricula y un tipo de vehiculo.
     public static VehiculoVO crearVehiculo() {
