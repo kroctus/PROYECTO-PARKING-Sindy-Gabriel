@@ -165,7 +165,7 @@ public class GestionVehiculosAbonados {
                     }
 
                 }
-
+                JOptionPane.showMessageDialog(null, "Su plaza asignada es la : " + numPlaza+100 );
                 JOptionPane.showMessageDialog(null, "Se ha ingresado su Motocicleta");
             }
 
