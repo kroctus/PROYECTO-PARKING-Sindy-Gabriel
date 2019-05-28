@@ -129,9 +129,16 @@ public class GestionVehiculos {
                     //Insertamos un nuevo vehiculo
                     daoVehiculo.insertVehiculo(vehiculo);
                     //Insertamos un nuevo ticket
-                    daoTicket.insertTickets(crearTicket(vehiculo, listaPlaza.get(i)));
+                    TicketsVO ticketUsuario = crearTicket(vehiculo, listaPlaza.get(i));
+                    daoTicket.insertTickets(ticketUsuario);
                     PlazaVO plazaModificada = listaPlaza.get(i);
                     plazaModificada.setEstadoPlaza(4);
+                    //Mostramos por pantalla los datos del ticket necesarios 
+                    //para retirar el vehiculo
+                    JOptionPane.showMessageDialog(null, "Ticket\n Matricula:"
+                            + ticketUsuario.getMatricula() + "\nPlaza:"
+                            + ticketUsuario.getNumplaza() + "\nPin:"
+                            + ticketUsuario.getPin_desechable());
                     //Cambiamos el estado de la plaza a ocupado
                     daoPlazas.updatePlaza(listaPlaza.get(i).getNumPlaza(), plazaModificada);
                     return true;
@@ -153,9 +160,16 @@ public class GestionVehiculos {
                     //Insertamos un nuevo vehiculo
                     daoVehiculo.insertVehiculo(vehiculo);
                     //Insertamos un nuevo ticket
-                    daoTicket.insertTickets(crearTicket(vehiculo, listaPlaza.get(i)));
+                    TicketsVO ticketUsuario = crearTicket(vehiculo, listaPlaza.get(i));
+                    daoTicket.insertTickets(ticketUsuario);
                     PlazaVO plazaModificada = listaPlaza.get(i);
                     plazaModificada.setEstadoPlaza(4);
+                    //Mostramos por pantalla los datos del ticket necesarios 
+                    //para retirar el vehiculo
+                    JOptionPane.showMessageDialog(null, "Ticket\n Matricula:"
+                            + ticketUsuario.getMatricula() + "\nPlaza:"
+                            + ticketUsuario.getNumplaza() + "\nPin:"
+                            + ticketUsuario.getPin_desechable());
                     //Cambiamos el estado de la plaza a ocupado
                     daoPlazas.updatePlaza(listaPlaza.get(i).getNumPlaza(), plazaModificada);
                     //Devuelve true si se ha podido insertar correctamente 
@@ -180,9 +194,16 @@ public class GestionVehiculos {
                     //Insertamos un nuevo vehiculo
                     daoVehiculo.insertVehiculo(vehiculo);
                     //Insertamos un nuevo ticket
-                    daoTicket.insertTickets(crearTicket(vehiculo, listaPlaza.get(i)));
+                    TicketsVO ticketUsuario = crearTicket(vehiculo, listaPlaza.get(i));
+                    daoTicket.insertTickets(ticketUsuario);
                     PlazaVO plazaModificada = listaPlaza.get(i);
                     plazaModificada.setEstadoPlaza(4);
+                    //Mostramos por pantalla los datos del ticket necesarios 
+                    //para retirar el vehiculo
+                    JOptionPane.showMessageDialog(null, "Ticket\n Matricula: "
+                            + ticketUsuario.getMatricula() + "\nPlaza: "
+                            + ticketUsuario.getNumplaza() + "\nPin: "
+                            + ticketUsuario.getPin_desechable());
                     //Cambiamos el estado de la plaza a ocupado
                     daoPlazas.updatePlaza(listaPlaza.get(i).getNumPlaza(), plazaModificada);
                     //Devuelve true si se ha podido insertar correctamente 
@@ -259,9 +280,16 @@ public class GestionVehiculos {
                 ticketModificado.setPrecio(precioTicket);
                 daoTicket.deleteTickets(ticket);
                 daoTicket.insertTickets(ticketModificado);
-                //Devolvemos el vehiculo, quitandolo de 
-                //System.out.println(tarifa);
-                JOptionPane.showMessageDialog(null,"El importe a pagar es: " + formatoDecimal.format(precioTicket) );
+                //Mostramos por pantalla los datos del ticket
+                JOptionPane.showMessageDialog(null, "Ticket\n Matricula: "
+                        + ticketModificado.getMatricula() + "\nPlaza: "
+                        + ticketModificado.getNumplaza() + "\nPin: "
+                        + ticketModificado.getPin_desechable() + "\nFecha de entrada: "
+                        + ticketModificado.getHoraenticket() + "\nHora de entrada: "
+                        + ticketModificado.getHoraenticket() + "\nFecha de salida: "
+                        + ticketModificado.getHorasalticket() + "\nImporte: "
+                        + formatoDecimal.format(precioTicket));
+                //JOptionPane.showMessageDialog(null, "El importe a pagar es: " + formatoDecimal.format(precioTicket));
                 //Eliminamos el vehiculo de la tabla vehiculos (de la base de datos)
                 for (VehiculoVO vehiculos : listaVehiculo) {
                     if (vehiculos.getMatricula().equalsIgnoreCase(ticket.getMatricula())) {
@@ -333,7 +361,7 @@ public class GestionVehiculos {
         //cuántos minutos ha estado el vehiculo en el parking ya que la 
         //tarifa se cobra por minuto.
         minutosTotales = dias * 1440 + horas * 60 + minutos;
-       // System.out.println(minutosTotales);
+        // System.out.println(minutosTotales);
         return minutosTotales;
     }
 }
