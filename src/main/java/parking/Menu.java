@@ -33,7 +33,8 @@ public class Menu {
         int opcion5;//Elegir qué gestionar
         int opcion6;//Facturacion
         int opcion7;//Abonos
-        int opcion8;//Copias de seguridad
+        int opcion8;//
+        int opcion9;//Copias de seguridad
 
         opcion1 = JOptionPane.showOptionDialog(null, "Selecciona una zona",
                 "Menú", JOptionPane.YES_NO_CANCEL_OPTION,
@@ -55,9 +56,9 @@ public class Menu {
                             "Depositar vehiculo", "Retirar vehiculo"},
                         "Si");
                 if (opcion3 != 1) {
-                    System.out.println("Depositar vehiculo");
+                    GestionVehiculosAbonados.depositarVehiculoAbonado();
                 } else {
-                    System.out.println("Retirar vehiculo");
+                    GestionVehiculosAbonados.retirarAbonados();
                 }
             } else {
                 System.out.println("NO es abonado");
@@ -115,17 +116,30 @@ public class Menu {
                             break;
                         case 3:
                             System.out.println("Consultar caducidad");
+                            opcion8 = JOptionPane.showOptionDialog(null, "¿Qué quieres consultar?",
+                                    "Abonos ", JOptionPane.YES_NO_CANCEL_OPTION,
+                                    JOptionPane.QUESTION_MESSAGE, null, new Object[]{
+                                        "Abonos que caducan en un mes concreto", "Abonos que caducan en los siguientes 10 días"},
+                                    " ");
+                            switch (opcion8) {
+                                case 0:
+                                    System.out.println("Abonos que caducan en un mes concreto");
+                                    break;
+                                case 1:
+                                    System.out.println("Abonos que caducan en los siguientes 10 días");
+                                    break;
+                            }
                             break;
                     }
                     break;
                 case 3:
                     System.out.println("Copias de seguridad");
-                    opcion8 = JOptionPane.showOptionDialog(null, "¿Qué quieres hacer?",
+                    opcion9 = JOptionPane.showOptionDialog(null, "¿Qué quieres hacer?",
                             "Copias de seguridad", JOptionPane.YES_NO_CANCEL_OPTION,
                             JOptionPane.QUESTION_MESSAGE, null, new Object[]{
                                 "Crear", "Restaurar"},
                             "Crear");
-                    if (opcion8 != 1) {
+                    if (opcion9 != 1) {
                         System.out.println("Crear copia de seguridad");
                     } else {
                         System.out.println("Restaurar copia de seguridad");

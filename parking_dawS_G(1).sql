@@ -59,7 +59,8 @@ create table tickets
     fecinipin date,
     fecfinpin date,
 	horaenticket time,
-    horasalticket time,  
+    horasalticket time, 
+    precio decimal(7,2), 
     constraint pk_gestionPines primary key(numplaza,matricula,fecinipin,horaenticket),
 	constraint fk_gestionPines_plazas foreign key(numplaza)references plazas(numplaza)
 		on delete no action on update cascade,
@@ -67,8 +68,52 @@ create table tickets
 		on delete no action on update cascade
 );
 
-
-
-
-
+insert into plazas
+(numplaza,tipoPlaza,estadoplaza,tarifa)
+values
+(100,'plaza_motocicletas','libre',0.08),
+(101,'plaza_motocicletas','libre',0.08),
+(102,'plaza_motocicletas','libre',0.08),
+(103,'plaza_motocicletas','libre',0.08),
+(104,'plaza_motocicletas','libre',0.08),
+(105,'plaza_motocicletas','libre',0.08),
+(106,'plaza_motocicletas','libre',0.08),
+(107,'plaza_motocicletas','libre',0.08),
+(108,'plaza_motocicletas','libre',0.08),
+(109,'plaza_motocicletas','libre',0.08),
+(110,'plaza_motocicletas','libre',0.08),
+(111,'plaza_motocicletas','libre',0.08),
+(112,'plaza_motocicletas','libre',0.08),
+(113,'plaza_motocicletas','libre',0.08),
+(114,'plaza_motocicletas','libre',0.08),
+(115,'plaza_turismos','libre',0.12),
+(116,'plaza_turismos','libre',0.12),
+(117,'plaza_turismos','libre',0.12),
+(118,'plaza_turismos','libre',0.12),
+(119,'plaza_turismos','libre',0.12),
+(120,'plaza_turismos','libre',0.12),
+(121,'plaza_turismos','libre',0.12),
+(122,'plaza_turismos','libre',0.12),
+(123,'plaza_turismos','libre',0.12),
+(124,'plaza_turismos','libre',0.12),
+(125,'plaza_turismos','libre',0.12),
+(126,'plaza_turismos','libre',0.12),
+(127,'plaza_turismos','libre',0.12),
+(128,'plaza_turismos','libre',0.12),
+(129,'plaza_turismos','libre',0.12),
+(130,'plaza_caravanas','libre',0.45),
+(131,'plaza_caravanas','libre',0.45),
+(132,'plaza_caravanas','libre',0.45),
+(133,'plaza_caravanas','libre',0.45),
+(134,'plaza_caravanas','libre',0.45),
+(135,'plaza_caravanas','libre',0.45),
+(136,'plaza_caravanas','libre',0.45),
+(137,'plaza_caravanas','libre',0.45),
+(138,'plaza_caravanas','libre',0.45),
+(139,'plaza_caravanas','libre',0.45),
+(140,'plaza_caravanas','libre',0.45),
+(141,'plaza_caravanas','libre',0.45),
+(142,'plaza_caravanas','libre',0.45),
+(143,'plaza_caravanas','libre',0.45),
+(144,'plaza_caravanas','libre',0.45);
 

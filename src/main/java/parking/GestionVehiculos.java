@@ -81,6 +81,7 @@ public class GestionVehiculos {
         ticket.setFecfinpin(LocalDate.of(1, 1, 1));
         ticket.setHorasalticket(LocalTime.MIN);
         ticket.setPin_desechable(generarPin());
+        ticket.setPrecio(0);
         return ticket;
 
     }
@@ -255,6 +256,7 @@ public class GestionVehiculos {
                 ticketModificado = ticket;
                 ticketModificado.setHorasalticket(LocalTime.now());
                 ticketModificado.setFecfinpin(LocalDate.now());
+                ticketModificado.setPrecio(precioTicket);
                 daoTicket.deleteTickets(ticket);
                 daoTicket.insertTickets(ticketModificado);
                 //Devolvemos el vehiculo, quitandolo de 
