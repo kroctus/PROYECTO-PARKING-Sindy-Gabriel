@@ -100,7 +100,7 @@ public class GestionVehiculosAbonados {
 
     //Método que comprueba si un texto es numerico o no,
     //en caso afirmativo devuelve true
-    private static boolean esNumero(String tmp) {
+    public static boolean esNumero(String tmp) {
         try {
             Integer.parseInt(tmp);
         } catch (NumberFormatException e) {
