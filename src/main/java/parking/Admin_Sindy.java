@@ -39,7 +39,38 @@ public class Admin_Sindy {
         JOptionPane.showMessageDialog(null, "Estados de las plazas:\n" + plazas);
     }
 
+    private static String mesNombre(int mes) {
+        switch (mes) {
+            case 1:
+                return "enero";
+            case 2:
+                return "febrero";
+            case 3:
+                return "marzo";
+            case 4:
+                return "abril";
+            case 5:
+                return "mayo";
+            case 6:
+                return "junio";
+            case 7:
+                return "julio";
+            case 8:
+                return "agosto";
+            case 9:
+                return "septiembre";
+            case 10:
+                return "octubre";
+            case 11:
+                return "noviembre";
+            case 12:
+                return "diciembre";
+        }
+        return "";
+    }
+
     public static void abonosCaducadosMes(int mes) throws SQLException {
+        String nombreMes = mesNombre(mes);
         String reserva = "Matricula : Plaza :    Pin      :  Fecha inicio :   Fecha fin \n";
         ReservasDAO reservasDao = new ReservasDAO();
         //Lista de todas las reservas que hay en la bbdd
@@ -59,7 +90,7 @@ public class Admin_Sindy {
         }
 
         if (reservasCaducidadP.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "No se ha encontrado ninguna reserva que caduque en el mes " + mes);
+            JOptionPane.showMessageDialog(null, "No se ha encontrado ninguna reserva que caduque en el mes " + nombreMes);
         } else {
             for (ReservasVO reservasVO : reservasCaducidadP) {
 
@@ -70,7 +101,7 @@ public class Admin_Sindy {
                         + reservasVO.getFecfinabono() + "\n";
 
             }
-            JOptionPane.showMessageDialog(null, "Reservas que caducan en el mes de " + mes + " \n" + reserva);
+            JOptionPane.showMessageDialog(null, "Reservas que caducan en el mes de " + nombreMes + " \n" + reserva);
 
         }
 
@@ -115,5 +146,4 @@ public class Admin_Sindy {
 
     }
 
-    
 }
