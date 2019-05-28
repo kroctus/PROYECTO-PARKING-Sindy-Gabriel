@@ -255,8 +255,8 @@ public class GestionVehiculos {
                 ticketModificado = ticket;
                 ticketModificado.setHorasalticket(LocalTime.now());
                 ticketModificado.setFecfinpin(LocalDate.now());
-                daoTicket.updateTickets(ticket.getNumplaza(), ticket.getMatricula(),
-                        ticket.getFecinipin(), ticket.getHoraenticket(), ticketModificado);
+                daoTicket.deleteTickets(ticket);
+                daoTicket.insertTickets(ticketModificado);
                 //Devolvemos el vehiculo, quitandolo de 
                 //System.out.println(tarifa);
                 JOptionPane.showMessageDialog(null,"El importe a pagar es: " + formatoDecimal.format(precioTicket) );
@@ -266,8 +266,6 @@ public class GestionVehiculos {
                         vehiculo = vehiculos;
                     }
                 }
-                daoVehiculo.deleteVehiculo(vehiculo);
-                //System.out.println("Precio: " + formatoDecimal.format(precioTicket));
                 return true;
             }
         }
