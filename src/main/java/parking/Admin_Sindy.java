@@ -7,6 +7,7 @@ package parking;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import plazas.PlazaDAO;
@@ -75,4 +76,44 @@ public class Admin_Sindy {
 
     }
 
+    public static void abonosCaducados10dias() throws SQLException {
+        String reserva = "Matricula : Plaza :    Pin      :  Fecha inicio :   Fecha fin \n";
+        ReservasDAO reservasDao = new ReservasDAO();
+        //Lista de todas las reservas que hay en la bbdd
+        ArrayList<ReservasVO> listaReservas = new ArrayList<>();
+        //Lista que almacena las reservas que van a caducar en los próximos 10 días
+        ArrayList<ReservasVO> reservasCaducidadP = new ArrayList<>();
+        listaReservas = (ArrayList<ReservasVO>) reservasDao.getAll();
+        LocalDate hoy = LocalDate.now();
+        LocalDate _10dias = LocalDate.now().plusDays(10);
+
+        for (ReservasVO reservasVO : listaReservas) {
+
+            if (reservasVO.getFecfinabono().isAfter(hoy)
+                    && reservasVO.getFeciniabono().isBefore(_10dias)) {
+
+                reservasCaducidadP.add(reservasVO);
+            }
+
+        }
+
+        if (reservasCaducidadP.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "No hay abonos que caducan en los próximos 10 días");
+        } else {
+            for (ReservasVO reservasVO : reservasCaducidadP) {
+
+                reserva = reserva + reservasVO.getMatricula()
+                        + "  :  " + reservasVO.getNumplaza() + "  :  "
+                        + reservasVO.getPin_fijo() + "  :  "
+                        + reservasVO.getFeciniabono() + "  :  "
+                        + reservasVO.getFecfinabono() + "\n";
+
+            }
+            JOptionPane.showMessageDialog(null, "Reservas que caducan en los próximos 10 días \n" + reserva);
+
+        }
+
+    }
+
+    
 }
