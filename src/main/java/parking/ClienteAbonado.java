@@ -32,6 +32,14 @@ public class ClienteAbonado {
         this.matricula = matricula;
         this.pin = pin;
     }
+    
+     public ClienteAbonado(String dni, String tipoVehiculo, String matricula) {
+        this.dni = dni;
+        this.tipoVehiculo = tipoVehiculo;
+        this.matricula = matricula;
+       
+    }
+    
 
 
     public ClienteAbonado() {
