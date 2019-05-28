@@ -39,12 +39,12 @@ public class GestionVehiculosAbonados {
         ClienteAbonado cliente = new ClienteAbonado();
         JOptionPane.showMessageDialog(null, "¡Bienvenido Abonado! a continuación te pediremos algunos datos :D");
 
-         String matricula;
+        String matricula;
         String[] matricula1;
         do {
             matricula = JOptionPane.showInputDialog("Introduzca su matricula: ");
 
-            while ( matricula.length() !=8 || matricula.charAt(4) != '-' ) {
+            while (matricula.length() != 8 || matricula.charAt(4) != '-') {
                 matricula = JOptionPane.showInputDialog("La matricula es "
                         + " incorrecta, vuelva a intentarlo: ");
             }
@@ -161,12 +161,12 @@ public class GestionVehiculosAbonados {
                         //Cambiamos el estado de la plaza
                         PlazaVO plazaAux = new PlazaVO((numPlaza + 100), 1, 2, generarTarifa(cliente.getTipoVehiculo()));
                         plazas.updatePlaza((numPlaza + 100), plazaAux);
-                       
+
                     }
 
                 }
-                
-                 JOptionPane.showMessageDialog(null, "Se ha ingresado su Motocicleta");
+
+                JOptionPane.showMessageDialog(null, "Se ha ingresado su Motocicleta");
             }
 
             //Miramos si es un turismo
@@ -186,11 +186,11 @@ public class GestionVehiculosAbonados {
                         //Cambiamos el estado de la plaza
                         PlazaVO plazaAux = new PlazaVO((numPlaza + 100), 2, 2, generarTarifa(cliente.getTipoVehiculo()));
                         plazas.updatePlaza((numPlaza + 100), plazaAux);
-                     
+
                     }
                 }
-                
-                   JOptionPane.showMessageDialog(null, "Se ha ingresado su Turismo");
+
+                JOptionPane.showMessageDialog(null, "Se ha ingresado su Turismo");
 
             }
 
@@ -211,11 +211,11 @@ public class GestionVehiculosAbonados {
                         plazas.updatePlaza((numPlaza + 100), plazaAux);
 
                         System.out.println("Hago el insert");
-                     
+
                     }
                 }
-                
-                   JOptionPane.showMessageDialog(null, "Se ha ingresado su caravana");
+
+                JOptionPane.showMessageDialog(null, "Se ha ingresado su caravana");
 
             }
 
@@ -382,12 +382,19 @@ public class GestionVehiculosAbonados {
         return false;
     }
 
+    //Método que enlaza todos los métodos paa el deposito del vehiculo de un abonado
+    public static void depositarVehiculoAbonado() {
+        ClienteAbonado aux = GestionVehiculosAbonados.IngresarVehiculoAbonado();
+        gestionPlazas(aux);
+        generarFicheroAbonado(aux);
+    }
+
     public static void main(String[] args) {
 
         ClienteAbonado aux = GestionVehiculosAbonados.IngresarVehiculoAbonado();
 //        generarPin();
         gestionPlazas(aux);
-//        generarFicheroAbonado(aux);
+        generarFicheroAbonado(aux);
 //        retirarAbonados();
     }
 
