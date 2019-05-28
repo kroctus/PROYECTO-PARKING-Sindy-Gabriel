@@ -55,6 +55,7 @@ public class TicketsDAO implements ITickets {
                 p.setFecfinpin(res.getDate("fecfinpin").toLocalDate());
                 p.setHoraenticket(res.getTime("horaenticket").toLocalTime());
                 p.setHorasalticket(res.getTime("horasalticket").toLocalTime());
+                p.setPrecio(res.getDouble("precio"));
 
                 //Añadimos el objeto a la lista
                 lista.add(p);
@@ -92,6 +93,7 @@ public class TicketsDAO implements ITickets {
                 p.setFecfinpin(res.getDate("fecfinpin").toLocalDate());
                 p.setHoraenticket(res.getTime("horaenticket").toLocalTime());
                 p.setHorasalticket(res.getTime("horasalticket").toLocalTime());
+                p.setPrecio(res.getDouble("precio"));
 
                 return p;
             }
@@ -103,7 +105,7 @@ public class TicketsDAO implements ITickets {
     @Override
     public int insertTickets(TicketsVO ticket) throws SQLException {
         int numFilas = 0;
-        String sql = "insert into tickets values (?,?,?,?,?,?,?)";
+        String sql = "insert into tickets values (?,?,?,?,?,?,?,?)";
 
         if (findByPk(ticket.getNumplaza(), ticket.getMatricula(), ticket.getFecinipin()) != null) {
             // Existe un registro con esa pk
@@ -122,6 +124,7 @@ public class TicketsDAO implements ITickets {
                 prest.setDate(5, Date.valueOf(ticket.getFecfinpin()));
                 prest.setTime(6, Time.valueOf(ticket.getHoraenticket()));
                 prest.setTime(7, Time.valueOf(ticket.getHorasalticket()));
+                prest.setDouble(8, ticket.getPrecio());
 
                 numFilas = prest.executeUpdate();
             }
@@ -184,7 +187,7 @@ public class TicketsDAO implements ITickets {
     @Override
     public int updateTickets(int numplaza, String matricula, LocalDate fecinipin, LocalTime horaenticket, TicketsVO nuevosDatos) throws SQLException {
         int numFilas = 0;
-        String sql = "update reservas set pin_desechable=?, fecfinpin = ?, horasalticket = ? where numplaza = ? and matricula = ? and fecinipin = ? and horaenticket = ? ";
+        String sql = "update reservas set pin_desechable=?, fecfinpin = ?, horasalticket = ?, precio=? where numplaza = ? and matricula = ? and fecinipin = ? and horaenticket = ? ";
 
         if (findByPk(numplaza, matricula, fecinipin) == null) {
             // El tickets a actualizar no existe
@@ -198,10 +201,11 @@ public class TicketsDAO implements ITickets {
                 prest.setString(1, nuevosDatos.getPin_desechable());
                 prest.setDate(2, Date.valueOf(nuevosDatos.getFecfinpin()));
                 prest.setTime(3, Time.valueOf(nuevosDatos.getHorasalticket()));
-                prest.setInt(4, nuevosDatos.getNumplaza());
-                prest.setString(5, nuevosDatos.getMatricula());
-                prest.setDate(6, Date.valueOf(nuevosDatos.getFecinipin()));
-                prest.setTime(7, Time.valueOf(nuevosDatos.getHoraenticket()));
+                prest.setDouble(4, nuevosDatos.getPrecio());
+                prest.setInt(5, nuevosDatos.getNumplaza());
+                prest.setString(6, nuevosDatos.getMatricula());
+                prest.setDate(7, Date.valueOf(nuevosDatos.getFecinipin()));
+                prest.setTime(8, Time.valueOf(nuevosDatos.getHoraenticket()));
 
                 numFilas = prest.executeUpdate();
             }

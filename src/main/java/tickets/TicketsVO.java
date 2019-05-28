@@ -23,9 +23,9 @@ public class TicketsVO {
     private LocalDate fecfinpin;
     private LocalTime horaenticket;
     private LocalTime horasalticket;
-
+    private double precio;
     //Constructores
-    public TicketsVO(int numplaza, String matricula, String pin_desechable, LocalDate fecinipin, LocalDate fecfinpin, LocalTime horaenticket, LocalTime horasalticket) {
+    public TicketsVO(int numplaza, String matricula, String pin_desechable, LocalDate fecinipin, LocalDate fecfinpin, LocalTime horaenticket, LocalTime horasalticket, double  precio) {
         this.numplaza = numplaza;
         this.matricula = matricula;
         this.pin_desechable = pin_desechable;
@@ -33,6 +33,7 @@ public class TicketsVO {
         this.fecfinpin = fecfinpin;
         this.horaenticket = horaenticket;
         this.horasalticket = horasalticket;
+        this.precio = precio;
     }
 
     public TicketsVO() {
@@ -93,6 +94,14 @@ public class TicketsVO {
 
     public void setHorasalticket(LocalTime horasalticket) {
         this.horasalticket = horasalticket;
+    }
+
+    public double getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(double precio) {
+        this.precio = precio;
     }
 
     // to String
