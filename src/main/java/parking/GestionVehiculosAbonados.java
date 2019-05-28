@@ -39,12 +39,12 @@ public class GestionVehiculosAbonados {
         ClienteAbonado cliente = new ClienteAbonado();
         JOptionPane.showMessageDialog(null, "¡Bienvenido Abonado! a continuación te pediremos algunos datos :D");
 
-        String matricula;
+         String matricula;
         String[] matricula1;
         do {
             matricula = JOptionPane.showInputDialog("Introduzca su matricula: ");
 
-            while (matricula.length() != 8 || matricula.charAt(4) != '-') {
+            while ( matricula.length() !=8 || matricula.charAt(4) != '-' ) {
                 matricula = JOptionPane.showInputDialog("La matricula es "
                         + " incorrecta, vuelva a intentarlo: ");
             }
@@ -86,28 +86,7 @@ public class GestionVehiculosAbonados {
         // En caso de que los campos no sean los que desea el cliente se volveran a pedir.
         if (opcion == 0) {
             //     System.out.println("La opcion es yes");
-
-            /*Para ello comparamos el pin a generar con cada uno de los pin de la tabla reservas
-            y hasta que no se generé uno diferente no se asigna el pin*/
-            ReservasDAO r = new ReservasDAO();
-            try {
-                ArrayList<ReservasVO> listaR = new ArrayList<>();
-                listaR = (ArrayList<ReservasVO>) r.getAll();
-                String pin = (GestionVehiculosAbonados.generarPin());
-
-                for (int i = 0; i < listaR.size(); i++) {
-                    while (pin.equals(listaR.get(i).getPin_fijo())) {
-                        System.out.println("El pin es igual se cambiara");
-                        pin = GestionVehiculosAbonados.generarPin();
-                    }
-                }
-
-            } catch (SQLException sqle) {
-                System.out.println("No se ha podido realizar la operación:");
-                System.out.println(sqle.getMessage());
-            }
-
-            cliente = new ClienteAbonado(dni, tipoVehiculo, matricula, pin);
+            cliente = new ClienteAbonado(dni, tipoVehiculo, matricula, generarPin());
             return cliente;
 
         } else if (opcion == 1) {
@@ -182,10 +161,12 @@ public class GestionVehiculosAbonados {
                         //Cambiamos el estado de la plaza
                         PlazaVO plazaAux = new PlazaVO((numPlaza + 100), 1, 2, generarTarifa(cliente.getTipoVehiculo()));
                         plazas.updatePlaza((numPlaza + 100), plazaAux);
-                        JOptionPane.showMessageDialog(null, "Se ha ingresado su Motocicleta");
+                       
                     }
 
                 }
+                
+                 JOptionPane.showMessageDialog(null, "Se ha ingresado su Motocicleta");
             }
 
             //Miramos si es un turismo
@@ -205,9 +186,11 @@ public class GestionVehiculosAbonados {
                         //Cambiamos el estado de la plaza
                         PlazaVO plazaAux = new PlazaVO((numPlaza + 100), 2, 2, generarTarifa(cliente.getTipoVehiculo()));
                         plazas.updatePlaza((numPlaza + 100), plazaAux);
-                        JOptionPane.showMessageDialog(null, "Se ha ingresado su Turismo");
+                     
                     }
                 }
+                
+                   JOptionPane.showMessageDialog(null, "Se ha ingresado su Turismo");
 
             }
 
@@ -228,9 +211,11 @@ public class GestionVehiculosAbonados {
                         plazas.updatePlaza((numPlaza + 100), plazaAux);
 
                         System.out.println("Hago el insert");
-                        JOptionPane.showMessageDialog(null, "Se ha ingresado su caravana");
+                     
                     }
                 }
+                
+                   JOptionPane.showMessageDialog(null, "Se ha ingresado su caravana");
 
             }
 
@@ -400,10 +385,10 @@ public class GestionVehiculosAbonados {
     public static void main(String[] args) {
 
         ClienteAbonado aux = GestionVehiculosAbonados.IngresarVehiculoAbonado();
-        generarPin();
+//        generarPin();
         gestionPlazas(aux);
-        generarFicheroAbonado(aux);
-        retirarAbonados();
+//        generarFicheroAbonado(aux);
+//        retirarAbonados();
     }
 
 }
