@@ -5,6 +5,8 @@
  */
 package parking;
 
+import java.sql.SQLException;
+import java.text.ParseException;
 import javax.swing.JOptionPane;
 
 /**
@@ -12,8 +14,18 @@ import javax.swing.JOptionPane;
  * @author sindy
  */
 public class Menu {
-    
-    public static void mostrarMenu() {
+
+    public static void main(String[] args) throws SQLException, ParseException {
+        try {
+            mostrarMenu();
+
+        } catch (SQLException | ParseException sql) {
+            System.out.println("Ha ocurrido un error");
+            System.out.println(sql.getMessage());
+        }
+    }
+
+    public static void mostrarMenu() throws SQLException, ParseException {
         int opcion1;//Seleccionar zona
         int opcion2;//¿Es abonado?
         int opcion3;//Abonado: depositar y retirar 
@@ -55,9 +67,9 @@ public class Menu {
                             "Depositar vehiculo", "Retirar vehiculo"},
                         "Si");
                 if (opcion4 != 1) {
-                    System.out.println("Depositar vehiculo");
+                    GestionVehiculos.depositarVehiculo();
                 } else {
-                    System.out.println("Retirar vehiculo");
+                    GestionVehiculos.retirarVehiculo();
                 }
             }
         } else {
