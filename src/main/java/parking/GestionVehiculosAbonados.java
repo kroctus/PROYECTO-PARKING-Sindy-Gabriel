@@ -198,7 +198,7 @@ public class GestionVehiculosAbonados {
             if (cliente.getTipoVehiculo().equalsIgnoreCase("Caravana")) {
                 System.out.println("Estoy rn cara");
                 //Las carvaanas se guardaran del 16 al 44
-                for (int j = 16; j < 45; j++) {
+                for (int j = 30; j < 44; j++) {
                     //PlazaLibre
                     System.out.println("El estado de la plaza " + j + "es:" + plazasEstado[j]);
                     if (plazasEstado[j] == 1) {
