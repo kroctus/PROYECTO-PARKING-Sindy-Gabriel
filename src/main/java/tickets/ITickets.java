@@ -8,6 +8,7 @@ package tickets;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 /**
@@ -36,7 +37,7 @@ public interface ITickets {
 
     // Método para modificar un ticket. Se modifica el ticket que tenga esa 'pk'
     // con los nuevos datos que traiga el ticket 'nuevosDatos'
-    int updateTickets(int numplaza,String matricula,LocalDate fecinipin, TicketsVO nuevosDatos) throws SQLException;
+    int updateTickets(int numplaza,String matricula,LocalDate fecinipin, LocalTime horaenticket, TicketsVO nuevosDatos) throws SQLException;
 
     
     
