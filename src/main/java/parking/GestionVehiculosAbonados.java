@@ -159,7 +159,7 @@ public class GestionVehiculosAbonados {
                         System.out.println("Hago el insert");
 
                         //Cambiamos el estado de la plaza
-                        PlazaVO plazaAux = new PlazaVO((numPlaza + 100), 1, 2, generarTarifa(cliente.getTipoVehiculo()));
+                        PlazaVO plazaAux = new PlazaVO((numPlaza + 100), 1, 3, generarTarifa(cliente.getTipoVehiculo()));
                         plazas.updatePlaza((numPlaza + 100), plazaAux);
 
                     }
@@ -184,7 +184,7 @@ public class GestionVehiculosAbonados {
                         System.out.println("Hago el insert");
 
                         //Cambiamos el estado de la plaza
-                        PlazaVO plazaAux = new PlazaVO((numPlaza + 100), 2, 2, generarTarifa(cliente.getTipoVehiculo()));
+                        PlazaVO plazaAux = new PlazaVO((numPlaza + 100), 2, 3, generarTarifa(cliente.getTipoVehiculo()));
                         plazas.updatePlaza((numPlaza + 100), plazaAux);
 
                     }
@@ -207,7 +207,7 @@ public class GestionVehiculosAbonados {
                         ReservasVO persona = new ReservasVO(cliente.getMatricula(), (numPlaza + 100), cliente.getPin(), LocalDate.now(), LocalDate.of(1, 1, 1));
                         reservaDAO.insertReserva(persona);
                         //Cambiamos el estado de la plaza
-                        PlazaVO plazaAux = new PlazaVO((numPlaza + 100), 3, 2, generarTarifa(cliente.getTipoVehiculo()));
+                        PlazaVO plazaAux = new PlazaVO((numPlaza + 100), 3, 3, generarTarifa(cliente.getTipoVehiculo()));
                         plazas.updatePlaza((numPlaza + 100), plazaAux);
 
                         System.out.println("Hago el insert");
