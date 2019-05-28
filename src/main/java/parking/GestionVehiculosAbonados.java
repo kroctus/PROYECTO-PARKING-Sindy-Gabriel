@@ -39,12 +39,12 @@ public class GestionVehiculosAbonados {
         ClienteAbonado cliente = new ClienteAbonado();
         JOptionPane.showMessageDialog(null, "¡Bienvenido Abonado! a continuación te pediremos algunos datos :D");
 
-         String matricula;
+        String matricula;
         String[] matricula1;
         do {
             matricula = JOptionPane.showInputDialog("Introduzca su matricula: ");
 
-            while ( matricula.length() !=8 || matricula.charAt(4) != '-' ) {
+            while (matricula.length() != 8 || matricula.charAt(4) != '-') {
                 matricula = JOptionPane.showInputDialog("La matricula es "
                         + " incorrecta, vuelva a intentarlo: ");
             }
@@ -86,7 +86,28 @@ public class GestionVehiculosAbonados {
         // En caso de que los campos no sean los que desea el cliente se volveran a pedir.
         if (opcion == 0) {
             //     System.out.println("La opcion es yes");
-            cliente = new ClienteAbonado(dni, tipoVehiculo, matricula, generarPin());
+
+            /*Para ello comparamos el pin a generar con cada uno de los pin de la tabla reservas
+            y hasta que no se generé uno diferente no se asigna el pin*/
+            ReservasDAO r = new ReservasDAO();
+            try {
+                ArrayList<ReservasVO> listaR = new ArrayList<>();
+                listaR = (ArrayList<ReservasVO>) r.getAll();
+                String pin = (GestionVehiculosAbonados.generarPin());
+
+                for (int i = 0; i < listaR.size(); i++) {
+                    while (pin.equals(listaR.get(i).getPin_fijo())) {
+                        System.out.println("El pin es igual se cambiara");
+                        pin = GestionVehiculosAbonados.generarPin();
+                    }
+                }
+
+            } catch (SQLException sqle) {
+                System.out.println("No se ha podido realizar la operación:");
+                System.out.println(sqle.getMessage());
+            }
+
+            cliente = new ClienteAbonado(dni, tipoVehiculo, matricula, pin);
             return cliente;
 
         } else if (opcion == 1) {
