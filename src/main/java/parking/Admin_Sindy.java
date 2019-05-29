@@ -5,6 +5,8 @@
  */
 package parking;
 
+import clientes.ClienteDAO;
+import clientes.ClienteVO;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -67,6 +69,22 @@ public class Admin_Sindy {
                 return "diciembre";
         }
         return "";
+    }
+
+    
+
+    private static ClienteVO borrarDatos(ClienteVO cliente) {
+
+        cliente.setApellido1("");
+        cliente.setApellido2("");
+        cliente.setDni("");
+        cliente.setEmail("");
+        cliente.setNombre("");
+        cliente.setNumTarjeta("");
+        cliente.setTipoAbono(1);
+
+        return cliente;
+
     }
 
     public static void abonosCaducadosMes(int mes) throws SQLException {
