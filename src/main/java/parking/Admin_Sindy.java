@@ -7,15 +7,24 @@ package parking;
 
 import clientes.ClienteDAO;
 import clientes.ClienteVO;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Scanner;
 import javax.swing.JOptionPane;
 import plazas.PlazaDAO;
 import plazas.PlazaVO;
 import reservas.ReservasDAO;
 import reservas.ReservasVO;
+import tickets.TicketsDAO;
+import tickets.TicketsVO;
+import vehiculos.VehiculoDAO;
+import vehiculos.VehiculoVO;
 
 /**
  *
@@ -175,6 +184,195 @@ public class Admin_Sindy {
 
         }
 
+    }
+
+    public static void recuperarCopiaSeguridad() throws FileNotFoundException, SQLException {
+        ClienteDAO daoCliente = new ClienteDAO();
+        PlazaDAO daoPlaza = new PlazaDAO();
+        VehiculoDAO daoVehiculo = new VehiculoDAO();
+        ReservasDAO daoReservas = new ReservasDAO();
+        TicketsDAO daoTickets = new TicketsDAO();
+        String respuesta;
+        boolean encontrado = false;
+        //Mostramos las copias de seguridad que tenemos guardadas
+        File carpeta = new File("./backup");
+        String[] listado = carpeta.list();
+        if (listado == null || listado.length == 0) {
+            System.out.println("No hay elementos dentro de la carpeta actual");
+        } else {
+
+            for (String listado1 : listado) {
+                System.out.println(listado1);
+            }
+            Scanner teclado = new Scanner(System.in);
+            do {
+                System.out.println("Elige la copia de seguridad que quieres restaurar: ");
+                respuesta = teclado.nextLine();
+
+                for (String lista : listado) {
+                    if (respuesta.equalsIgnoreCase(lista)) {
+                        encontrado = true;
+                    }
+
+                }
+            } while (!encontrado);
+
+            /*ELIMINO EL CONTENIDO DE TODAS LAS TABLAS DE LA BASE DE DATOS*/
+            daoReservas.deletereserva();
+            daoTickets.deleteTickets();
+            daoVehiculo.deleteVehiculo();
+            daoCliente.deleteCliente();
+            daoPlaza.deletePlaza();
+
+            /*VEHICULOS*/
+            ArrayList<VehiculoVO> listaVehiculo = new ArrayList<>();
+            //Variable que lleva la cuenta de las líneas que se han leido.
+            try (Scanner datosFichero = new Scanner(new FileInputStream("./backup/" + respuesta + "/Vehiculos.txt"), "ISO-8859-1")) {
+                String[] tokens;
+                String linea;
+                while (datosFichero.hasNextLine()) {
+
+                    linea = datosFichero.nextLine();
+                    // Se guarda en el array de String cada elemento de la
+                    // línea en función del carácter separador |
+                    tokens = linea.split(" : ");
+
+                    listaVehiculo.add(new VehiculoVO(tokens[0], Integer.valueOf(tokens[1])));
+                }
+                for (VehiculoVO vehiculoVO : listaVehiculo) {
+                    System.out.println(vehiculoVO);
+                }
+
+            } catch (FileNotFoundException e) {
+                System.out.println(e.getMessage());
+            }
+            //Restauramos la tabla vehiculos
+            daoVehiculo.insertVehiculo(listaVehiculo);
+
+            /*RESERVAS*/
+            ArrayList<ReservasVO> listaReservas = new ArrayList<>();
+            //Variable que lleva la cuenta de las líneas que se han leido.
+            try (Scanner datosFichero = new Scanner(new FileInputStream("./backup/" + respuesta + "/Reservas.txt"), "ISO-8859-1")) {
+                String[] tokens;
+                String linea;
+                while (datosFichero.hasNextLine()) {
+
+                    linea = datosFichero.nextLine();
+                    tokens = linea.split(" : ");
+                    String i = tokens[3].trim();
+                    String[] fecha1 = i.split("-");
+                    LocalDate fechaIni = LocalDate.of(Integer.valueOf(fecha1[1]), Integer.valueOf(fecha1[1]), Integer.valueOf(fecha1[2]));
+
+                    String f = tokens[4].trim();
+                    String[] fecha2 = f.split("-");
+                    LocalDate fechafin = LocalDate.of(Integer.valueOf(fecha2[0]), Integer.valueOf(fecha2[1]), Integer.valueOf(fecha2[2]));
+
+                    listaReservas.add(new ReservasVO(tokens[0], Integer.valueOf(tokens[1]), tokens[2], fechaIni, fechafin));
+                }
+                for (ReservasVO reservas : listaReservas) {
+                    System.out.println(reservas);
+                }
+
+            } catch (FileNotFoundException e) {
+                System.out.println(e.getMessage());
+            }
+            //Restauramos la tabla reservas
+            daoReservas.insertReserva(listaReservas);
+
+            /*PLAZAS*/
+            ArrayList<PlazaVO> listaPlazas = new ArrayList<>();
+            //Variable que lleva la cuenta de las líneas que se han leido.
+            try (Scanner datosFichero = new Scanner(new FileInputStream("./backup/" + respuesta + "/Plazas.txt"), "ISO-8859-1")) {
+                String[] tokens;
+                String linea;
+                while (datosFichero.hasNextLine()) {
+
+                    linea = datosFichero.nextLine();
+
+                    tokens = linea.split(" : ");
+
+                    listaPlazas.add(new PlazaVO(Integer.valueOf(tokens[0]), Integer.valueOf(tokens[1]), Integer.valueOf(tokens[2]), Double.valueOf(tokens[3])));
+                }
+                for (PlazaVO plazas : listaPlazas) {
+                    System.out.println(plazas);
+                }
+
+            } catch (FileNotFoundException e) {
+                System.out.println(e.getMessage());
+            }
+            //Restauramos la tabla de plazas
+            daoPlaza.insertPlaza(listaPlazas);
+
+            /*Clientes*/
+            ArrayList<ClienteVO> listaClientes = new ArrayList<>();
+            //Variable que lleva la cuenta de las líneas que se han leido.
+            try (Scanner datosFichero = new Scanner(new FileInputStream("./backup/" + respuesta + "/Clientes.txt"), "ISO-8859-1")) {
+                String[] tokens;
+                String linea;
+                while (datosFichero.hasNextLine()) {
+
+                    linea = datosFichero.nextLine();
+
+                    tokens = linea.split(" : ");
+                    listaClientes.add(new ClienteVO(tokens[0], tokens[1], tokens[2], tokens[3], tokens[4], tokens[5], Integer.valueOf(tokens[6]), tokens[7]));
+                }
+                for (ClienteVO clientes : listaClientes) {
+                    System.out.println(clientes);
+                }
+
+            } catch (FileNotFoundException e) {
+                System.out.println(e.getMessage());
+            }
+            //Restauramos la tabla de clientes
+            daoCliente.insertCliente(listaClientes);
+
+            /*TICKETS*/
+            ArrayList<TicketsVO> listaTickets = new ArrayList<>();
+            //Variable que lleva la cuenta de las líneas que se han leido.
+            try (Scanner datosFichero = new Scanner(new FileInputStream("./backup/" + respuesta + "/Tickets.txt"), "ISO-8859-1")) {
+                String[] tokens;
+                String linea;
+                while (datosFichero.hasNextLine()) {
+
+                    linea = datosFichero.nextLine();
+
+                    tokens = linea.split(" : ");
+                    String i = tokens[3].trim();
+                    String[] fecha1 = i.split("-");
+                    LocalDate fechaini = LocalDate.of(Integer.valueOf(fecha1[0]), Integer.valueOf(fecha1[1]), Integer.valueOf(fecha1[2]));
+
+                    String f = tokens[4].trim();
+                    String[] fecha2 = f.split("-");
+                    LocalDate fechafin = LocalDate.of(Integer.valueOf(fecha2[0]), Integer.valueOf(fecha2[1]), Integer.valueOf(fecha2[2]));
+
+                    String e = tokens[5].trim();
+                    String[] hora1 = e.split(":");
+                    LocalTime horaini = LocalTime.of(Integer.valueOf(hora1[0]), Integer.valueOf(hora1[1]), Integer.valueOf(hora1[2]));
+
+                    String s = tokens[6].trim();
+                    String[] hora2 = s.split(":");
+                    LocalTime horafin = LocalTime.of(Integer.valueOf(hora2[0]), Integer.valueOf(hora2[1]), Integer.valueOf(hora2[2]));
+
+                    listaTickets.add(new TicketsVO(Integer.valueOf(tokens[0]), tokens[1], tokens[2], fechaini, fechafin, horaini, horafin, Double.valueOf(tokens[7])));
+                }
+                for (TicketsVO tickets : listaTickets) {
+                    System.out.println(tickets);
+                }
+
+            } catch (FileNotFoundException e) {
+                System.out.println(e.getMessage());
+            }
+
+        }
+
+    }
+
+    public static void main(String[] args) throws FileNotFoundException, SQLException {
+        try {
+            recuperarCopiaSeguridad();
+
+        } catch (FileNotFoundException | SQLException e) {
+        }
     }
 
 }
