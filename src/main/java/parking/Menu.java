@@ -90,6 +90,7 @@ public class Menu {
                         Admin_Sindy.mostrarAbonadosAnuales();
                     } else {
                         System.out.println("Consultar facturas de clientes no abonados");
+                        Admin_Sindy.mostrarFacturacionNoAbonado();
                     }
                     break;
                 case 2:
