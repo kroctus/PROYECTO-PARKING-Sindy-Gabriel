@@ -54,17 +54,13 @@ public class Admin_Gab {
         JOptionPane.showMessageDialog(null, "A continuación Introduce tu tipo de coche");
         JOptionPane.showMessageDialog(null, "Los valores aceptados son: "
                 + "\n Motocicleta \n Turismo \n Caravana");
-        String tipoVehiculo = JOptionPane.showInputDialog("Introduce tu tipo de vehiculo: ");
+       
 
-        while (!(tipoVehiculo.equalsIgnoreCase("Motocicleta") || tipoVehiculo.equalsIgnoreCase("Turismo")
-                || tipoVehiculo.equalsIgnoreCase("Caravana"))) {
-
-            JOptionPane.showMessageDialog(null, "El tipo introducido " + "*" + tipoVehiculo + "*" + " no es correcto o esta mal formateado, \n por favor introduzcalo nuevamente");
-            JOptionPane.showMessageDialog(null, "Los valores aceptados son: "
-                    + "\n Motocicleta \n Turismo \n Caravana");
-            tipoVehiculo = JOptionPane.showInputDialog("Introduce tu tipo de vehiculo: ");
-
-        }
+        int tipoVehiculo = JOptionPane.showOptionDialog(null, "Tipo Vehiculo: ",
+                "Vehiculo", JOptionPane.YES_NO_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE, null, new Object[]{
+                    "Motocicleta", "Turismo", "Carava"},
+                "Turismo");
 
         //DNI
         //Pedimo su DNI
@@ -147,7 +143,7 @@ public class Admin_Gab {
             System.out.println("Se ha incertado el cliente");
 
             System.out.println("Hacemos la reserva");
-            IngresarAbonado(matricula, fecFinAbono, tipoAbono);
+            IngresarAbonado(matricula, fecFinAbono, tipoAbono,tipoVehiculo);
 
         } catch (SQLException sqle) {
             System.out.println("No se ha podido realizar la operación:");
@@ -173,14 +169,14 @@ public class Admin_Gab {
         return 25;
     }
 
-    public static boolean IngresarAbonado(String matricula, LocalDate fecFinAbono, int tipoAbono) throws SQLException {
+    public static boolean IngresarAbonado(String matricula, LocalDate fecFinAbono, int tipoAbono, int tipoVehiculo) throws SQLException {
         TicketsDAO daoTicket = new TicketsDAO();
         VehiculoDAO daoVehiculo = new VehiculoDAO();
         PlazaDAO daoPlazas = new PlazaDAO();
 
         //Creamos un objeto de tipo vehiculo con los datos
         //que introduzca el usuario
-        VehiculoVO vehiculo = crearVehiculo();
+        
         //Creamos un array con el número de parking que tenemos, es decir, 45.
         Integer[] plazasEstado = new Integer[45];
         ArrayList<PlazaVO> listaPlaza = new ArrayList<>();
@@ -200,7 +196,7 @@ public class Admin_Gab {
         //Si el tipo de vehiculo es una motocicleta, miramos entre la posición 
         //0 al 14 del array para saber el estado de las plazas de tipo motocicleta,
         //para ver si encontramos alguna que no esté ocupada.
-        if (vehiculo.getTipoVehiculo() == 2) {
+        if (tipoVehiculo == 0) {
             //Los turismos se guardaran del 0 al 14, siendo el rango
             //de los posibles identificadores del 100 al 114.
             for (int i = 0; i < 14; i++) {
@@ -221,7 +217,7 @@ public class Admin_Gab {
         //Si el tipo de vehiculo es un turismo, miramos entre la posición 
         //15 al 29 del array para saber el estado de las plazas de tipo turismo,
         //para ver si encontramos alguna que no esté ocupada.
-        if (vehiculo.getTipoVehiculo() == 1) {
+        if (tipoVehiculo== 1) {
             //Los turismos se guardaran del 15 al 29, siendo el rango
             //de los posibles identificadores del 115 al 129.
             for (int i = 15; i < 29; i++) {
@@ -243,7 +239,7 @@ public class Admin_Gab {
         //Si el tipo de vehiculo es una caravana, miramos entre la posición 
         //30 al 44 del array para saber el estado de las plazas de tipo caravana,
         //para ver si encontramos alguna que no esté ocupada.
-        if (vehiculo.getTipoVehiculo() == 3) {
+        if (tipoVehiculo == 2) {
             //Las caravanas se guardaran del 30 al 44, siendo el rango
             //de los posibles identificadores del 130 al 144.
             for (int i = 30; i < 44; i++) {
@@ -270,7 +266,6 @@ public class Admin_Gab {
         //de vehiculo que ha introducido el usuario.
         return false;
     }
-
 
     public static void main(String[] args) {
         alta();
