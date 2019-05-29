@@ -412,6 +412,7 @@ public class GestionVehiculosAbonados {
  /*Para ello el método recauda la información y la contrasta con la que se tiene en la BD*/
     public static void retirarAbonados() {
 
+        JOptionPane.showMessageDialog(null, "Retirar Abonados \n a continuación te pediremos algunos datos");
         ReservasDAO reservaDAO = new ReservasDAO();
         PlazaDAO plazaDAO = new PlazaDAO();
         ReservasVO reservaAux = new ReservasVO();
@@ -500,13 +501,13 @@ public class GestionVehiculosAbonados {
 
     public static void main(String[] args) {
 
-        depositarVehiculoAbonado();
+//        depositarVehiculoAbonado();
 
 //        ClienteAbonado aux = GestionVehiculosAbonados.IngresarVehiculoAbonado();
 ////        generarPin();
 //        gestionPlazas(aux);
 //        generarFicheroAbonado(aux);
-////        retirarAbonados();
+        retirarAbonados();
     }
 
 }
