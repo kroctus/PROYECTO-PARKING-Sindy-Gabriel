@@ -33,12 +33,18 @@ public class ReservasVO {
     }
 
     //Constructor parametrizado
-    public ReservasVO(String matricula, int numplaza, String pin_fijo, LocalDate feciniabono, LocalDate fecfinabono) {
+    public ReservasVO(String matricula, int numplaza, String pin_fijo, LocalDate feciniabono, LocalDate fecfinabono) throws SQLException {
         this.matricula = matricula;
         this.numplaza = numplaza;
         this.pin_fijo = pin_fijo;
         this.feciniabono = feciniabono;
         this.fecfinabono = fecfinabono;
+        try {
+            this.precio = ReservasVO.obtenerPrecio(this.matricula);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        
     }
 
     //Getters and setters
@@ -97,6 +103,7 @@ public class ReservasVO {
             return matricula + " : " + numplaza + " : " + pin_fijo + " : " + feciniabono + " : " + fecfinabono + " : " + obtenerPrecio(matricula);
         } catch (SQLException ex) {
             Logger.getLogger(ReservasVO.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex.getMessage());
         }
         return matricula + " : " + numplaza + " : " + pin_fijo + " : " + feciniabono + " : " + fecfinabono + " : " + precio;
     }
