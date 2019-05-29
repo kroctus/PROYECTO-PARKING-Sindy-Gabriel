@@ -48,7 +48,6 @@ public class Menu {
                             "Depositar vehiculo", "Retirar vehiculo"},
                         " ");
                 if (opcion3 != 1) {
-                    Admin_Sindy.mostarEstadoPlazas();
                     GestionVehiculosAbonados.depositarVehiculoAbonado();
                 } else {
                     GestionVehiculosAbonados.retirarAbonados();
