@@ -121,7 +121,7 @@ public class GestionVehiculosAbonados {
                     }
                 } else if (esAbonado(matricula, dni) == true) {
                     System.out.println("Entramos en gestion de plazas");
-                    gestionPlazas(clienteVo,1);
+                    gestionPlazas(matricula, 1);
                     System.out.println("Salimos de gestion de plazas");
                 }
 
@@ -153,7 +153,7 @@ public class GestionVehiculosAbonados {
         return true;
     }
 
-    public static boolean gestionPlazas(ClienteVO cliente, int seleccion) throws SQLException {
+    public static boolean gestionPlazas(String matricula, int seleccion) throws SQLException {
         TicketsDAO daoTicket = new TicketsDAO();
         VehiculoDAO daoVehiculo = new VehiculoDAO();
         PlazaDAO daoPlazas = new PlazaDAO();
@@ -164,7 +164,7 @@ public class GestionVehiculosAbonados {
         //Creamos un array con el número de parking que tenemos, es decir, 45.
         Integer[] plazasEstado = new Integer[45];
         ArrayList<PlazaVO> listaPlaza = new ArrayList<>();
-        int numPlaza = r.findPlaza(cliente.getMatricula());
+        int numPlaza = r.findPlaza(matricula);
         switch (seleccion) {
             case 1:
                 for (int i = 0; i < listaPlaza.size(); i++) {
@@ -486,9 +486,16 @@ public class GestionVehiculosAbonados {
 
     //Método que enlaza todos los métodos paa el deposito del vehiculo de un abonado
     public static void depositarVehiculoAbonado() {
-        ClienteAbonado aux = GestionVehiculosAbonados.IngresarVehiculoAbonado();
-////        gestionPlazas(aux);
-//        generarFicheroAbonado(aux);
+        try {
+            ClienteAbonado aux = GestionVehiculosAbonados.IngresarVehiculoAbonado();
+
+            gestionPlazas(aux.getMatricula(), 1);
+            generarFicheroAbonado(aux);
+
+        } catch (SQLException sqle) {
+            System.out.println("No se ha podido realizar la operación:");
+            System.out.println(sqle.getMessage());
+        }
     }
 
     public static void main(String[] args) {
