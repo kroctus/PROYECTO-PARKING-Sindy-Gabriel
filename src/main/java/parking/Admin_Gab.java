@@ -205,7 +205,7 @@ public class Admin_Gab {
                 if (plazasEstado[i] == 1) {
                     //Si efectivamente la plaza está libre entonces:
                     PlazaVO plazaModificada = listaPlaza.get(i);
-                    plazaModificada.setEstadoPlaza(4);
+                    plazaModificada.setEstadoPlaza(2);
                     daoPlazas.updatePlaza(listaPlaza.get(i).getNumPlaza(), plazaModificada);
                     //Añadimos La reserva
                     ReservasVO reserva = new ReservasVO(matricula, listaPlaza.get(i).getNumPlaza(), GestionVehiculosAbonados.generarPin(), LocalDate.now(), fecFinAbono, generarPrecioAbono(tipoAbono));
@@ -228,7 +228,7 @@ public class Admin_Gab {
                 if (plazasEstado[i] == 1) {
                     //Si efectivamente la plaza está libre entonces:
                     PlazaVO plazaModificada = listaPlaza.get(i);
-                    plazaModificada.setEstadoPlaza(4);
+                    plazaModificada.setEstadoPlaza(2);
                     //Mostramos por pantalla los datos del ticket necesarios                    
                     daoPlazas.updatePlaza(listaPlaza.get(i).getNumPlaza(), plazaModificada);
                     //Añadimos La reserva
@@ -253,7 +253,7 @@ public class Admin_Gab {
                     //Si efectivamente la plaza está libre entonces:
 
                     PlazaVO plazaModificada = listaPlaza.get(i);
-                    plazaModificada.setEstadoPlaza(4);
+                    plazaModificada.setEstadoPlaza(2);
                     //Mostramos por pantalla los datos del ticket necesarios 
 
                     //Cambiamos el estado de la plaza a ocupado
