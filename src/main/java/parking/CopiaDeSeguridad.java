@@ -191,7 +191,7 @@ public class CopiaDeSeguridad {
         this.email = email;*/
             while ((linea = br.readLine()) != null) {
 
-                tokens = linea.split("=");
+                tokens = linea.split(" : ");
                 String matricula = tokens[0];
                 String dni = tokens[1];
                 String nombreC = tokens[2];
@@ -238,7 +238,7 @@ public class CopiaDeSeguridad {
     private double tarifa;*/
             while ((linea = br.readLine()) != null) {
 
-                tokens = linea.split("=");
+                tokens = linea.split(" : ");
                 String numPlaza = tokens[0];
                 String tipoPlaza = tokens[1];
                 String estadoPlaza = tokens[2];
@@ -279,7 +279,7 @@ public class CopiaDeSeguridad {
                  private int tipoVehiculo;*/
             while ((linea = br.readLine()) != null) {
 
-                tokens = linea.split("=");
+                tokens = linea.split(" : ");
                 String matricula = tokens[0];
                 String tipoVehiculo = tokens[1];
 
@@ -321,7 +321,7 @@ public class CopiaDeSeguridad {
                   private LocalDate fecfinabono;*/
             while ((linea = br.readLine()) != null) {
 
-                tokens = linea.split("=");
+                tokens = linea.split(" : ");
                 String matricula = tokens[0];
                 String numPlaza = tokens[1];
                 String pinFijo = tokens[2];
@@ -353,12 +353,12 @@ public class CopiaDeSeguridad {
 
         }
 
-       reserva.forEach(System.out::println);
+        reserva.forEach(System.out::println);
     }
 
     public static void main(String[] args) {
-//        crearCopiaSeguridad();
-        recuperar();
+        crearCopiaSeguridad();
+        //recuperar();
     }
 
 }
