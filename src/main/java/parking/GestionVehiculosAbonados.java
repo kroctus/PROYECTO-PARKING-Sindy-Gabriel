@@ -57,21 +57,7 @@ public class GestionVehiculosAbonados {
             System.out.println("Tamaño: " + matricula.length());
         } while (!((esNumero(matricula1[0]) && !esNumero(matricula1[1])) && matricula.length() == 8));
 
-//        //Pedimos el Tipo De vehiculo
-//        JOptionPane.showMessageDialog(null, "A continuación Introduce tu tipo de coche");
-//        JOptionPane.showMessageDialog(null, "Los valores aceptados son: "
-//                + "\n Motocicleta \n Turismo \n Caravana");
-//        String tipoVehiculo = JOptionPane.showInputDialog("Introduce tu tipo de vehiculo: ");
-//
-//        while (!(tipoVehiculo.equalsIgnoreCase("Motocicleta") || tipoVehiculo.equalsIgnoreCase("Turismo")
-//                || tipoVehiculo.equalsIgnoreCase("Caravana"))) {
-//
-//            JOptionPane.showMessageDialog(null, "El tipo introducido " + "*" + tipoVehiculo + "*" + " no es correcto o esta mal formateado, \n por favor introduzcalo nuevamente");
-//            JOptionPane.showMessageDialog(null, "Los valores aceptados son: "
-//                    + "\n Motocicleta \n Turismo \n Caravana");
-//            tipoVehiculo = JOptionPane.showInputDialog("Introduce tu tipo de vehiculo: ");
-//
-//        }
+
         //Pedimo su DNI
         String dni = JOptionPane.showInputDialog("Introduzca su DNI: ");
         System.out.println("DNI: " + dni);
@@ -191,120 +177,6 @@ public class GestionVehiculosAbonados {
         return false;
     }
 
-    //Método GESTION_PLAZAS
-    // Este método se encargará de ver si las plazas están o no ocupadas y el tipo de coche que la ocupa
-    /*Para ello este método se apoya de un array de 45 posiciones siendo estas: */
-    // Del 0-14 Motocicletas
-    // El 14-29 Turismos.
-    // del 29-44 para Caravanas
-    /*Las plazas de los reservados siempre estan ocupadas (false)*/
-//    public static void gestionPlazas(ClienteAbonado cliente) {
-//        System.out.println("");
-//        System.out.println("Estoy en gestión de plazas");
-//        Integer[] plazasEstado = new Integer[46];
-//        //Conseguimos las plazas de nuestro parking
-////        System.out.println("");
-////        System.out.println("Atributos de cliente: " + "\n matricula : " + cliente.getMatricula()
-////                + "\n tipoVehiculo: " + cliente.getTipoVehiculo() + " \n DNI " + cliente.getDni());
-//        PlazaDAO plazas = new PlazaDAO();
-//        ReservasDAO reservaDAO = new ReservasDAO();
-//        ArrayList<PlazaVO> listaPlazas = new ArrayList<>();
-//        int numPlaza;
-//        try {
-//            listaPlazas = (ArrayList<PlazaVO>) plazas.getAll();
-//
-//            System.out.println("Mostramos las plazas: ");
-//            System.out.println("");
-//            listaPlazas.forEach(System.out::println);
-//
-//            for (int i = 0; i < listaPlazas.size(); i++) {
-//                int estado = listaPlazas.get(i).getEstadoPlaza();
-////                System.out.println("El estado en lista1 es : " + estado );
-//                plazasEstado[i] = estado;
-//                System.out.println("Estado Plaza: " + i + " : " + plazasEstado[i]);
-//            }
-//
-//            //Miramos el estado y el tipo de vehiculo
-//            //Del 0-14 solo guardaremos las motos
-//            if (cliente.getTipoVehiculo().equalsIgnoreCase("motocicleta")) {
-//
-//                System.out.println("Estoy en  motocicleta");
-//                for (int i = 0; i < 14; i++) {
-//                    // Plaza libre
-//
-//                    if (plazasEstado[i] == 1) {
-//                        numPlaza = plazasEstado[i];
-//                        System.out.println("Estado Plaza: " + i + " : " + plazasEstado[i]);
-//                        System.out.println("El numero de la plaza será el : " + (numPlaza + 100));
-//                        ReservasVO persona = new ReservasVO(cliente.getMatricula(), (numPlaza + 100), cliente.getPin(), LocalDate.now(), LocalDate.of(1, 1, 1));
-//                        reservaDAO.insertReserva(persona);
-//                        System.out.println("Hago el insert");
-//
-//                        //Cambiamos el estado de la plaza
-//                        PlazaVO plazaAux = new PlazaVO((numPlaza + 100), 1, 3, generarTarifa(cliente.getTipoVehiculo()));
-//                        plazas.updatePlaza((numPlaza + 100), plazaAux);
-//
-//                    }
-//
-//                }
-//                JOptionPane.showMessageDialog(null, "Su plaza asignada es la : ");
-//                JOptionPane.showMessageDialog(null, "Se ha ingresado su Motocicleta");
-//            }
-//
-//            //Miramos si es un turismo
-//            if (cliente.getTipoVehiculo().equalsIgnoreCase("turismo")) {
-//                System.out.println("Estoy en turismo");
-//                //Los turismo se guardaran del 15 hasta el 29
-//                for (int j = 15; j < 29; j++) {
-//                    //PlazaLibre
-//                    System.out.println("El estado de la plaza " + j + "es:" + plazasEstado[j]);
-//                    if (plazasEstado[j] == 1) {
-//                        numPlaza = plazasEstado[j];
-//                        System.out.println("El numero de la plaza será el : " + (numPlaza + 100));
-//                        ReservasVO persona = new ReservasVO(cliente.getMatricula(), (numPlaza + 100), cliente.getPin(), LocalDate.now(), LocalDate.of(1, 1, 1));
-//                        reservaDAO.insertReserva(persona);
-//                        System.out.println("Hago el insert");
-//
-//                        //Cambiamos el estado de la plaza
-//                        PlazaVO plazaAux = new PlazaVO((numPlaza + 100), 2, 3, generarTarifa(cliente.getTipoVehiculo()));
-//                        plazas.updatePlaza((numPlaza + 100), plazaAux);
-//
-//                    }
-//                }
-//
-//                JOptionPane.showMessageDialog(null, "Se ha ingresado su Turismo");
-//
-//            }
-//
-//            //Miramos si es un caravana
-//            if (cliente.getTipoVehiculo().equalsIgnoreCase("Caravana")) {
-//                System.out.println("Estoy rn cara");
-//                //Las carvaanas se guardaran del 16 al 44
-//                for (int j = 30; j < 44; j++) {
-//                    //PlazaLibre
-//                    System.out.println("El estado de la plaza " + j + "es:" + plazasEstado[j]);
-//                    if (plazasEstado[j] == 1) {
-//                        numPlaza = plazasEstado[j];
-//                        System.out.println("El numero de la plaza será el : " + (numPlaza + 100));
-//                        ReservasVO persona = new ReservasVO(cliente.getMatricula(), (numPlaza + 100), cliente.getPin(), LocalDate.now(), LocalDate.of(1, 1, 1));
-//                        reservaDAO.insertReserva(persona);
-//                        //Cambiamos el estado de la plaza
-//                        PlazaVO plazaAux = new PlazaVO((numPlaza + 100), 3, 3, generarTarifa(cliente.getTipoVehiculo()));
-//                        plazas.updatePlaza((numPlaza + 100), plazaAux);
-//
-//                        System.out.println("Hago el insert");
-//
-//                    }
-//                }
-//
-//                JOptionPane.showMessageDialog(null, "Se ha ingresado su caravana");
-//
-//            }
-//
-//        } catch (SQLException sqle) {
-//            System.out.println("No se ha podido realizar la operación:");
-//            System.out.println(sqle.getMessage());
-//        }
     //Regresa la tarifa en base al vehiculo que recibe
     public static double generarTarifa(String tipo) {
         if (tipo.equalsIgnoreCase("motocicleta")) {
