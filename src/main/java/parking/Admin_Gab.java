@@ -144,6 +144,7 @@ public class Admin_Gab {
 
             System.out.println("Hacemos la reserva");
             IngresarAbonado(matricula, fecFinAbono, tipoAbono,tipoVehiculo);
+            JOptionPane.showMessageDialog(null,"EL nuevo abonado se ah registrado satisfacoriamente");
 
         } catch (SQLException sqle) {
             System.out.println("No se ha podido realizar la operación:");
@@ -208,6 +209,8 @@ public class Admin_Gab {
                     daoPlazas.updatePlaza(listaPlaza.get(i).getNumPlaza(), plazaModificada);
                     //Añadimos La reserva
                     ReservasVO reserva = new ReservasVO(matricula, listaPlaza.get(i).getNumPlaza(), GestionVehiculosAbonados.generarPin(), LocalDate.now(), fecFinAbono, generarPrecioAbono(tipoAbono));
+                    ReservasDAO r = new ReservasDAO();
+                    r.insertReserva(reserva);
                     return true;
 
                 }
@@ -230,6 +233,8 @@ public class Admin_Gab {
                     daoPlazas.updatePlaza(listaPlaza.get(i).getNumPlaza(), plazaModificada);
                     //Añadimos La reserva
                     ReservasVO reserva = new ReservasVO(matricula, listaPlaza.get(i).getNumPlaza(), GestionVehiculosAbonados.generarPin(), LocalDate.now(), fecFinAbono, generarPrecioAbono(tipoAbono));
+                      ReservasDAO r = new ReservasDAO();
+                    r.insertReserva(reserva);
                     return true;
 
                 }
@@ -256,6 +261,8 @@ public class Admin_Gab {
                     //Devuelve true si se ha podido insertar correctamente 
                     //Añadimos La reserva
                     ReservasVO reserva = new ReservasVO(matricula, listaPlaza.get(i).getNumPlaza(), GestionVehiculosAbonados.generarPin(), LocalDate.now(), fecFinAbono, generarPrecioAbono(tipoAbono));
+                       ReservasDAO r = new ReservasDAO();
+                    r.insertReserva(reserva);
                     return true;
                 }
             }
