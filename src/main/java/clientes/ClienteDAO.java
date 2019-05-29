@@ -45,7 +45,7 @@ public class ClienteDAO implements ICliente {
                 c.setApellido2(res.getString("apellido2"));
                 c.setDni(res.getString("dni"));
                 c.setEmail(res.getString("email"));
-                c.setNumTarjeta("numTarjetaCredito");
+                c.setNumTarjeta(res.getString("numTarjetaCredito"));
                 c.setTipoAbono(ClienteVO.obtenerTipoAbono(res.getString("tipoAbono")));
                 //Añadimos el objeto a la lista
                 lista.add(c);
