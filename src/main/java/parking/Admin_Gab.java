@@ -18,6 +18,7 @@ import static parking.GestionVehiculosAbonados.generarTarifa;
 import plazas.PlazaDAO;
 import plazas.PlazaVO;
 import reservas.ReservasDAO;
+import reservas.ReservasDAO_2;
 import reservas.ReservasVO;
 import tickets.TicketsDAO;
 import tickets.TicketsVO;
@@ -54,7 +55,6 @@ public class Admin_Gab {
         JOptionPane.showMessageDialog(null, "A continuación Introduce tu tipo de coche");
         JOptionPane.showMessageDialog(null, "Los valores aceptados son: "
                 + "\n Motocicleta \n Turismo \n Caravana");
-       
 
         int tipoVehiculo = JOptionPane.showOptionDialog(null, "Tipo Vehiculo: ",
                 "Vehiculo", JOptionPane.YES_NO_CANCEL_OPTION,
@@ -143,8 +143,8 @@ public class Admin_Gab {
             System.out.println("Se ha incertado el cliente");
 
             System.out.println("Hacemos la reserva");
-            IngresarAbonado(matricula, fecFinAbono, tipoAbono,tipoVehiculo);
-            JOptionPane.showMessageDialog(null,"EL nuevo abonado se ah registrado satisfacoriamente");
+            IngresarAbonado(matricula, fecFinAbono, tipoAbono, tipoVehiculo);
+            JOptionPane.showMessageDialog(null, "EL nuevo abonado se ah registrado satisfacoriamente");
 
         } catch (SQLException sqle) {
             System.out.println("No se ha podido realizar la operación:");
@@ -177,7 +177,6 @@ public class Admin_Gab {
 
         //Creamos un objeto de tipo vehiculo con los datos
         //que introduzca el usuario
-        
         //Creamos un array con el número de parking que tenemos, es decir, 45.
         Integer[] plazasEstado = new Integer[45];
         ArrayList<PlazaVO> listaPlaza = new ArrayList<>();
@@ -220,7 +219,7 @@ public class Admin_Gab {
         //Si el tipo de vehiculo es un turismo, miramos entre la posición 
         //15 al 29 del array para saber el estado de las plazas de tipo turismo,
         //para ver si encontramos alguna que no esté ocupada.
-        if (tipoVehiculo== 1) {
+        if (tipoVehiculo == 1) {
             //Los turismos se guardaran del 15 al 29, siendo el rango
             //de los posibles identificadores del 115 al 129.
             for (int i = 15; i < 29; i++) {
@@ -233,7 +232,7 @@ public class Admin_Gab {
                     daoPlazas.updatePlaza(listaPlaza.get(i).getNumPlaza(), plazaModificada);
                     //Añadimos La reserva
                     ReservasVO reserva = new ReservasVO(matricula, listaPlaza.get(i).getNumPlaza(), GestionVehiculosAbonados.generarPin(), LocalDate.now(), fecFinAbono, generarPrecioAbono(tipoAbono));
-                      ReservasDAO r = new ReservasDAO();
+                    ReservasDAO r = new ReservasDAO();
                     r.insertReserva(reserva);
                     return true;
 
@@ -261,7 +260,7 @@ public class Admin_Gab {
                     //Devuelve true si se ha podido insertar correctamente 
                     //Añadimos La reserva
                     ReservasVO reserva = new ReservasVO(matricula, listaPlaza.get(i).getNumPlaza(), GestionVehiculosAbonados.generarPin(), LocalDate.now(), fecFinAbono, generarPrecioAbono(tipoAbono));
-                       ReservasDAO r = new ReservasDAO();
+                    ReservasDAO r = new ReservasDAO();
                     r.insertReserva(reserva);
                     return true;
                 }
@@ -274,7 +273,107 @@ public class Admin_Gab {
         return false;
     }
 
-    public static void main(String[] args) {
-        alta();
+    /*Método que modifica los datos personales del abonado y la fecha de cancelación*/
+    public static void modificarAbonado() {
+
+        JOptionPane.showMessageDialog(null, "Entrando a modificación de abonado.....");
+        int opcion = JOptionPane.showOptionDialog(null, "¿Qué datos deseas modificar? ",
+                "Datos", JOptionPane.YES_NO_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE, null, new Object[]{
+                    "Datos Personales", "Fecha de cancelación"},
+                "Datos");
+        ClienteDAO clienteD = new ClienteDAO();
+        ArrayList<ClienteVO> listaClientes = new ArrayList<>();
+        ClienteVO cliente = new ClienteVO();
+        ReservasDAO reservaD = new ReservasDAO();
+        ReservasDAO_2 reservaD2 = new ReservasDAO_2();
+        ArrayList<ReservasVO> listaReservas = new ArrayList<>();
+        ReservasVO reserva = new ReservasVO();
+
+        try {
+
+            listaClientes = (ArrayList<ClienteVO>) clienteD.getAll();
+        } catch (SQLException sqle) {
+            System.out.println("No se ha podido realizar la operación:");
+            System.out.println(sqle.getMessage());
+        }
+
+        String matricula = JOptionPane.showInputDialog(null, "Introduce la matricula del abonado");
+        for (int i = 0; i < listaClientes.size(); i++) {
+            //Si las matriculas no coinciden
+//            if (!((listaClientes.get(i).getMatricula().equalsIgnoreCase(matricula)) && listaClientes.size() == listaClientes.size())) {
+//                int salir = JOptionPane.showOptionDialog(null, "La matricula introducida no coincide con ninguna de la base de datos \n¿Desea volver a introducirla? ",
+//                        "ERROR", JOptionPane.YES_NO_CANCEL_OPTION,
+//                        JOptionPane.QUESTION_MESSAGE, null, new Object[]{
+//                            "Si", "No"}, "Error");
+//
+//                switch (salir) {
+//                    case 0:
+//                        modificarAbonado();
+//                        break;
+//                    case 1:
+//                        JOptionPane.showMessageDialog(null, "Saliendo del menú de modificación....");
+//                        return;
+//            
+
+            
+         if(listaClientes.get(i).getMatricula().equalsIgnoreCase(matricula)){
+                try {
+                    //Clonamos a el cliente con esa matricula para realizar las moficiaciones sobre este
+                    cliente = clienteD.findByPk(matricula);
+                    ClienteVO clienteAux = cliente;
+                    switch (opcion) {
+                        //Datos personales
+                        case 0:
+                            String dni = JOptionPane.showInputDialog(null, "Introduce el nuevo DNI: ");
+                            String nombre = JOptionPane.showInputDialog(null, "Introduce el nuevo nombre: ");
+                            String apellido = JOptionPane.showInputDialog(null, "Introduce el nuevo primer apellido: ");
+                            String apellido2 = JOptionPane.showInputDialog(null, "Introduce el nuevo segundo apellido: ");
+                            String tarjeta = JOptionPane.showInputDialog(null, "Introduce la nueva tarjeta de credito: ");
+                            String email = JOptionPane.showInputDialog(null, "Introduce el nuevo Email: ");
+
+                            //Actualizamos los datos del cliente
+                            cliente = new ClienteVO(matricula, dni, nombre, apellido, apellido2, tarjeta, clienteAux.getTipoAbono(), email);
+                            clienteD.updateCliente(matricula, cliente);
+                            JOptionPane.showMessageDialog(null, "Datos actualizados satisfactoriamente");
+                            System.out.println("Los datos anteriores eran: " + clienteAux.toString());
+                            System.out.println("----");
+                            System.out.println("Los nuevos datos son: " + cliente.toString());
+                            break;
+                        //Fecha de caducidad
+                        case 1:
+                            JOptionPane.showMessageDialog(null, "Introduce la nueva fecha de caducidad para el abono");
+                            String anio = JOptionPane.showInputDialog(null, "Introduce el año:");
+                            String mes = JOptionPane.showInputDialog(null, "Introduce el mes: ");
+                            String dia = JOptionPane.showInputDialog(null, "Introduce el día");
+                            System.out.println("Matricula: " + matricula);
+                            int numPlaza = reservaD2.findPlaza(matricula);
+                            System.out.println("Lo qu edevuelve: " + reservaD2.findPlaza(matricula) );
+                            reserva = reservaD.findByPk(matricula, numPlaza);
+                            reserva.toString();
+                            ReservasVO reservaAux = reserva;
+                            //Cambiamos la fecha de fin de abono
+                            
+                            System.out.println("Año : " + anio);
+                            System.out.println("Mes: " + mes);
+                            System.out.println("dia: " + dia);
+                            System.out.println("numPlaza: " + numPlaza);
+                        
+                            reservaD.updatereserva(matricula, numPlaza, new ReservasVO(matricula, numPlaza, reservaAux.getPin_fijo(), reservaAux.getFeciniabono(), LocalDate.of(1, Month.MARCH, 2), reservaAux.getPrecio()));
+                            JOptionPane.showMessageDialog(null, "La fecha se ha actualizado satisfactoriamente");
+                            break;
+                    }
+
+                } catch (SQLException sqle) {
+                    System.out.println("No se ha podido realizar la operación:");
+                    System.out.println(sqle.getMessage());
+                }
+            }
+    }
+}
+
+public static void main(String[] args) {
+//        alta();
+        modificarAbonado();
     }
 }
