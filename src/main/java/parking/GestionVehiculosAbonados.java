@@ -165,7 +165,7 @@ public class GestionVehiculosAbonados {
                     }
 
                 }
-                JOptionPane.showMessageDialog(null, "Su plaza asignada es la : " + numPlaza+100 );
+                JOptionPane.showMessageDialog(null, "Su plaza asignada es la : ");
                 JOptionPane.showMessageDialog(null, "Se ha ingresado su Motocicleta");
             }
 
@@ -264,6 +264,16 @@ public class GestionVehiculosAbonados {
 
     //Método que se encarga de generar un pin aleatorio para las reservas
     public static String generarPin() {
+
+        ReservasDAO reserva = new ReservasDAO();
+        ArrayList<ReservasVO> listaReservas = new ArrayList<ReservasVO>();
+        try {
+
+            listaReservas = (ArrayList<ReservasVO>) reserva.getAll();
+        } catch (SQLException sqle) {
+            System.out.println("No se ha podido realizar la operación:");
+            System.out.println(sqle.getMessage());
+        }
         int num = 0;
         int[] pin = new int[6];
         String pinS = "";
@@ -274,7 +284,16 @@ public class GestionVehiculosAbonados {
             pinS += String.valueOf(pin[i]);
         }
 
-        System.out.println("El pin final es: " + pinS);
+        for (int i = 0; i < listaReservas.size(); i++) {
+            if (pinS.equalsIgnoreCase(listaReservas.get(i).getPin_fijo())) {
+                System.out.println("El pin es igual se generará otro");
+                generarPin();
+            } else {
+                System.out.println("El pin final es: " + pinS);
+                return pinS;
+            }
+        }
+
         return pinS;
     }
 
@@ -391,11 +410,13 @@ public class GestionVehiculosAbonados {
 
     public static void main(String[] args) {
 
-        ClienteAbonado aux = GestionVehiculosAbonados.IngresarVehiculoAbonado();
-//        generarPin();
-        gestionPlazas(aux);
-        generarFicheroAbonado(aux);
-//        retirarAbonados();
+        depositarVehiculoAbonado();
+
+//        ClienteAbonado aux = GestionVehiculosAbonados.IngresarVehiculoAbonado();
+////        generarPin();
+//        gestionPlazas(aux);
+//        generarFicheroAbonado(aux);
+////        retirarAbonados();
     }
 
 }
