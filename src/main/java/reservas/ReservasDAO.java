@@ -47,6 +47,7 @@ public class ReservasDAO implements IReservas {
                 p.setPin_fijo(res.getString("pin_fijo"));
                 p.setFeciniabono(res.getDate("feciniabono").toLocalDate());
                 p.setFecfinabono(res.getDate("fecfinabono").toLocalDate());
+                p.setPrecio(res.getDouble("precio"));
 
                 //Añadimos el objeto a la lista
                 lista.add(p);
@@ -81,6 +82,7 @@ public class ReservasDAO implements IReservas {
                 p.setPin_fijo(res.getString("pin_fijo"));
                 p.setFeciniabono(res.getDate("feciniabono").toLocalDate());
                 p.setFecfinabono(res.getDate("fecfinabono").toLocalDate());
+                p.setPrecio(res.getDouble("precio"));
                 return p;
             }
 
@@ -92,7 +94,7 @@ public class ReservasDAO implements IReservas {
     @Override
     public int insertReserva(ReservasVO reserva) throws SQLException {
         int numFilas = 0;
-        String sql = "insert into reservas values (?,?,?,?,?)";
+        String sql = "insert into reservas values (?,?,?,?,?,?)";
 
         if (findByPk(reserva.getMatricula(), reserva.getNumplaza()) != null) {
             // Existe un registro con esa pk
@@ -109,6 +111,7 @@ public class ReservasDAO implements IReservas {
                 prest.setString(3, reserva.getPin_fijo());
                 prest.setDate(4, Date.valueOf(reserva.getFeciniabono()));
                 prest.setDate(5, Date.valueOf(reserva.getFecfinabono()));
+                prest.setDouble(6, reserva.getPrecio());
 
                 numFilas = prest.executeUpdate();
             }
@@ -138,6 +141,7 @@ public class ReservasDAO implements IReservas {
         try (PreparedStatement prest = con.prepareStatement(sql)) {
 
             // Establecemos los parámetros de la sentencia
+            prest.setString(1, r.getMatricula());
             prest.setInt(2, r.getNumplaza());
             // Ejecutamos la sentencia
             numFilas = prest.executeUpdate();
@@ -166,7 +170,7 @@ public class ReservasDAO implements IReservas {
     @Override
     public int updatereserva(String matricula, int numplaza, ReservasVO nuevosDatos) throws SQLException {
         int numFilas = 0;
-        String sql = "update reservas set matricula = ?, numplaza = ? , pin_fij=? where matricula=? and numplaza=?";
+        String sql = "update reservas set matricula = ?, numplaza = ? , pin_fijo=?, precio= ? where matricula=? and numplaza=?";
 
         if (findByPk(matricula, numplaza) == null) {
             // La reserva a actualizar no existe
@@ -180,8 +184,9 @@ public class ReservasDAO implements IReservas {
                 prest.setString(1, nuevosDatos.getMatricula());
                 prest.setInt(2, nuevosDatos.getNumplaza());
                 prest.setString(3, nuevosDatos.getPin_fijo());
-                prest.setDate(4, Date.valueOf(nuevosDatos.getFeciniabono()));
-                prest.setDate(5, Date.valueOf(nuevosDatos.getFecfinabono()));
+                prest.setDate(5, Date.valueOf(nuevosDatos.getFeciniabono()));
+                prest.setDate(6, Date.valueOf(nuevosDatos.getFecfinabono()));
+                prest.setDouble(4, nuevosDatos.getPrecio());
 
                 numFilas = prest.executeUpdate();
             }
