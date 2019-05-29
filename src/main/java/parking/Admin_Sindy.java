@@ -193,6 +193,7 @@ public class Admin_Sindy {
         ReservasDAO daoReservas = new ReservasDAO();
         TicketsDAO daoTickets = new TicketsDAO();
         String respuesta;
+        String archivos = "";
         boolean encontrado = false;
         //Mostramos las copias de seguridad que tenemos guardadas
         File carpeta = new File("./backup");
@@ -202,12 +203,10 @@ public class Admin_Sindy {
         } else {
 
             for (String listado1 : listado) {
-                System.out.println(listado1);
+                archivos = archivos + listado1 + "\n";
             }
-            Scanner teclado = new Scanner(System.in);
             do {
-                System.out.println("Elige la copia de seguridad que quieres restaurar: ");
-                respuesta = teclado.nextLine();
+                respuesta = JOptionPane.showInputDialog("Elige la copia de seguridad que quieres restaurar:\n " + archivos);
 
                 for (String lista : listado) {
                     if (respuesta.equalsIgnoreCase(lista)) {
@@ -325,7 +324,7 @@ public class Admin_Sindy {
             }
             //Restauramos la tabla reservas
             daoReservas.insertReserva(listaReservas);
-            
+
             /*TICKETS*/
             ArrayList<TicketsVO> listaTickets = new ArrayList<>();
             //Variable que lleva la cuenta de las líneas que se han leido.
@@ -368,11 +367,44 @@ public class Admin_Sindy {
 
     }
 
+    public static void mostrarAbonadosAnio() throws SQLException {
+        ReservasDAO daoReserva = new ReservasDAO();
+        ArrayList<ReservasVO> listaReservas = new ArrayList<>();
+        ArrayList<ReservasVO> listaReservasAnio = new ArrayList<>();
+        System.out.println("ANTES");
+        listaReservas = (ArrayList<ReservasVO>) daoReserva.getAll();
+        System.out.println("DESPUES");
+        int contadorReservas = 0;
+        String reservas = "";
+        double precioTotal = 0;
+        for (ReservasVO listaReserva : listaReservas) {
+            if (listaReserva.getFecfinabono().getYear()== LocalDate.now().getYear()) {
+                System.out.println("HOLA");
+                contadorReservas++;
+                listaReservasAnio.add(listaReserva);
+                precioTotal = precioTotal + listaReserva.getPrecio();
+            }
+        }
+
+        if (contadorReservas != 0) {
+            System.out.println("Numero de reservas que se han realizado en el año "
+                    + LocalDate.now().getYear() + "\n es igual a: " + contadorReservas);
+            for (ReservasVO reservasVO : listaReservasAnio) {
+                reservas = reservas + reservasVO + "\n";
+            }
+
+            JOptionPane.showMessageDialog(null, "Numero de reservas que se han realizado en el año "
+                    + LocalDate.now().getYear() + " es igual a: "
+                    + contadorReservas + "\n" + reservas + "\n Ganacias de este año: "
+                    + precioTotal);
+        }
+    }
+
     public static void main(String[] args) throws FileNotFoundException, SQLException {
         try {
-            recuperarCopiaSeguridad();
+            mostrarAbonadosAnio();
 
-        } catch (FileNotFoundException | SQLException e) {
+        } catch (SQLException e) {
         }
     }
 
