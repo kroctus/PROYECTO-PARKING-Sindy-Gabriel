@@ -16,16 +16,6 @@ import javax.swing.JOptionPane;
  */
 public class Menu {
 
-    public static void main(String[] args) throws SQLException, ParseException, FileNotFoundException {
-        try {
-            mostrarMenu();
-
-        } catch (SQLException | ParseException | FileNotFoundException sql) {
-            System.out.println("Ha ocurrido un error");
-            System.out.println(sql.getMessage());
-        }
-    }
-
     public static void mostrarMenu() throws SQLException, ParseException, FileNotFoundException {
         int opcion1;//Seleccionar zona
         int opcion2;//¿Es abonado?
@@ -42,22 +32,23 @@ public class Menu {
                 "Menú", JOptionPane.YES_NO_CANCEL_OPTION,
                 JOptionPane.QUESTION_MESSAGE, null, new Object[]{
                     "Zona cliente", "Zona admin"},
-                "Zona cliente");
+                " ");
         if (opcion1 != 1) {
             System.out.println("Zona cliente");
             opcion2 = JOptionPane.showOptionDialog(null, "¿Eres abonado?",
                     "Menú", JOptionPane.YES_NO_CANCEL_OPTION,
                     JOptionPane.QUESTION_MESSAGE, null, new Object[]{
                         "Si", "No"},
-                    "Si");
+                    " ");
             if (opcion2 != 1) {
                 System.out.println("Es abonado");
                 opcion3 = JOptionPane.showOptionDialog(null, "¿Qué quieres hacer?",
                         "Menú", JOptionPane.YES_NO_CANCEL_OPTION,
                         JOptionPane.QUESTION_MESSAGE, null, new Object[]{
                             "Depositar vehiculo", "Retirar vehiculo"},
-                        "Si");
+                        " ");
                 if (opcion3 != 1) {
+                    Admin_Sindy.mostarEstadoPlazas();
                     GestionVehiculosAbonados.depositarVehiculoAbonado();
                 } else {
                     GestionVehiculosAbonados.retirarAbonados();
@@ -68,8 +59,9 @@ public class Menu {
                         "Menú", JOptionPane.YES_NO_CANCEL_OPTION,
                         JOptionPane.QUESTION_MESSAGE, null, new Object[]{
                             "Depositar vehiculo", "Retirar vehiculo"},
-                        "Si");
+                        " ");
                 if (opcion4 != 1) {
+                    Admin_Sindy.mostarEstadoPlazas();
                     GestionVehiculos.depositarVehiculo();
                 } else {
                     GestionVehiculos.retirarVehiculo();
@@ -81,7 +73,7 @@ public class Menu {
                     "Menú ", JOptionPane.YES_NO_CANCEL_OPTION,
                     JOptionPane.QUESTION_MESSAGE, null, new Object[]{
                         "Estado del parking", "Facturación", "Abonos", "Copias de seguridad"},
-                    "Estado del parking");
+                    " ");
             switch (opcion5) {
                 case 0:
                     Admin_Sindy.mostarEstadoPlazas();
@@ -106,7 +98,7 @@ public class Menu {
                             "Abonos ", JOptionPane.YES_NO_CANCEL_OPTION,
                             JOptionPane.QUESTION_MESSAGE, null, new Object[]{
                                 "Dar de alta", "Modificar abonos", "Dar de baja", "Consultar caducidad"},
-                            "Dar de alta");
+                            " ");
                     switch (opcion7) {
                         case 0:
                             System.out.println("Dar de alta");
@@ -147,7 +139,7 @@ public class Menu {
                             "Copias de seguridad", JOptionPane.YES_NO_CANCEL_OPTION,
                             JOptionPane.QUESTION_MESSAGE, null, new Object[]{
                                 "Crear", "Restaurar"},
-                            "Crear");
+                            " ");
                     if (opcion9 != 1) {
                         System.out.println("Crear copia de seguridad");
                         CopiaDeSeguridad.crearCopiaSeguridad();
