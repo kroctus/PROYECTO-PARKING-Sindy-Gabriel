@@ -35,6 +35,7 @@ public class Menu {
         int opcion7;//Abonos
         int opcion8;//
         int opcion9;//Copias de seguridad
+        String mes;
 
         opcion1 = JOptionPane.showOptionDialog(null, "Selecciona una zona",
                 "Menú", JOptionPane.YES_NO_CANCEL_OPTION,
@@ -82,7 +83,7 @@ public class Menu {
                     "Estado del parking");
             switch (opcion5) {
                 case 0:
-                    System.out.println("Estado del parking");
+                    Admin_Sindy.mostarEstadoPlazas();
                     break;
                 case 1:
                     System.out.println("Facturación");
@@ -113,6 +114,7 @@ public class Menu {
                             break;
                         case 2:
                             System.out.println("Dar de baja");
+                            Admin_Sindy.bajaAbono();
                             break;
                         case 3:
                             System.out.println("Consultar caducidad");
@@ -123,10 +125,15 @@ public class Menu {
                                     " ");
                             switch (opcion8) {
                                 case 0:
-                                    System.out.println("Abonos que caducan en un mes concreto");
+                                    do {
+                                        mes = JOptionPane.showInputDialog("Indica el "
+                                                + "numero del mes para obtener un listado\n"
+                                                + " de los abonos que caducan en ese mes");
+                                    } while (Integer.valueOf(mes) > 12 || Integer.valueOf(mes) < 0);
+                                    Admin_Sindy.abonosCaducadosMes(Integer.valueOf(mes));
                                     break;
                                 case 1:
-                                    System.out.println("Abonos que caducan en los siguientes 10 días");
+                                    Admin_Sindy.abonosCaducados10dias();
                                     break;
                             }
                             break;
