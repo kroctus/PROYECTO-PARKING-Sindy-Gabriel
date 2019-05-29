@@ -5,6 +5,7 @@
  */
 package parking;
 
+import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import javax.swing.JOptionPane;
@@ -15,17 +16,17 @@ import javax.swing.JOptionPane;
  */
 public class Menu {
 
-    public static void main(String[] args) throws SQLException, ParseException {
+    public static void main(String[] args) throws SQLException, ParseException, FileNotFoundException {
         try {
             mostrarMenu();
 
-        } catch (SQLException | ParseException sql) {
+        } catch (SQLException | ParseException | FileNotFoundException sql) {
             System.out.println("Ha ocurrido un error");
             System.out.println(sql.getMessage());
         }
     }
 
-    public static void mostrarMenu() throws SQLException, ParseException {
+    public static void mostrarMenu() throws SQLException, ParseException, FileNotFoundException {
         int opcion1;//Seleccionar zona
         int opcion2;//¿Es abonado?
         int opcion3;//Abonado: depositar y retirar 
@@ -148,8 +149,10 @@ public class Menu {
                             "Crear");
                     if (opcion9 != 1) {
                         System.out.println("Crear copia de seguridad");
+                        CopiaDeSeguridad.crearCopiaSeguridad();
                     } else {
                         System.out.println("Restaurar copia de seguridad");
+                        Admin_Sindy.recuperarCopiaSeguridad();
                     }
                     break;
             }
