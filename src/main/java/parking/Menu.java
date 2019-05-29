@@ -95,6 +95,7 @@ public class Menu {
                             "");
                     if (opcion6 != 1) {
                         System.out.println("Consultar facturas de clientes abonados");
+                        Admin_Sindy.mostrarAbonadosAnuales();
                     } else {
                         System.out.println("Consultar facturas de clientes no abonados");
                     }
