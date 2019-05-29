@@ -108,7 +108,7 @@ public class TicketsVO {
 
     @Override
     public String toString() {
-        return numplaza + " : " + matricula +  " : " + pin_desechable +  " : " + fecinipin +  " : " + fecfinpin +  " : " + horaenticket + " : "+ horasalticket;
+        return numplaza + " : " + matricula +  " : " + pin_desechable +  " : " + fecinipin +  " : " + fecfinpin +  " : " + horaenticket + " : "+ horasalticket + " : " + precio;
     }
 
 
