@@ -401,6 +401,7 @@ public class Admin_Sindy {
         TicketsDAO daoTickets = new TicketsDAO();
         ArrayList<TicketsVO> listaTickets = new ArrayList<>();
         ArrayList<TicketsVO> listaFacturaTicket = new ArrayList<>();
+        listaTickets = (ArrayList<TicketsVO>) daoTickets.getAll();
         String fechaIni, fechaFin, horaIni, horaFin;
         String tickets = "";
         double precioTotal = 0;
@@ -430,7 +431,7 @@ public class Admin_Sindy {
         LocalTime hora_fin = LocalTime.of(Integer.valueOf(horaF[0]), Integer.valueOf(horaF[1]), Integer.valueOf(horaF[2]));
 
         listaTickets = (ArrayList<TicketsVO>) daoTickets.getAll();
-        for (TicketsVO ticketsVO : listaFacturaTicket) {
+        for (TicketsVO ticketsVO : listaTickets) {
             if (ticketsVO.getFecfinpin().isAfter(fecha_ini)
                     && ticketsVO.getFecfinpin().isBefore(fecha_fin)
                     && ticketsVO.getHorasalticket().isAfter(hora_ini)
