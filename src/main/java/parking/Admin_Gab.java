@@ -12,12 +12,17 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import static parking.GestionVehiculos.crearVehiculo;
 import static parking.GestionVehiculosAbonados.esNumero;
 import static parking.GestionVehiculosAbonados.generarTarifa;
 import plazas.PlazaDAO;
 import plazas.PlazaVO;
 import reservas.ReservasDAO;
 import reservas.ReservasVO;
+import tickets.TicketsDAO;
+import tickets.TicketsVO;
+import vehiculos.VehiculoDAO;
+import vehiculos.VehiculoVO;
 
 /**
  *
@@ -134,18 +139,16 @@ public class Admin_Gab {
         ClienteVO clienteVO = new ClienteVO(matricula, dni, nombre, apellido1, apellido2, tarjeta, tipoAbono, email);
         System.out.println("Se ha creado el cliente");
 
-        ClienteAbonado clienteA = new ClienteAbonado(dni, tipoVehiculo, matricula);
-
-        //Creamos una reserva con los datos recogidos
-        System.out.println("Vamos a hcer el alta de las reservas");
-        gestionReservasAlta(clienteA, feciniAbono, fecFinAbono);
-        System.out.println("se ha hecho la reserva");
-
+//        ClienteAbonado clienteA = new ClienteAbonado(dni, tipoVehiculo, matricula);
         //Agregamos ese cliente a la BD
         try {
             System.out.println("Insertamos el cliente");
             clienteDAO.insertCliente(clienteVO);
             System.out.println("Se ha incertado el cliente");
+
+            System.out.println("Hacemos la reserva");
+            IngresarAbonado(matricula, fecFinAbono, tipoAbono);
+
         } catch (SQLException sqle) {
             System.out.println("No se ha podido realizar la operación:");
             System.out.println(sqle.getMessage());
@@ -153,121 +156,121 @@ public class Admin_Gab {
 
     }
 
-    //Método que hace la insersión en la BD de la nuev reserva del cliente el cual se ha dado de alta
-    //Mediante los datos del cliente que recibe y la fecha de inicio y de fin del abono
-    public static void gestionReservasAlta(ClienteAbonado cliente, LocalDate feciniAbono, LocalDate fecFinAbono) {
-        System.out.println("");
-        System.out.println("Estoy en gestión de plazas");
-        Integer[] plazasEstado = new Integer[46];
-        //Conseguimos las plazas de nuestro parking
-//        System.out.println("");
-//        System.out.println("Atributos de cliente: " + "\n matricula : " + cliente.getMatricula()
-//                + "\n tipoVehiculo: " + cliente.getTipoVehiculo() + " \n DNI " + cliente.getDni());
+    //Método que recbe el tipo de abono y devuelve el precio por tipo de abono
+    public static int generarPrecioAbono(int tipoAbono) {
+        switch (tipoAbono) {
+            case 1:
+                return 25;
+            case 2:
+                return 70;
+            case 3:
+                return 130;
+            case 4:
+                return 200;
 
-       
-        PlazaDAO plazas = new PlazaDAO();
-        ReservasDAO reservaDAO = new ReservasDAO();
-        ArrayList<PlazaVO> listaPlazas = new ArrayList<>();
-        int numPlaza;
+        }
+
+        return 25;
+    }
+
+    public static boolean IngresarAbonado(String matricula, LocalDate fecFinAbono, int tipoAbono) throws SQLException {
+        TicketsDAO daoTicket = new TicketsDAO();
+        VehiculoDAO daoVehiculo = new VehiculoDAO();
+        PlazaDAO daoPlazas = new PlazaDAO();
+
+        //Creamos un objeto de tipo vehiculo con los datos
+        //que introduzca el usuario
+        VehiculoVO vehiculo = crearVehiculo();
+        //Creamos un array con el número de parking que tenemos, es decir, 45.
+        Integer[] plazasEstado = new Integer[45];
+        ArrayList<PlazaVO> listaPlaza = new ArrayList<>();
+
         try {
-
-            //Comprobamos que el pin no sea igual
-            ReservasDAO r = new ReservasDAO();
-            ArrayList<ReservasVO> listaR = new ArrayList<>();
-            listaR = (ArrayList<ReservasVO>) r.getAll();
-
-            /*Para ello comparamos el pin a generar con cada uno de los pin de la tabla reservas
-            y hasta que no se generé uno diferente no se asigna el pin*/
-             
-            cliente.setPin(GestionVehiculosAbonados.generarPin());
-
-            for (int i = 0; i < listaR.size(); i++) {
-               while (cliente.getPin().equals(listaR.get(i).getPin_fijo())) {
-                    System.out.println("El pin es igual se cambiara");
-                    cliente.setPin(GestionVehiculosAbonados.generarPin());
-                }
+            //Obtenemos de la base de datos la información de las plazas almacenadas
+            listaPlaza = (ArrayList<PlazaVO>) daoPlazas.getAll();
+            for (int i = 0; i < listaPlaza.size(); i++) {
+                //Guardamos en el array el estado de las plazas
+                plazasEstado[i] = listaPlaza.get(i).getEstadoPlaza();
             }
-
-            listaPlazas = (ArrayList<PlazaVO>) plazas.getAll();
-
-            System.out.println("Mostramos las plazas: ");
-            System.out.println("");
-            listaPlazas.forEach(System.out::println);
-
-            for (int i = 0; i < listaPlazas.size(); i++) {
-                int estado = listaPlazas.get(i).getEstadoPlaza();
-//                System.out.println("El estado en lista1 es : " + estado );
-                plazasEstado[i] = estado;
-                System.out.println("Estado Plaza: " + i + " : " + plazasEstado[i]);
-            }
-
-            //Miramos el estado y el tipo de vehiculo
-            //Del 0-14 solo guardaremos las motos
-            if (cliente.getTipoVehiculo().equalsIgnoreCase("motocicleta")) {
-
-                System.out.println("Estoy en  motocicleta");
-                for (int i = 0; i < 14; i++) {
-                    // Plaza libre
-
-                    if (plazasEstado[i] == 1) {
-                        numPlaza = plazasEstado[i];
-                        System.out.println("Estado Plaza: " + i + " : " + plazasEstado[i]);
-                        System.out.println("El numero de la plaza será el : " + (numPlaza + 100));
-                        ReservasVO persona = new ReservasVO(cliente.getMatricula(), (numPlaza + 100), cliente.getPin(), feciniAbono, fecFinAbono);
-                        reservaDAO.insertReserva(persona);
-                        System.out.println("Hago el insert");
-
-                    }
-
-                }
-            }
-
-            //Miramos si es un turismo
-            if (cliente.getTipoVehiculo().equalsIgnoreCase("turismo")) {
-                System.out.println("Estoy en turismo");
-                //Los turismo se guardaran del 15 hasta el 29
-                for (int j = 15; j < 29; j++) {
-                    //PlazaLibre
-                    System.out.println("El estado de la plaza " + j + "es:" + plazasEstado[j]);
-                    if (plazasEstado[j] == 1) {
-                        numPlaza = plazasEstado[j];
-                        System.out.println("El numero de la plaza será el : " + (numPlaza + 100));
-                        ReservasVO persona = new ReservasVO(cliente.getMatricula(), (numPlaza + 100), cliente.getPin(), feciniAbono, fecFinAbono);
-                        reservaDAO.insertReserva(persona);
-                        System.out.println("Hago el insert");
-
-                    }
-                }
-
-            }
-
-            //Miramos si es un caravana
-            if (cliente.getTipoVehiculo().equalsIgnoreCase("Caravana")) {
-                System.out.println("Estoy rn cara");
-                //Las carvaanas se guardaran del 16 al 44
-                for (int j = 16; j < 45; j++) {
-                    //PlazaLibre
-                    System.out.println("El estado de la plaza " + j + "es:" + plazasEstado[j]);
-                    if (plazasEstado[j] == 1) {
-                        numPlaza = plazasEstado[j];
-                        System.out.println("El numero de la plaza será el : " + (numPlaza + 100));
-                        ReservasVO persona = new ReservasVO(cliente.getMatricula(), (numPlaza + 100), cliente.getPin(), feciniAbono, fecFinAbono);
-                        reservaDAO.insertReserva(persona);
-
-                        System.out.println("Hago el insert");
-
-                    }
-                }
-
-            }
-
-            JOptionPane.showMessageDialog(null, "Se ha ingresado el Cliente");
-
         } catch (SQLException sqle) {
             System.out.println("No se ha podido realizar la operación:");
             System.out.println(sqle.getMessage());
         }
+
+        //Si el tipo de vehiculo es una motocicleta, miramos entre la posición 
+        //0 al 14 del array para saber el estado de las plazas de tipo motocicleta,
+        //para ver si encontramos alguna que no esté ocupada.
+        if (vehiculo.getTipoVehiculo() == 2) {
+            //Los turismos se guardaran del 0 al 14, siendo el rango
+            //de los posibles identificadores del 100 al 114.
+            for (int i = 0; i < 14; i++) {
+                //Miramos si la plaza está libre
+                if (plazasEstado[i] == 1) {
+                    //Si efectivamente la plaza está libre entonces:
+                    PlazaVO plazaModificada = listaPlaza.get(i);
+                    plazaModificada.setEstadoPlaza(4);
+                    daoPlazas.updatePlaza(listaPlaza.get(i).getNumPlaza(), plazaModificada);
+                    //Añadimos La reserva
+                    ReservasVO reserva = new ReservasVO(matricula, listaPlaza.get(i).getNumPlaza(), GestionVehiculosAbonados.generarPin(), LocalDate.now(), fecFinAbono, generarPrecioAbono(tipoAbono));
+                    return true;
+
+                }
+            }
+        }
+
+        //Si el tipo de vehiculo es un turismo, miramos entre la posición 
+        //15 al 29 del array para saber el estado de las plazas de tipo turismo,
+        //para ver si encontramos alguna que no esté ocupada.
+        if (vehiculo.getTipoVehiculo() == 1) {
+            //Los turismos se guardaran del 15 al 29, siendo el rango
+            //de los posibles identificadores del 115 al 129.
+            for (int i = 15; i < 29; i++) {
+                //Comprobamos si la plaza está libre
+                if (plazasEstado[i] == 1) {
+                    //Si efectivamente la plaza está libre entonces:
+                    PlazaVO plazaModificada = listaPlaza.get(i);
+                    plazaModificada.setEstadoPlaza(4);
+                    //Mostramos por pantalla los datos del ticket necesarios                    
+                    daoPlazas.updatePlaza(listaPlaza.get(i).getNumPlaza(), plazaModificada);
+                    //Añadimos La reserva
+                    ReservasVO reserva = new ReservasVO(matricula, listaPlaza.get(i).getNumPlaza(), GestionVehiculosAbonados.generarPin(), LocalDate.now(), fecFinAbono, generarPrecioAbono(tipoAbono));
+                    return true;
+
+                }
+            }
+
+        }
+        //Si el tipo de vehiculo es una caravana, miramos entre la posición 
+        //30 al 44 del array para saber el estado de las plazas de tipo caravana,
+        //para ver si encontramos alguna que no esté ocupada.
+        if (vehiculo.getTipoVehiculo() == 3) {
+            //Las caravanas se guardaran del 30 al 44, siendo el rango
+            //de los posibles identificadores del 130 al 144.
+            for (int i = 30; i < 44; i++) {
+                //Comprobamos si la plaza está libre
+                if (plazasEstado[i] == 1) {
+                    //Si efectivamente la plaza está libre entonces:
+
+                    PlazaVO plazaModificada = listaPlaza.get(i);
+                    plazaModificada.setEstadoPlaza(4);
+                    //Mostramos por pantalla los datos del ticket necesarios 
+
+                    //Cambiamos el estado de la plaza a ocupado
+                    daoPlazas.updatePlaza(listaPlaza.get(i).getNumPlaza(), plazaModificada);
+                    //Devuelve true si se ha podido insertar correctamente 
+                    //Añadimos La reserva
+                    ReservasVO reserva = new ReservasVO(matricula, listaPlaza.get(i).getNumPlaza(), GestionVehiculosAbonados.generarPin(), LocalDate.now(), fecFinAbono, generarPrecioAbono(tipoAbono));
+                    return true;
+                }
+            }
+
+        }
+
+        //Devuelve false si no se han encontrado plazas libres del tipo
+        //de vehiculo que ha introducido el usuario.
+        return false;
     }
+
 
     public static void main(String[] args) {
         alta();
