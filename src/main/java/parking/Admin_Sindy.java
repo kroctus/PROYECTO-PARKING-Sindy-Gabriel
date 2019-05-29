@@ -152,7 +152,7 @@ public class Admin_Sindy {
         for (ReservasVO reservasVO : listaReservas) {
 
             if (reservasVO.getFecfinabono().isAfter(hoy)
-                    && reservasVO.getFeciniabono().isBefore(_10dias)) {
+                    && reservasVO.getFecfinabono().isBefore(_10dias)) {
 
                 reservasCaducidadP.add(reservasVO);
             }
