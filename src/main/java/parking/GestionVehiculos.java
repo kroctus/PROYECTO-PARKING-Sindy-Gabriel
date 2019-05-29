@@ -221,6 +221,8 @@ public class GestionVehiculos {
     }
 
     public static boolean retirarVehiculo() throws SQLException, ParseException {
+        System.out.println(LocalDate.now());
+        System.out.println(LocalTime.now());
         //Cambiamos el formato del double para que solo muestre dos decimales.
         DecimalFormat formatoDecimal = new DecimalFormat("#.00");
         TicketsDAO daoTicket = new TicketsDAO();
@@ -257,7 +259,7 @@ public class GestionVehiculos {
                     && ticket.getPin_desechable().equals(pin)
                     && ticket.getNumplaza() == Integer.parseInt(numeroPlaza)) {
                 //Obtenemos los minutos que el vehiculo ha pasado en el parking
-                minutos = calcularMinutos(ticket.getFecinipin(), LocalDate.now(), ticket.getHoraenticket(), LocalTime.now());
+                minutos = calcularMinutos(ticket.getFecinipin(), LocalDate.now().minusDays(1), ticket.getHoraenticket(), LocalTime.now());
                 //Obtenemos mediante el numero de plaza la tarifa por minuto 
                 //que se la va a aplicar al vehiculo que dependerá del tipo de vehiculo.
                 for (PlazaVO plazaVO : listaPlaza) {
@@ -269,27 +271,41 @@ public class GestionVehiculos {
                 //Calculamos el precio multiplicando los minutos que ha estado
                 //el vehiculo en el parking por la tarifa del parking,
                 //que depende del tipo de vehiculo
-                precioTicket = (minutos * tarifa) / 100;
+                precioTicket = (minutos * tarifa);
+                System.out.println(precioTicket);
                 //Cambiamos el estado a libre
                 plazaModificada.setEstadoPlaza(1);
                 daoPlaza.updatePlaza(plazaModificada.getNumPlaza(), plazaModificada);
                 //Cambiamos la fecha y la hora de salida 
                 ticketModificado = ticket;
                 ticketModificado.setHorasalticket(LocalTime.now());
-                ticketModificado.setFecfinpin(LocalDate.now());
+                ticketModificado.setFecfinpin(LocalDate.now().minusDays(1));
                 ticketModificado.setPrecio(precioTicket);
                 daoTicket.deleteTickets(ticket);
                 daoTicket.insertTickets(ticketModificado);
                 //Mostramos por pantalla los datos del ticket
-                JOptionPane.showMessageDialog(null, "Ticket\n Matricula: "
+                if (precioTicket==0) {
+                    JOptionPane.showMessageDialog(null, "Ticket\n Matricula: "
                         + ticketModificado.getMatricula() + "\nPlaza: "
                         + ticketModificado.getNumplaza() + "\nPin: "
                         + ticketModificado.getPin_desechable() + "\nFecha de entrada: "
                         + ticketModificado.getFecinipin() + "\nHora de entrada: "
                         + ticketModificado.getHoraenticket() + "\nFecha de salida: "
-                        + ticketModificado.getFecfinpin()+ "\nHora de salida: "
+                        + ticketModificado.getFecfinpin() + "\nHora de salida: "
+                        + ticketModificado.getHorasalticket() + "\nImporte: "
+                        + precioTicket);
+                }else{
+                    JOptionPane.showMessageDialog(null, "Ticket\n Matricula: "
+                        + ticketModificado.getMatricula() + "\nPlaza: "
+                        + ticketModificado.getNumplaza() + "\nPin: "
+                        + ticketModificado.getPin_desechable() + "\nFecha de entrada: "
+                        + ticketModificado.getFecinipin() + "\nHora de entrada: "
+                        + ticketModificado.getHoraenticket() + "\nFecha de salida: "
+                        + ticketModificado.getFecfinpin() + "\nHora de salida: "
                         + ticketModificado.getHorasalticket() + "\nImporte: "
                         + formatoDecimal.format(precioTicket));
+                }
+                
                 //JOptionPane.showMessageDialog(null, "El importe a pagar es: " + formatoDecimal.format(precioTicket));
                 //Eliminamos el vehiculo de la tabla vehiculos (de la base de datos)
                 for (VehiculoVO vehiculos : listaVehiculo) {
