@@ -71,7 +71,20 @@ public class Admin_Sindy {
         return "";
     }
 
-    
+    public static void bajaAbono() throws SQLException {
+        String matricula = JOptionPane.showInputDialog("Introduce la matricula "
+                + "del cliente que quieras dar de baja");
+
+        ClienteDAO daoCliente = new ClienteDAO();
+        ArrayList<ClienteVO> listaClientes = new ArrayList<>();
+        listaClientes = (ArrayList<ClienteVO>) daoCliente.getAll();
+        for (ClienteVO listaCliente : listaClientes) {
+            if (listaCliente.getMatricula().equalsIgnoreCase(matricula)) {
+                daoCliente.updateCliente(listaCliente.getMatricula(), borrarDatos(listaCliente));
+            }
+        }
+
+    }
 
     private static ClienteVO borrarDatos(ClienteVO cliente) {
 
