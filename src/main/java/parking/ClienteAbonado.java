@@ -39,6 +39,13 @@ public class ClienteAbonado {
         this.matricula = matricula;
        
     }
+
+    public ClienteAbonado(String dni, String matricula) {
+        this.dni = dni;
+        this.matricula = matricula;
+    }
+     
+     
     
 
 
