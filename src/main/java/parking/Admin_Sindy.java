@@ -367,19 +367,16 @@ public class Admin_Sindy {
 
     }
 
-    public static void mostrarAbonadosAnio() throws SQLException {
+    public static void mostrarAbonadosAnuales() throws SQLException {
         ReservasDAO daoReserva = new ReservasDAO();
         ArrayList<ReservasVO> listaReservas = new ArrayList<>();
         ArrayList<ReservasVO> listaReservasAnio = new ArrayList<>();
-        System.out.println("ANTES");
         listaReservas = (ArrayList<ReservasVO>) daoReserva.getAll();
-        System.out.println("DESPUES");
         int contadorReservas = 0;
         String reservas = "";
         double precioTotal = 0;
         for (ReservasVO listaReserva : listaReservas) {
-            if (listaReserva.getFecfinabono().getYear()== LocalDate.now().getYear()) {
-                System.out.println("HOLA");
+            if (listaReserva.getFecfinabono().getYear() == LocalDate.now().getYear()) {
                 contadorReservas++;
                 listaReservasAnio.add(listaReserva);
                 precioTotal = precioTotal + listaReserva.getPrecio();
@@ -397,14 +394,6 @@ public class Admin_Sindy {
                     + LocalDate.now().getYear() + " es igual a: "
                     + contadorReservas + "\n" + reservas + "\n Ganacias de este año: "
                     + precioTotal);
-        }
-    }
-
-    public static void main(String[] args) throws FileNotFoundException, SQLException {
-        try {
-            mostrarAbonadosAnio();
-
-        } catch (SQLException e) {
         }
     }
 
