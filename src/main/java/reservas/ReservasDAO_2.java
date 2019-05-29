@@ -30,7 +30,7 @@ where clientes.matricula='1234-OPU';*/
     public int findPlaza(String matricula) throws SQLException {
         ResultSet res = null;
         ReservasVO p = new ReservasVO();
-        int numPlaza=0;
+        int numero = 222;
 
         String sql = "select reservas.numplaza from reservas join clientes on reservas.matricula= clientes.matricula where clientes.matricula=?";
 //        String sql2 = "select * from reservas where matricula=? and numplaza=?";
@@ -47,13 +47,26 @@ where clientes.matricula='1234-OPU';*/
             // si existe esa pk
             if (res.first()) {
                 // Recogemos los datos de la reserva, guardamos en un objeto
-              numPlaza= p.getNumplaza();
+               
+                int numPlaza =res.getInt("numplaza");
                 return numPlaza;
             }
 
-            return numPlaza;
+            return numero;
         }
 
+    }
+
+    public static void main(String[] args) {
+        ReservasDAO_2 reserva = new ReservasDAO_2();
+
+        String matricula = "1564-HJK";
+        try {
+            System.out.println("lala:  " + reserva.findPlaza(matricula));
+        } catch (SQLException sqle) {
+            System.out.println("No se ha podido realizar la operación:");
+            System.out.println(sqle.getMessage());
+        }
     }
 
 }
