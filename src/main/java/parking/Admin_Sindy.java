@@ -249,36 +249,6 @@ public class Admin_Sindy {
             //Restauramos la tabla vehiculos
             daoVehiculo.insertVehiculo(listaVehiculo);
 
-            /*RESERVAS*/
-            ArrayList<ReservasVO> listaReservas = new ArrayList<>();
-            //Variable que lleva la cuenta de las líneas que se han leido.
-            try (Scanner datosFichero = new Scanner(new FileInputStream("./backup/" + respuesta + "/Reservas.txt"), "ISO-8859-1")) {
-                String[] tokens;
-                String linea;
-                while (datosFichero.hasNextLine()) {
-
-                    linea = datosFichero.nextLine();
-                    tokens = linea.split(" : ");
-                    String i = tokens[3].trim();
-                    String[] fecha1 = i.split("-");
-                    LocalDate fechaIni = LocalDate.of(Integer.valueOf(fecha1[1]), Integer.valueOf(fecha1[1]), Integer.valueOf(fecha1[2]));
-
-                    String f = tokens[4].trim();
-                    String[] fecha2 = f.split("-");
-                    LocalDate fechafin = LocalDate.of(Integer.valueOf(fecha2[0]), Integer.valueOf(fecha2[1]), Integer.valueOf(fecha2[2]));
-
-                    listaReservas.add(new ReservasVO(tokens[0], Integer.valueOf(tokens[1]), tokens[2], fechaIni, fechafin));
-                }
-                for (ReservasVO reservas : listaReservas) {
-                    System.out.println(reservas);
-                }
-
-            } catch (FileNotFoundException e) {
-                System.out.println(e.getMessage());
-            }
-            //Restauramos la tabla reservas
-            daoReservas.insertReserva(listaReservas);
-
             /*PLAZAS*/
             ArrayList<PlazaVO> listaPlazas = new ArrayList<>();
             //Variable que lleva la cuenta de las líneas que se han leido.
@@ -326,6 +296,36 @@ public class Admin_Sindy {
             //Restauramos la tabla de clientes
             daoCliente.insertCliente(listaClientes);
 
+            /*RESERVAS*/
+            ArrayList<ReservasVO> listaReservas = new ArrayList<>();
+            //Variable que lleva la cuenta de las líneas que se han leido.
+            try (Scanner datosFichero = new Scanner(new FileInputStream("./backup/" + respuesta + "/Reservas.txt"), "ISO-8859-1")) {
+                String[] tokens;
+                String linea;
+                while (datosFichero.hasNextLine()) {
+
+                    linea = datosFichero.nextLine();
+                    tokens = linea.split(" : ");
+                    String i = tokens[3].trim();
+                    String[] fecha1 = i.split("-");
+                    LocalDate fechaIni = LocalDate.of(Integer.valueOf(fecha1[1]), Integer.valueOf(fecha1[1]), Integer.valueOf(fecha1[2]));
+
+                    String f = tokens[4].trim();
+                    String[] fecha2 = f.split("-");
+                    LocalDate fechafin = LocalDate.of(Integer.valueOf(fecha2[0]), Integer.valueOf(fecha2[1]), Integer.valueOf(fecha2[2]));
+
+                    listaReservas.add(new ReservasVO(tokens[0], Integer.valueOf(tokens[1]), tokens[2], fechaIni, fechafin));
+                }
+                for (ReservasVO reservas : listaReservas) {
+                    System.out.println(reservas);
+                }
+
+            } catch (FileNotFoundException e) {
+                System.out.println(e.getMessage());
+            }
+            //Restauramos la tabla reservas
+            daoReservas.insertReserva(listaReservas);
+            
             /*TICKETS*/
             ArrayList<TicketsVO> listaTickets = new ArrayList<>();
             //Variable que lleva la cuenta de las líneas que se han leido.
@@ -362,6 +362,7 @@ public class Admin_Sindy {
             } catch (FileNotFoundException e) {
                 System.out.println(e.getMessage());
             }
+            daoTickets.insertTickets(listaTickets);
 
         }
 
