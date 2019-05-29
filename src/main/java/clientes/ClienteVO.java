@@ -105,10 +105,10 @@ public class ClienteVO {
     //Método toString()
     @Override
     public String toString() {
-        return "ClienteVO" + "matricula=" + matricula + "dni=" + dni
-                + "nombre=" + nombre + ", apellido1=" + apellido1
-                + "apellido2=" + apellido2 + ", numTarjeta=" + numTarjeta
-                + "tipoAbono=" + tipoAbono + ", email=" + email;
+        return matricula +  " : "+ dni
+                +  " : "+ nombre +  " : " + apellido1
+                +  " : " + apellido2 +  " : " + numTarjeta
+                +  " : " + tipoAbono + " : " + email;
     }
 
     //Método que muestra el número asociado al tipo de abono.

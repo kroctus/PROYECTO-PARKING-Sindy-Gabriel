@@ -14,7 +14,7 @@ public class VehiculoVO {
     //Atributos: 
     private String matricula;
     private int tipoVehiculo;
-    
+
     //Constructores:
     public VehiculoVO(String matricula, int tipoVehiculo) {
         this.matricula = matricula;
@@ -44,8 +44,7 @@ public class VehiculoVO {
     //Método toString()
     @Override
     public String toString() {
-        return "matricula=" + matricula + ", tipoVehiculo="
-                + tipoVehiculo;
+        return matricula + " : " + tipoVehiculo;
     }
 
     //Método que muestra el tipo de vehiculo

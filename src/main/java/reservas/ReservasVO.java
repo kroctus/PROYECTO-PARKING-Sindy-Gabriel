@@ -84,8 +84,8 @@ public class ReservasVO {
 
     @Override
     public String toString() {
-        return "matricula=" + matricula + "numplaza=" + numplaza + "pin_fijo=" + pin_fijo;
+        return  matricula + " : " + numplaza + " : " + pin_fijo + " : " + feciniabono + " : " + fecfinabono ;
     }
-    
+
     
 }
