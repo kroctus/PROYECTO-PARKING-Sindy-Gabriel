@@ -401,11 +401,10 @@ public class Admin_Sindy {
         TicketsDAO daoTickets = new TicketsDAO();
         ArrayList<TicketsVO> listaTickets = new ArrayList<>();
         ArrayList<TicketsVO> listaFacturaTicket = new ArrayList<>();
-        listaTickets = (ArrayList<TicketsVO>) daoTickets.getAll();
         String fechaIni, fechaFin, horaIni, horaFin;
         String tickets = "";
         double precioTotal = 0;
-        int contadorTickets = 0; 
+        int contadorTickets = 0;
 
         JOptionPane.showMessageDialog(null, "A continuación se le solicitará "
                 + "dos fechas y dos horas\n para saber el importe de la"
@@ -417,28 +416,29 @@ public class Admin_Sindy {
         horaFin = JOptionPane.showInputDialog("Introduce la segunda hora");
 
         //Pasamos el string a LocalDate dividiendo el tokens por el guion ("-").
-        String[] fechaI = fechaIni.split("-");
+        String[] fechaI = fechaIni.trim().split("-");
         LocalDate fecha_ini = LocalDate.of(Integer.valueOf(fechaI[0]), Integer.valueOf(fechaI[1]), Integer.valueOf(fechaI[2]));
 
-        String[] fechaF = fechaFin.split("-");
+        String[] fechaF = fechaFin.trim().split("-");
         LocalDate fecha_fin = LocalDate.of(Integer.valueOf(fechaF[0]), Integer.valueOf(fechaF[1]), Integer.valueOf(fechaF[2]));
 
         //Pasamos el string a LocalTime dividiendo el tokens por los dos puntos (":").
-        String[] horaI = horaIni.split(":");
+        String[] horaI = horaIni.trim().split(":");
         LocalTime hora_ini = LocalTime.of(Integer.valueOf(horaI[0]), Integer.valueOf(horaI[1]), Integer.valueOf(horaI[2]));
 
-        String[] horaF = horaFin.split(":");
+        String[] horaF = horaFin.trim().split(":");
         LocalTime hora_fin = LocalTime.of(Integer.valueOf(horaF[0]), Integer.valueOf(horaF[1]), Integer.valueOf(horaF[2]));
 
         listaTickets = (ArrayList<TicketsVO>) daoTickets.getAll();
         for (TicketsVO ticketsVO : listaTickets) {
             if (ticketsVO.getFecfinpin().isAfter(fecha_ini)
-                    && ticketsVO.getFecfinpin().isBefore(fecha_fin)
-                    && ticketsVO.getHorasalticket().isAfter(hora_ini)
-                    && ticketsVO.getHorasalticket().isBefore(hora_fin)) {
-                contadorTickets ++;
-                listaFacturaTicket.add(ticketsVO);
-                precioTotal = precioTotal + ticketsVO.getPrecio();
+                    && ticketsVO.getFecfinpin().isBefore(fecha_fin)) {
+                if (ticketsVO.getHorasalticket().isAfter(hora_ini)
+                        && ticketsVO.getHorasalticket().isBefore(hora_fin)) {
+                    contadorTickets++;
+                    listaFacturaTicket.add(ticketsVO);
+                    precioTotal = precioTotal + ticketsVO.getPrecio();
+                }
             }
         }
 
@@ -449,9 +449,9 @@ public class Admin_Sindy {
             for (TicketsVO ticketsVO : listaFacturaTicket) {
                 tickets = tickets + ticketsVO + "\n";
             }
-            
+
             JOptionPane.showMessageDialog(null, "El número de cobros que se han realizado entre " + fechaIni + " " + horaIni
-                    + " y " + fechaFin + " "+ horaFin+" es igual a: "
+                    + " y " + fechaFin + " " + horaFin + " es igual a: "
                     + contadorTickets + "\n" + tickets + "\n Ganacias: "
                     + precioTotal);
         }
