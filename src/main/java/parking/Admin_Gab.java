@@ -359,7 +359,7 @@ public class Admin_Gab {
                             System.out.println("dia: " + dia);
                             System.out.println("numPlaza: " + numPlaza);
                         
-                            reservaD.updatereserva(matricula, numPlaza, new ReservasVO(matricula, numPlaza, reservaAux.getPin_fijo(), reservaAux.getFeciniabono(), LocalDate.of(1, Month.MARCH, 2), reservaAux.getPrecio()));
+                            reservaD.updatereserva(matricula, numPlaza, new ReservasVO(matricula, numPlaza, reservaAux.getPin_fijo(), reservaAux.getFeciniabono(), LocalDate.of(Integer.valueOf(anio), Integer.valueOf(mes), Integer.valueOf(dia)), reservaAux.getPrecio()));
                             JOptionPane.showMessageDialog(null, "La fecha se ha actualizado satisfactoriamente");
                             break;
                     }
