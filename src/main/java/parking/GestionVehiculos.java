@@ -285,8 +285,9 @@ public class GestionVehiculos {
                         + ticketModificado.getMatricula() + "\nPlaza: "
                         + ticketModificado.getNumplaza() + "\nPin: "
                         + ticketModificado.getPin_desechable() + "\nFecha de entrada: "
-                        + ticketModificado.getHoraenticket() + "\nHora de entrada: "
+                        + ticketModificado.getFecinipin() + "\nHora de entrada: "
                         + ticketModificado.getHoraenticket() + "\nFecha de salida: "
+                        + ticketModificado.getFecfinpin()+ "\nHora de salida: "
                         + ticketModificado.getHorasalticket() + "\nImporte: "
                         + formatoDecimal.format(precioTicket));
                 //JOptionPane.showMessageDialog(null, "El importe a pagar es: " + formatoDecimal.format(precioTicket));
@@ -360,7 +361,10 @@ public class GestionVehiculos {
         //Pasamos todo a minutos, tanto los dias como las horas, para saber 
         //cuántos minutos ha estado el vehiculo en el parking ya que la 
         //tarifa se cobra por minuto.
+        System.out.println("DIAS: " + dias + " Horas: " + horas + "Minutos: " + minutos);
         minutosTotales = dias * 1440 + horas * 60 + minutos;
+        System.out.println("MINUTOS TOTALES: " + minutosTotales);
+
         // System.out.println(minutosTotales);
         return minutosTotales;
     }
