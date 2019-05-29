@@ -383,17 +383,21 @@ public class Admin_Sindy {
             }
         }
 
-        if (contadorReservas != 0) {
+        if (!listaReservasAnio.isEmpty()) {
             System.out.println("Numero de reservas que se han realizado en el año "
                     + LocalDate.now().getYear() + "\n es igual a: " + contadorReservas);
             for (ReservasVO reservasVO : listaReservasAnio) {
                 reservas = reservas + reservasVO + "\n";
             }
 
-            JOptionPane.showMessageDialog(null, "Numero de reservas que se han realizado en el año "
-                    + LocalDate.now().getYear() + " es igual a: "
+            JOptionPane.showMessageDialog(null, "Numero de reservas que se han "
+                    + "realizado en el año " + LocalDate.now().getYear() + " es igual a: "
                     + contadorReservas + "\n" + reservas + "\n Ganacias de este año: "
                     + precioTotal);
+        } else {
+            JOptionPane.showMessageDialog(null, "El importe de la ganancia es 0 ya"
+                    + " que no\n se ha encontrado ninguna reserva en el año "
+                    + LocalDate.now().getYear());
         }
     }
 
