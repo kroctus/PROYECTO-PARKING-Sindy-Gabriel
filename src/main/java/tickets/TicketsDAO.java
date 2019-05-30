@@ -159,7 +159,7 @@ public class TicketsDAO implements ITickets {
             // Establecemos los parámetros de la sentencia
             prest.setInt(1, t.getNumplaza());
             prest.setString(2, t.getMatricula());
-            prest.setDate(3, Date.valueOf(t.getFecfinpin()));
+            prest.setDate(3, Date.valueOf(t.getFecinipin()));
             // Ejecutamos la sentencia
             numFilas = prest.executeUpdate();
         }
