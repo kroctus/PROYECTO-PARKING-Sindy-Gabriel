@@ -29,7 +29,7 @@ public class ReservasDAO implements IReservas {
     }
 
     @Override
-    public  List<ReservasVO> getAll() throws SQLException {
+    public List<ReservasVO> getAll() throws SQLException {
 
         List<ReservasVO> lista = new ArrayList<>();
 
@@ -194,4 +194,34 @@ public class ReservasDAO implements IReservas {
         }
     }
 
+    @Override
+    public int findPlaza(String matricula) throws SQLException {
+        ResultSet res = null;
+        ReservasVO p = new ReservasVO();
+        int numero = 222;
+
+        String sql = "select reservas.numplaza from reservas join clientes on reservas.matricula= clientes.matricula where clientes.matricula=?";
+//        String sql2 = "select * from reservas where matricula=? and numplaza=?";
+
+        try (PreparedStatement prest = con.prepareStatement(sql)) {
+            // Preparamos la sentencia parametrizada
+//            prest.setInt(1, pk);
+            prest.setString(1, matricula);
+
+            // Ejecutamos la sentencia y obtenemos las filas en el objeto ResultSet
+            res = prest.executeQuery();
+
+            // Nos posicionamos en el primer registro del Resultset. Sólo debe haber una fila
+            // si existe esa pk
+            if (res.first()) {
+                // Recogemos los datos de la reserva, guardamos en un objeto
+
+                int numPlaza = res.getInt("numplaza");
+                return numPlaza;
+            }
+
+            return numero;
+        }
+
+    }
 }

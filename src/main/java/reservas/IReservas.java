@@ -36,5 +36,9 @@ public interface IReservas {
     // con los nuevos datos que traiga la reserva 'nuevosDatos'
     int updatereserva (String matricula, int numplaza, ReservasVO nuevosDatos) throws SQLException;
     
+        
+    //Método que devuelve el numero de la plaza en la que se 
+    //encuentra el vehiculo con la matricula proporcionada
     
+    int findPlaza(String matricula)throws SQLException;
 }
