@@ -252,7 +252,7 @@ public class Admin_Gab {
                     //Si efectivamente la plaza está libre entonces:
 
                     PlazaVO plazaModificada = listaPlaza.get(i);
-                    plazaModificada.setEstadoPlaza(3);
+                    plazaModificada.setEstadoPlaza(2);
                     //Mostramos por pantalla los datos del ticket necesarios 
 
                     //Cambiamos el estado de la plaza a ocupado
