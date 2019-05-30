@@ -39,7 +39,7 @@ public class VehiculoDAO implements IVehiculo{
                 VehiculoVO v = new VehiculoVO();
                 // Recogemos los datos del vehiculo, guardamos en un objeto
                 v.setMatricula(res.getString("matricula"));
-                v.setTipoVehiculo(VehiculoVO.obtenerTipoVehiculo(res.getString("tipoVehiculo")));
+                v.setTipoVehiculo(Vehiculo.obtenerTipoVehiculo(res.getString("tipoVehiculo")));
                 
                 //Añadimos el objeto a la lista
                 lista.add(v);
@@ -67,7 +67,7 @@ public class VehiculoDAO implements IVehiculo{
             if (res.first()) {
                 // Recogemos los datos del vehiculo, guardamos en un objeto
                 v.setMatricula(res.getString("matricula"));
-                v.setTipoVehiculo(VehiculoVO.obtenerTipoVehiculo(res.getString("tipoVehiculo")));
+                v.setTipoVehiculo(Vehiculo.obtenerTipoVehiculo(res.getString("tipoVehiculo")));
                 return v;
 
             }
@@ -91,7 +91,7 @@ public class VehiculoDAO implements IVehiculo{
 
                 // Establecemos los parámetros de la sentencia
                 prest.setString(1, vehiculo.getMatricula());
-                prest.setString(2, VehiculoVO.obtenerTipoVehiculo(vehiculo));
+                prest.setString(2, Vehiculo.obtenerTipoVehiculo(vehiculo));
                 numFilas = prest.executeUpdate();
             }
             return numFilas;
@@ -159,7 +159,7 @@ public class VehiculoDAO implements IVehiculo{
             try (PreparedStatement prest = conexion.prepareStatement(sql)) {
 
                 // Establecemos los parámetros de la sentencia
-                prest.setString(1, VehiculoVO.obtenerTipoVehiculo(nuevosDatos));
+                prest.setString(1, Vehiculo.obtenerTipoVehiculo(nuevosDatos));
                 prest.setString(2, nuevosDatos.getMatricula());
                 
                 numFilas = prest.executeUpdate();
