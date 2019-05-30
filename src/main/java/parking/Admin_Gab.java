@@ -280,7 +280,7 @@ public class Admin_Gab {
         int opcion = JOptionPane.showOptionDialog(null, "¿Qué datos deseas modificar? ",
                 "Datos", JOptionPane.YES_NO_CANCEL_OPTION,
                 JOptionPane.QUESTION_MESSAGE, null, new Object[]{
-                    "Datos Personales", "Fecha de cancelación"},
+                    "Datos Personales", "Fecha de cancelación de abono"},
                 "Datos");
         ClienteDAO clienteD = new ClienteDAO();
         ArrayList<ClienteVO> listaClientes = new ArrayList<>();
@@ -384,10 +384,15 @@ public class Admin_Gab {
 
                             //Modificaciones en la BD
                             //Modificamos el cliente
-                            clienteD.updateCliente(matricula, new ClienteVO(cliente.getMatricula(), cliente.getDni(), cliente.getNombre(), cliente.getApellido1(), cliente.getApellido2(),
-                                    cliente.getNumTarjeta(), tipoAbono, cliente.getEmail()));
-    
+                            System.out.println("Vamos a obtener el cliente");
+                            ClienteVO cliente2 = clienteD.findByPk(matricula);
+                            cliente2.toString();
+                            clienteD.updateCliente(matricula, new ClienteVO(cliente2.getMatricula(), cliente2.getDni(), cliente2.getNombre(), cliente2.getApellido1(), cliente2.getApellido2(),
+                                    cliente2.getNumTarjeta(), tipoAbono, cliente2.getEmail()));
+                            System.out.println("Modificamos el cliente");
+
                             //Modificamos reserva
+                            System.out.println("Pasamos a reservas");
                             int numPlaza = reservaD.findPlaza(matricula);
                             ReservasVO aux = reservaD.findByPk(matricula, numPlaza);
                             reservaD.updatereserva(matricula, numPlaza, new ReservasVO(
