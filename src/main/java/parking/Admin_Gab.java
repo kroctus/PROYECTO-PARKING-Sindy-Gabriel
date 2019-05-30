@@ -386,13 +386,15 @@ public class Admin_Gab {
                             //Modificamos el cliente
                             clienteD.updateCliente(matricula, new ClienteVO(cliente.getMatricula(), cliente.getDni(), cliente.getNombre(), cliente.getApellido1(), cliente.getApellido2(),
                                     cliente.getNumTarjeta(), tipoAbono, cliente.getEmail()));
-                            
+    
                             //Modificamos reserva
-                            int numPlaza= reservaD.findPlaza(matricula);
-                            reservaD.updatereserva(matricula, numPlaza,new ReservasVO(
-                            
-                            ));
+                            int numPlaza = reservaD.findPlaza(matricula);
+                            ReservasVO aux = reservaD.findByPk(matricula, numPlaza);
+                            reservaD.updatereserva(matricula, numPlaza, new ReservasVO(
+                                    matricula, numPlaza, aux.getPin_fijo(), feciniAbono, fecFinAbono, aux.getPrecio()));
+                            JOptionPane.showMessageDialog(null, "Se han cambiado los datos satisfacotiramente");
                             break;
+
                     }
 
                 } catch (SQLException sqle) {
