@@ -200,7 +200,7 @@ public class Admin_Sindy {
         File carpeta = new File("./backup");
         String[] listado = carpeta.list();
         if (listado == null || listado.length == 0) {
-            System.out.println("No hay elementos dentro de la carpeta actual");
+            JOptionPane.showInputDialog("No hay elementos dentro de la carpeta actual");
         } else {
 
             for (String listado1 : listado) {
@@ -385,8 +385,6 @@ public class Admin_Sindy {
         }
 
         if (!listaReservasAnio.isEmpty()) {
-            System.out.println("Numero de reservas que se han realizado en el año "
-                    + LocalDate.now().getYear() + "\n es igual a: " + contadorReservas);
             for (ReservasVO reservasVO : listaReservasAnio) {
                 reservas = reservas + reservasVO + "\n";
             }
@@ -424,7 +422,8 @@ public class Admin_Sindy {
 
                 fechaIni = JOptionPane.showInputDialog("Introduce la primera "
                         + "fecha.\n Formato: AAAA-MM-DD");
-
+                //Controlamos que la longitud del string (fechaIni) no sea menor que 9,
+                //y además controlamos que el usuario utilice el separador "-"
             } while (fechaIni.length() < 9 || fechaIni.charAt(4) != '-' || fechaIni.charAt(7) != '-');
 
             fechaI = fechaIni.trim().split("-");
@@ -433,11 +432,9 @@ public class Admin_Sindy {
             if (GestionVehiculos.esNumero(fechaI[0])
                     && GestionVehiculos.esNumero(fechaI[1])
                     && GestionVehiculos.esNumero(fechaI[2])) {
-                System.out.println("SON NUMEROS");
                 if (Integer.valueOf(fechaI[0]) > 2000
                         && (Integer.valueOf(fechaI[1]) >= 1 && Integer.valueOf(fechaI[1]) <= 12)
                         && (Integer.valueOf(fechaI[2]) >= 1 && Integer.valueOf(fechaI[2]) <= 31)) {
-                    System.out.println("ESTA LA FECHA BIEN");
                     fechaCorrecta = true;
                 }
             }
@@ -450,7 +447,8 @@ public class Admin_Sindy {
 
                 horaIni = JOptionPane.showInputDialog("Introduce la primera "
                         + "hora.\n Formato: hh:mm:ss");
-
+                //Controlamos que la longitud del string (horaIni) no sea menor que 7,
+                //y además controlamos que el usuario utilice el separador ":"
             } while (horaIni.length() < 7 || horaIni.charAt(2) != ':' || horaIni.charAt(5) != ':');
 
             horaI = horaIni.trim().split(":");
@@ -459,11 +457,9 @@ public class Admin_Sindy {
             if (GestionVehiculos.esNumero(horaI[0])
                     && GestionVehiculos.esNumero(horaI[1])
                     && GestionVehiculos.esNumero(horaI[2])) {
-                System.out.println("SON NUMEROS");
                 if ((Integer.valueOf(horaI[0]) >= 0 && Integer.valueOf(horaI[0]) <= 23)
                         && (Integer.valueOf(horaI[1]) >= 0 && Integer.valueOf(horaI[1]) < 60)
                         && (Integer.valueOf(horaI[2]) >= 0 && Integer.valueOf(horaI[2]) < 60)) {
-                    System.out.println("ESTA LA Hora BIEN");
                     horaCorrecta = true;
                 }
             }
@@ -478,7 +474,8 @@ public class Admin_Sindy {
 
                 fechaFin = JOptionPane.showInputDialog("Introduce la segunda "
                         + "fecha.\n Formato: AAAA-MM-DD");
-
+                //Controlamos que la longitud del string (fechaFin) no sea menor que 9,
+                //y además controlamos que el usuario utilice el separador "-"
             } while (fechaFin.length() < 9 || fechaFin.charAt(4) != '-' || fechaFin.charAt(7) != '-');
 
             fechaF = fechaFin.trim().split("-");
@@ -507,7 +504,8 @@ public class Admin_Sindy {
 
                 horaFin = JOptionPane.showInputDialog("Introduce la segunda"
                         + " hora.\n Formato: hh:mm:ss");
-
+                //Controlamos que la longitud del string (horaFin) no sea menor que 7,
+                //y además controlamos que el usuario utilice el separador ":"
             } while (horaFin.length() < 7 || horaFin.charAt(2) != ':' || horaFin.charAt(5) != ':');
 
             horaF = horaFin.trim().split(":");
@@ -516,11 +514,9 @@ public class Admin_Sindy {
             if (GestionVehiculos.esNumero(horaF[0])
                     && GestionVehiculos.esNumero(horaF[1])
                     && GestionVehiculos.esNumero(horaF[2])) {
-                System.out.println("SON NUMEROS");
                 if ((Integer.valueOf(horaF[0]) >= 0 && Integer.valueOf(horaF[0]) <= 23)
                         && (Integer.valueOf(horaF[1]) >= 0 && Integer.valueOf(horaF[1]) < 60)
                         && (Integer.valueOf(horaF[2]) >= 0 && Integer.valueOf(horaF[2]) < 60)) {
-                    System.out.println("ESTA LA Hora BIEN");
                     horaCorrecta = true;
                 }
             }
