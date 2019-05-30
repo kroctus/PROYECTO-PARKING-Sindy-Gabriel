@@ -41,8 +41,8 @@ public class PlazaDAO implements IPlaza {
                 // Recogemos los datos de la plaza, guardamos en un objeto
                 p.setNumPlaza(res.getInt("numplaza"));
                 p.setTarifa(res.getDouble("tarifa"));
-                p.setEstadoPlaza(PlazaVO.obtenerEstado(res.getString("estadoplaza")));
-                p.setTipoPlaza(PlazaVO.obtenerTipoPlaza(res.getString("tipoPlaza")));
+                p.setEstadoPlaza(Plaza.obtenerEstado(res.getString("estadoplaza")));
+                p.setTipoPlaza(Plaza.obtenerTipoPlaza(res.getString("tipoPlaza")));
 
                 //Añadimos el objeto a la lista
                 lista.add(p);
@@ -71,8 +71,8 @@ public class PlazaDAO implements IPlaza {
                 // Recogemos los datos de la plaza, guardamos en un objeto
                 p.setNumPlaza(res.getInt("numplaza"));
                 p.setTarifa(res.getDouble("tarifa"));
-                p.setEstadoPlaza(PlazaVO.obtenerEstado(res.getString("estadoplaza")));
-                p.setTipoPlaza(PlazaVO.obtenerTipoPlaza(res.getString("tipoPlaza")));
+                p.setEstadoPlaza(Plaza.obtenerEstado(res.getString("estadoplaza")));
+                p.setTipoPlaza(Plaza.obtenerTipoPlaza(res.getString("tipoPlaza")));
                 return p;
 
             }
@@ -96,8 +96,8 @@ public class PlazaDAO implements IPlaza {
 
                 // Establecemos los parámetros de la sentencia
                 prest.setInt(1, plaza.getNumPlaza());
-                prest.setString(2, PlazaVO.obtenerTipoPlaza(plaza));
-                prest.setString(3, PlazaVO.obtenerEstado(plaza));
+                prest.setString(2, Plaza.obtenerTipoPlaza(plaza));
+                prest.setString(3, Plaza.obtenerEstado(plaza));
                 prest.setDouble(4, plaza.getTarifa());
                 numFilas = prest.executeUpdate();
             }
@@ -166,8 +166,8 @@ public class PlazaDAO implements IPlaza {
 
                 // Establecemos los parámetros de la sentencia
                 prest.setInt(4, nuevosDatos.getNumPlaza());
-                prest.setString(1, PlazaVO.obtenerTipoPlaza(nuevosDatos));
-                prest.setString(2, PlazaVO.obtenerEstado(nuevosDatos));
+                prest.setString(1, Plaza.obtenerTipoPlaza(nuevosDatos));
+                prest.setString(2, Plaza.obtenerEstado(nuevosDatos));
                 prest.setDouble(3, nuevosDatos.getTarifa());
                 numFilas = prest.executeUpdate();
             }

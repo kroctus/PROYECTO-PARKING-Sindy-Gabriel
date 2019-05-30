@@ -17,6 +17,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Scanner;
 import javax.swing.JOptionPane;
+import plazas.Plaza;
 import plazas.PlazaDAO;
 import plazas.PlazaVO;
 import reservas.ReservasDAO;
@@ -40,9 +41,9 @@ public class Admin_Sindy {
         int contador = 0;
         for (PlazaVO listaPlaza : listaPlazas) {
             if (contador % 2 == 0) {
-                plazas = plazas + " " + listaPlaza.getNumPlaza() + ":" + PlazaVO.obtenerEstado(listaPlaza) + "\n";
+                plazas = plazas + " " + listaPlaza.getNumPlaza() + ":" + Plaza.obtenerEstado(listaPlaza) + "\n";
             } else {
-                plazas = plazas + " " + listaPlaza.getNumPlaza() + ":" + PlazaVO.obtenerEstado(listaPlaza);
+                plazas = plazas + " " + listaPlaza.getNumPlaza() + ":" + Plaza.obtenerEstado(listaPlaza);
             }
             contador++;
         }
