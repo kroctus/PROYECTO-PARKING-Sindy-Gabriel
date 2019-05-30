@@ -24,7 +24,7 @@ import java.time.Month;
 import reservas.ReservasDAO;
 import java.util.Random;
 import static parking.Admin_Gab.generarPrecioAbono;
-import reservas.ReservasDAO_2;
+
 import reservas.ReservasVO;
 import tickets.TicketsDAO;
 import vehiculos.VehiculoDAO;
@@ -143,7 +143,7 @@ public class GestionVehiculosAbonados {
         TicketsDAO daoTicket = new TicketsDAO();
         VehiculoDAO daoVehiculo = new VehiculoDAO();
         PlazaDAO daoPlazas = new PlazaDAO();
-        ReservasDAO_2 r = new ReservasDAO_2();
+        ReservasDAO r = new ReservasDAO();
 
         //Creamos un objeto de tipo vehiculo con los datos
         //que introduzca el usuario

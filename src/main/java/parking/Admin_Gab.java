@@ -18,7 +18,6 @@ import static parking.GestionVehiculosAbonados.generarTarifa;
 import plazas.PlazaDAO;
 import plazas.PlazaVO;
 import reservas.ReservasDAO;
-import reservas.ReservasDAO_2;
 import reservas.ReservasVO;
 import tickets.TicketsDAO;
 import tickets.TicketsVO;
@@ -286,7 +285,7 @@ public class Admin_Gab {
         ArrayList<ClienteVO> listaClientes = new ArrayList<>();
         ClienteVO cliente = new ClienteVO();
         ReservasDAO reservaD = new ReservasDAO();
-        ReservasDAO_2 reservaD2 = new ReservasDAO_2();
+        ReservasDAO reservaD2 = new ReservasDAO();
         ArrayList<ReservasVO> listaReservas = new ArrayList<>();
         ReservasVO reserva = new ReservasVO();
 
