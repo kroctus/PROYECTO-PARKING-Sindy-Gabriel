@@ -118,7 +118,7 @@ public class Admin_Gab {
                 tipoAbono = 3;
                 fecFinAbono = feciniAbono.plusMonths(6);
                 break;
-            case 4:
+            case 3:
                 tipoAbono = 4;
                 fecFinAbono = feciniAbono.plusMonths(12);
                 break;
@@ -383,32 +383,15 @@ public class Admin_Gab {
                             }
 
                             //Modificaciones en la BD
-                            System.out.println("Cliente dao");
-                            ClienteDAO clienteDAO = new ClienteDAO();
-                            System.out.println("Reservas DAO");
-                            ReservasDAO reservaDAO = new ReservasDAO();
-
-                            //Nos creamos un cliente con los datos introducidos
-                            System.out.println("Creamos el cliente");
-                            ClienteVO clienteVO = new ClienteVO(matricula, dni, nombre, apellido1, apellido2, tarjeta, tipoAbono, email);
-                            System.out.println("Se ha creado el cliente");
-
-//        ClienteAbonado clienteA = new ClienteAbonado(dni, tipoVehiculo, matricula);
-                            //Agregamos ese cliente a la BD
-                            try {
-                                System.out.println("Insertamos el cliente");
-                                clienteDAO.insertCliente(clienteVO);
-                                System.out.println("Se ha incertado el cliente");
-
-                                System.out.println("Hacemos la reserva");
-                                IngresarAbonado(matricula, fecFinAbono, tipoAbono, tipoVehiculo);
-                                JOptionPane.showMessageDialog(null, "EL nuevo abonado se ah registrado satisfacoriamente");
-
-                            } catch (SQLException sqle) {
-                                System.out.println("No se ha podido realizar la operación:");
-                                System.out.println(sqle.getMessage());
-                            }
-
+                            //Modificamos el cliente
+                            clienteD.updateCliente(matricula, new ClienteVO(cliente.getMatricula(), cliente.getDni(), cliente.getNombre(), cliente.getApellido1(), cliente.getApellido2(),
+                                    cliente.getNumTarjeta(), tipoAbono, cliente.getEmail()));
+                            
+                            //Modificamos reserva
+                            int numPlaza= reservaD.findPlaza(matricula);
+                            reservaD.updatereserva(matricula, numPlaza,new ReservasVO(
+                            
+                            ));
                             break;
                     }
 
