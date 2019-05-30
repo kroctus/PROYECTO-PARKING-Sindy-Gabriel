@@ -24,7 +24,7 @@ public class Menu {
         int opcion5;//Elegir qué gestionar
         int opcion6;//Facturacion
         int opcion7;//Abonos
-        int opcion8;//
+        int opcion8;//Caducidad
         int opcion9;//Copias de seguridad
         String mes;
 

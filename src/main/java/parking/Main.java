@@ -21,7 +21,6 @@ public class Main {
             int respuesta;
             do {
                 mostrarMenu();
-                //respuesta = JOptionPane.showInputDialog("¿Quieres salir del menú?");
                 respuesta = JOptionPane.showOptionDialog(null, "¿Quieres salir del menú?",
                 "Menú", JOptionPane.YES_NO_CANCEL_OPTION,
                 JOptionPane.QUESTION_MESSAGE, null, new Object[]{

@@ -21,7 +21,7 @@ public interface ITickets {
     List<TicketsVO> getAll() throws SQLException;
 
     // Méodo para obtener un registro a partir de la PK
-    TicketsVO findByPk(int numplaza,String matricula, LocalDate fecinipin) throws SQLException;
+    TicketsVO findByPk(int numplaza,String matricula, LocalDate fecinipin,LocalTime horaenticket) throws SQLException;
 
     // Método para insertar un registro
     int insertTickets(TicketsVO ticket) throws SQLException;

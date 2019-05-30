@@ -412,9 +412,4 @@ public class Admin_Gab {
 
     }
 
-    public static void main(String[] args) {
-//        alta();
-        modificarAbonado();
-    }
-
 }

@@ -371,15 +371,4 @@ public class GestionVehiculosAbonados {
         }
     }
 
-    public static void main(String[] args) {
-
-//        depositarVehiculoAbonado();
-
-//        ClienteAbonado aux = GestionVehiculosAbonados.IngresarVehiculoAbonado();
-////        generarPin();
-//        gestionPlazas(aux);
-//        generarFicheroAbonado(aux);
-        retirarAbonados();
-    }
-
 }

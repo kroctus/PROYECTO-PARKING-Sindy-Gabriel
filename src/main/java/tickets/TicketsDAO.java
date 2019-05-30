@@ -66,17 +66,18 @@ public class TicketsDAO implements ITickets {
     }
 
     @Override
-    public TicketsVO findByPk(int numplaza, String matricula, LocalDate fecinipin) throws SQLException {
+    public TicketsVO findByPk(int numplaza, String matricula, LocalDate fecinipin, LocalTime horaenticket) throws SQLException {
         ResultSet res = null;
         TicketsVO p = new TicketsVO();
 
-        String sql = "select * from tickets where numplaza= ? and matricula= ? and fecinipin= ?";
+        String sql = "select * from tickets where numplaza= ? and matricula= ? and fecinipin= ? and horaenticket =?";
 
         try (PreparedStatement prest = con.prepareStatement(sql)) {
             // Preparamos la sentencia parametrizada
             prest.setInt(1, numplaza);
             prest.setString(2, matricula);
             prest.setDate(3, Date.valueOf(fecinipin));
+            prest.setTime(4, Time.valueOf(horaenticket));
 
             // Ejecutamos la sentencia y obtenemos las filas en el objeto ResultSet
             res = prest.executeQuery();
@@ -107,7 +108,7 @@ public class TicketsDAO implements ITickets {
         int numFilas = 0;
         String sql = "insert into tickets values (?,?,?,?,?,?,?,?)";
 
-        if (findByPk(ticket.getNumplaza(), ticket.getMatricula(), ticket.getFecinipin()) != null) {
+        if (findByPk(ticket.getNumplaza(), ticket.getMatricula(), ticket.getFecinipin(), ticket.getHoraenticket()) != null) {
             // Existe un registro con esa pk
             // No se hace la inserción
             return numFilas;
@@ -149,8 +150,7 @@ public class TicketsDAO implements ITickets {
     public int deleteTickets(TicketsVO t) throws SQLException {
 
         int numFilas = 0;
-
-        String sql = "delete from tickets  where numplaza= ? and matricula= ? and fecinipin= ?";
+        String sql = "delete from tickets  where numplaza= ? and matricula= ?";
 
         ///PROBLEMA AQUÍ LA CLAVE PRIMARIA ES COMPUESTA
         // Sentencia parametrizada
@@ -159,7 +159,6 @@ public class TicketsDAO implements ITickets {
             // Establecemos los parámetros de la sentencia
             prest.setInt(1, t.getNumplaza());
             prest.setString(2, t.getMatricula());
-            prest.setDate(3, Date.valueOf(t.getFecinipin()));
             // Ejecutamos la sentencia
             numFilas = prest.executeUpdate();
         }
@@ -189,7 +188,7 @@ public class TicketsDAO implements ITickets {
         int numFilas = 0;
         String sql = "update reservas set pin_desechable=?, fecfinpin = ?, horasalticket = ?, precio=? where numplaza = ? and matricula = ? and fecinipin = ? and horaenticket = ? ";
 
-        if (findByPk(numplaza, matricula, fecinipin) == null) {
+        if (findByPk(numplaza, matricula, fecinipin, horaenticket) == null) {
             // El tickets a actualizar no existe
             return numFilas;
         } else {
@@ -211,6 +210,6 @@ public class TicketsDAO implements ITickets {
             }
             return numFilas;
         }
-    }
+    }   
 
 }

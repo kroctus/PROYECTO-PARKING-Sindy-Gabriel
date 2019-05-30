@@ -356,9 +356,5 @@ public class CopiaDeSeguridad {
         reserva.forEach(System.out::println);
     }
 
-    public static void main(String[] args) {
-        crearCopiaSeguridad();
-        //recuperar();
-    }
 
 }
