@@ -300,21 +300,30 @@ public class Admin_Gab {
 
         String matricula = JOptionPane.showInputDialog(null, "Introduce la matricula del abonado");
         for (int i = 0; i < listaClientes.size(); i++) {
-            //Si las matriculas no coinciden
-//            if (!((listaClientes.get(i).getMatricula().equalsIgnoreCase(matricula)) && listaClientes.size() == listaClientes.size())) {
-//                int salir = JOptionPane.showOptionDialog(null, "La matricula introducida no coincide con ninguna de la base de datos \n¿Desea volver a introducirla? ",
-//                        "ERROR", JOptionPane.YES_NO_CANCEL_OPTION,
-//                        JOptionPane.QUESTION_MESSAGE, null, new Object[]{
-//                            "Si", "No"}, "Error");
-//
-//                switch (salir) {
-//                    case 0:
-//                        modificarAbonado();
-//                        break;
-//                    case 1:
-//                        JOptionPane.showMessageDialog(null, "Saliendo del menú de modificación....");
-//                        return;
-//            
+
+            ArrayList<ClienteVO> listaAux = new ArrayList<>();
+
+            if (listaClientes.get(i).getMatricula().equalsIgnoreCase(matricula)) {
+                listaAux.add(listaClientes.get(i));
+            }
+
+            if (listaAux.isEmpty() == true) {
+                if (!((listaClientes.get(i).getMatricula().equalsIgnoreCase(matricula)) && listaClientes.size() == listaClientes.size())) {
+                    int salir = JOptionPane.showOptionDialog(null, "La matricula introducida no coincide con ninguna de la base de datos \n¿Desea volver a introducirla? ",
+                            "ERROR", JOptionPane.YES_NO_CANCEL_OPTION,
+                            JOptionPane.QUESTION_MESSAGE, null, new Object[]{
+                                "Si", "No"}, "Error");
+
+                    switch (salir) {
+                        case 0:
+                            modificarAbonado();
+                            break;
+                        case 1:
+                            JOptionPane.showMessageDialog(null, "Saliendo del menú de modificación....");
+                            return;
+                    }
+                }
+            }
 
             if (listaClientes.get(i).getMatricula().equalsIgnoreCase(matricula)) {
                 try {
@@ -387,11 +396,14 @@ public class Admin_Gab {
                     System.out.println(sqle.getMessage());
                 }
             }
+
         }
+
     }
 
     public static void main(String[] args) {
 //        alta();
         modificarAbonado();
     }
+
 }
