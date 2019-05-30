@@ -169,7 +169,6 @@ public class ReservasDAO implements IReservas {
 
     @Override
     public int updatereserva(String matricula, int numplaza, ReservasVO nuevosDatos) throws SQLException {
-        System.out.println("HA ENTRADO AL UPDATE");
         int numFilas = 0;
         String sql = "update reservas set pin_fijo=?, feciniabono=?, fecfinabono=? , precio= ? where matricula=? and numplaza=?";
 
@@ -188,9 +187,7 @@ public class ReservasDAO implements IReservas {
                 prest.setDate(2, Date.valueOf(nuevosDatos.getFeciniabono()));
                 prest.setDate(3, Date.valueOf(nuevosDatos.getFecfinabono()));
                 prest.setDouble(4, nuevosDatos.getPrecio());
-                System.out.println("DENTRO DEL UPDATE");
                 numFilas = prest.executeUpdate();
-                System.out.println("TODO BIEN");
             }
             return numFilas;
         }
