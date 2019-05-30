@@ -47,6 +47,16 @@ public class ReservasVO {
         
     }
 
+    public ReservasVO(String matricula, int numplaza, String pin_fijo, LocalDate feciniabono, LocalDate fecfinabono, double precio) {
+        this.matricula = matricula;
+        this.numplaza = numplaza;
+        this.pin_fijo = pin_fijo;
+        this.feciniabono = feciniabono;
+        this.fecfinabono = fecfinabono;
+        this.precio = precio;
+    }
+    
+    
     //Getters and setters
     public String getMatricula() {
         return matricula;
