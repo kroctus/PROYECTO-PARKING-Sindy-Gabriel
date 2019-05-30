@@ -120,7 +120,7 @@ public class Admin_Gab {
                 break;
             case 4:
                 tipoAbono = 4;
-                fecFinAbono = feciniAbono.plusYears(1);
+                fecFinAbono = feciniAbono.plusMonths(12);
                 break;
         }
 
@@ -353,41 +353,62 @@ public class Admin_Gab {
                             break;
                         //Fecha de caducidad
                         case 1:
+                            int abono = JOptionPane.showOptionDialog(null, "Selecciona el tipo de abono que deseas tener: ",
+                                    "Abono", JOptionPane.YES_NO_CANCEL_OPTION,
+                                    JOptionPane.QUESTION_MESSAGE, null, new Object[]{
+                                        "Mensual(25€)", "Trimestral(70€)", "Semestral(130€)", "Anual(200€)"},
+                                    "Turismo");
+                            System.out.println("Tipo de abono: " + abono);
 
-                            do {
-                                do {
+                            int tipoAbono = 0;
+                            final LocalDate feciniAbono = LocalDate.now();
+                            LocalDate fecFinAbono = LocalDate.of(1, Month.MARCH, 1);
+                            switch (abono) {
+                                case 0:
+                                    tipoAbono = 1;
+                                    fecFinAbono = feciniAbono.plusMonths(1);
+                                    break;
+                                case 1:
+                                    tipoAbono = 2;
+                                    fecFinAbono = feciniAbono.plusMonths(3);
+                                    break;
+                                case 2:
+                                    tipoAbono = 3;
+                                    fecFinAbono = feciniAbono.plusMonths(6);
+                                    break;
+                                case 4:
+                                    tipoAbono = 4;
+                                    fecFinAbono = feciniAbono.plusMonths(12);
+                                    break;
+                            }
 
-                                    fecha = JOptionPane.showInputDialog("Introduce "
-                                            + "la nueva fecha de caducidad para el "
-                                            + "abono,\n Con el formato aaaa-mm-dd");
+                            //Modificaciones en la BD
+                            System.out.println("Cliente dao");
+                            ClienteDAO clienteDAO = new ClienteDAO();
+                            System.out.println("Reservas DAO");
+                            ReservasDAO reservaDAO = new ReservasDAO();
 
-                                } while (fecha.length() < 9 || fecha.charAt(4) != '-' || fecha.charAt(7) != '-');
+                            //Nos creamos un cliente con los datos introducidos
+                            System.out.println("Creamos el cliente");
+                            ClienteVO clienteVO = new ClienteVO(matricula, dni, nombre, apellido1, apellido2, tarjeta, tipoAbono, email);
+                            System.out.println("Se ha creado el cliente");
 
-                                fechaA = fecha.trim().split("-");
-                                //Usamos el método estático esNumero de la clase GestionVehiculos
-                                //para ver si la fecha es correcta.
-                                if (GestionVehiculos.esNumero(fechaA[0])
-                                        && GestionVehiculos.esNumero(fechaA[1])
-                                        && GestionVehiculos.esNumero(fechaA[2])) {
-                                    if (Integer.valueOf(fechaA[0]) > 2000
-                                            && (Integer.valueOf(fechaA[1]) >= 1 && Integer.valueOf(fechaA[1]) <= 12)
-                                            && (Integer.valueOf(fechaA[2]) >= 1 && Integer.valueOf(fechaA[2]) <= 31)) {
-                                        fechaCorrecta = true;
-                                    }
-                                }
+//        ClienteAbonado clienteA = new ClienteAbonado(dni, tipoVehiculo, matricula);
+                            //Agregamos ese cliente a la BD
+                            try {
+                                System.out.println("Insertamos el cliente");
+                                clienteDAO.insertCliente(clienteVO);
+                                System.out.println("Se ha incertado el cliente");
 
-                            } while (fechaA.length < 3 || !fechaCorrecta);
-                            System.out.println("Matricula: " + matricula);
-                            int numPlaza = reservaD2.findPlaza(matricula);
-                            System.out.println("Lo qu edevuelve: " + reservaD2.findPlaza(matricula));
-                            reserva = reservaD.findByPk(matricula, numPlaza);
-                            reserva.toString();
-                            ReservasVO reservaAux = reserva;
-                            //Cambiamos la fecha de fin de abono
-                            LocalDate fechaR = LocalDate.of(Integer.valueOf(fechaA[0]), Integer.valueOf(fechaA[1]), Integer.valueOf(fechaA[2]));
-                            ReservasVO reservaModificada = new ReservasVO(matricula, numPlaza, reservaAux.getPin_fijo(), reservaAux.getFeciniabono(), fechaR);
-                            reservaD.updatereserva(matricula, numPlaza, reservaModificada);
-                            JOptionPane.showMessageDialog(null, "La fecha se ha actualizado satisfactoriamente");
+                                System.out.println("Hacemos la reserva");
+                                IngresarAbonado(matricula, fecFinAbono, tipoAbono, tipoVehiculo);
+                                JOptionPane.showMessageDialog(null, "EL nuevo abonado se ah registrado satisfacoriamente");
+
+                            } catch (SQLException sqle) {
+                                System.out.println("No se ha podido realizar la operación:");
+                                System.out.println(sqle.getMessage());
+                            }
+
                             break;
                     }
 
