@@ -106,15 +106,15 @@ public class Admin_Gab {
         final LocalDate feciniAbono = LocalDate.now();
         LocalDate fecFinAbono = LocalDate.of(1, Month.MARCH, 1);
         switch (abono) {
-            case 1:
+            case 0:
                 tipoAbono = 1;
                 fecFinAbono = feciniAbono.plusMonths(1);
                 break;
-            case 2:
+            case 1:
                 tipoAbono = 2;
                 fecFinAbono = feciniAbono.plusMonths(3);
                 break;
-            case 3:
+            case 2:
                 tipoAbono = 3;
                 fecFinAbono = feciniAbono.plusMonths(6);
                 break;
