@@ -34,14 +34,12 @@ public class Menu {
                     "Zona cliente", "Zona admin"},
                 " ");
         if (opcion1 != 1) {
-            System.out.println("Zona cliente");
             opcion2 = JOptionPane.showOptionDialog(null, "¿Eres abonado?",
                     "Menú", JOptionPane.YES_NO_CANCEL_OPTION,
                     JOptionPane.QUESTION_MESSAGE, null, new Object[]{
                         "Si", "No"},
                     " ");
             if (opcion2 != 1) {
-                System.out.println("Es abonado");
                 opcion3 = JOptionPane.showOptionDialog(null, "¿Qué quieres hacer?",
                         "Menú", JOptionPane.YES_NO_CANCEL_OPTION,
                         JOptionPane.QUESTION_MESSAGE, null, new Object[]{
@@ -53,7 +51,6 @@ public class Menu {
                     GestionVehiculosAbonados.retirarAbonados();
                 }
             } else {
-                System.out.println("NO es abonado");
                 opcion4 = JOptionPane.showOptionDialog(null, "¿Qué quieres hacer?",
                         "Menú", JOptionPane.YES_NO_CANCEL_OPTION,
                         JOptionPane.QUESTION_MESSAGE, null, new Object[]{
@@ -67,7 +64,6 @@ public class Menu {
                 }
             }
         } else {
-            System.out.println("Zona admin");
             opcion5 = JOptionPane.showOptionDialog(null, "¿Qué quieres gestionar?",
                     "Menú ", JOptionPane.YES_NO_CANCEL_OPTION,
                     JOptionPane.QUESTION_MESSAGE, null, new Object[]{
@@ -78,22 +74,18 @@ public class Menu {
                     Admin_Sindy.mostarEstadoPlazas();
                     break;
                 case 1:
-                    System.out.println("Facturación");
                     opcion6 = JOptionPane.showOptionDialog(null, "¿Qué quieres hacer?",
                             "Facturación", JOptionPane.YES_NO_CANCEL_OPTION,
                             JOptionPane.QUESTION_MESSAGE, null, new Object[]{
                                 "Consultar facturas de clientes abonados", "Consultar facturas de clientes no abonados"},
                             "");
                     if (opcion6 != 1) {
-                        System.out.println("Consultar facturas de clientes abonados");
                         Admin_Sindy.mostrarAbonadosAnuales();
                     } else {
-                        System.out.println("Consultar facturas de clientes no abonados");
                         Admin_Sindy.mostrarFacturacionNoAbonado();
                     }
                     break;
                 case 2:
-                    System.out.println("Abonos");
                     opcion7 = JOptionPane.showOptionDialog(null, "¿Qué quieres hacer?",
                             "Abonos ", JOptionPane.YES_NO_CANCEL_OPTION,
                             JOptionPane.QUESTION_MESSAGE, null, new Object[]{
@@ -101,19 +93,15 @@ public class Menu {
                             " ");
                     switch (opcion7) {
                         case 0:
-                            System.out.println("Dar de alta");
                             Admin_Gab.alta();
                             break;
                         case 1:
-                            System.out.println("Modificar abonos");
                             Admin_Gab.modificarAbonado();
                             break;
                         case 2:
-                            System.out.println("Dar de baja");
                             Admin_Sindy.bajaAbono();
                             break;
                         case 3:
-                            System.out.println("Consultar caducidad");
                             opcion8 = JOptionPane.showOptionDialog(null, "¿Qué quieres consultar?",
                                     "Abonos ", JOptionPane.YES_NO_CANCEL_OPTION,
                                     JOptionPane.QUESTION_MESSAGE, null, new Object[]{
@@ -136,17 +124,14 @@ public class Menu {
                     }
                     break;
                 case 3:
-                    System.out.println("Copias de seguridad");
                     opcion9 = JOptionPane.showOptionDialog(null, "¿Qué quieres hacer?",
                             "Copias de seguridad", JOptionPane.YES_NO_CANCEL_OPTION,
                             JOptionPane.QUESTION_MESSAGE, null, new Object[]{
                                 "Crear", "Restaurar"},
                             " ");
                     if (opcion9 != 1) {
-                        System.out.println("Crear copia de seguridad");
                         CopiaDeSeguridad.crearCopiaSeguridad();
                     } else {
-                        System.out.println("Restaurar copia de seguridad");
                         Admin_Sindy.recuperarCopiaSeguridad();
                     }
                     break;
