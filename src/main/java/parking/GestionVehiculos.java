@@ -227,10 +227,8 @@ public class GestionVehiculos {
         DecimalFormat formatoDecimal = new DecimalFormat("#.00");
         TicketsDAO daoTicket = new TicketsDAO();
         PlazaDAO daoPlaza = new PlazaDAO();
-        VehiculoDAO daoVehiculo = new VehiculoDAO();
         ArrayList<TicketsVO> listaTicket = new ArrayList<>();
         ArrayList<PlazaVO> listaPlaza = new ArrayList<>();
-        ArrayList<VehiculoVO> listaVehiculo = new ArrayList<>();
         int minutos;
         String matricula, pin, numeroPlaza;
         double tarifa = 0.0;
@@ -238,7 +236,6 @@ public class GestionVehiculos {
         String[] matricula1;
         PlazaVO plazaModificada = new PlazaVO();
         TicketsVO ticketModificado = new TicketsVO();
-        VehiculoVO vehiculo = new VehiculoVO();
         do {
             matricula = JOptionPane.showInputDialog("Introduzca su matricula: ");
             matricula1 = matricula.split("-");
@@ -306,13 +303,6 @@ public class GestionVehiculos {
                         + formatoDecimal.format(precioTicket));
                 }
                 
-                //JOptionPane.showMessageDialog(null, "El importe a pagar es: " + formatoDecimal.format(precioTicket));
-                //Eliminamos el vehiculo de la tabla vehiculos (de la base de datos)
-                for (VehiculoVO vehiculos : listaVehiculo) {
-                    if (vehiculos.getMatricula().equalsIgnoreCase(ticket.getMatricula())) {
-                        vehiculo = vehiculos;
-                    }
-                }
                 return true;
             }
         }
@@ -377,11 +367,7 @@ public class GestionVehiculos {
         //Pasamos todo a minutos, tanto los dias como las horas, para saber 
         //cuántos minutos ha estado el vehiculo en el parking ya que la 
         //tarifa se cobra por minuto.
-        System.out.println("DIAS: " + dias + " Horas: " + horas + "Minutos: " + minutos);
         minutosTotales = dias * 1440 + horas * 60 + minutos;
-        System.out.println("MINUTOS TOTALES: " + minutosTotales);
-
-        // System.out.println(minutosTotales);
         return minutosTotales;
     }
 }
