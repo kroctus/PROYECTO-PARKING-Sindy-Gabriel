@@ -169,8 +169,9 @@ public class ReservasDAO implements IReservas {
 
     @Override
     public int updatereserva(String matricula, int numplaza, ReservasVO nuevosDatos) throws SQLException {
+        System.out.println("HA ENTRADO AL UPDATE");
         int numFilas = 0;
-        String sql = "update reservas set matricula = ?, numplaza = ? , pin_fijo=?, precio= ? where matricula=? and numplaza=?";
+        String sql = "update reservas set pin_fijo=?, feciniabono=?, fecfinabono=? , precio= ? where matricula=? and numplaza=?";
 
         if (findByPk(matricula, numplaza) == null) {
             // La reserva a actualizar no existe
@@ -181,14 +182,15 @@ public class ReservasDAO implements IReservas {
             try (PreparedStatement prest = con.prepareStatement(sql)) {
 
                 // Establecemos los parámetros de la sentencia
-                prest.setString(1, nuevosDatos.getMatricula());
-                prest.setInt(2, nuevosDatos.getNumplaza());
-                prest.setString(3, nuevosDatos.getPin_fijo());
-                prest.setDate(5, Date.valueOf(nuevosDatos.getFeciniabono()));
-                prest.setDate(6, Date.valueOf(nuevosDatos.getFecfinabono()));
+                prest.setString(5, nuevosDatos.getMatricula());
+                prest.setInt(6, nuevosDatos.getNumplaza());
+                prest.setString(1, nuevosDatos.getPin_fijo());
+                prest.setDate(2, Date.valueOf(nuevosDatos.getFeciniabono()));
+                prest.setDate(3, Date.valueOf(nuevosDatos.getFecfinabono()));
                 prest.setDouble(4, nuevosDatos.getPrecio());
-
+                System.out.println("DENTRO DEL UPDATE");
                 numFilas = prest.executeUpdate();
+                System.out.println("TODO BIEN");
             }
             return numFilas;
         }
