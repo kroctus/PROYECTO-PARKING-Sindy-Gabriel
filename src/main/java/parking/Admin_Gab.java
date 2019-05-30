@@ -9,6 +9,7 @@ import clientes.ClienteDAO;
 import clientes.ClienteVO;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -315,12 +316,14 @@ public class Admin_Gab {
 //                        return;
 //            
 
-            
-         if(listaClientes.get(i).getMatricula().equalsIgnoreCase(matricula)){
+            if (listaClientes.get(i).getMatricula().equalsIgnoreCase(matricula)) {
                 try {
                     //Clonamos a el cliente con esa matricula para realizar las moficiaciones sobre este
                     cliente = clienteD.findByPk(matricula);
                     ClienteVO clienteAux = cliente;
+                    String fecha;//Fecha que introduce el usuario 
+                    String[] fechaA; //Array que almacena año, mes y dia de la fecha
+                    boolean fechaCorrecta = false;//Comprueba si la fecha es correcta
                     switch (opcion) {
                         //Datos personales
                         case 0:
@@ -341,24 +344,40 @@ public class Admin_Gab {
                             break;
                         //Fecha de caducidad
                         case 1:
-                            JOptionPane.showMessageDialog(null, "Introduce la nueva fecha de caducidad para el abono");
-                            String anio = JOptionPane.showInputDialog(null, "Introduce el año:");
-                            String mes = JOptionPane.showInputDialog(null, "Introduce el mes: ");
-                            String dia = JOptionPane.showInputDialog(null, "Introduce el día");
+
+                            do {
+                                do {
+
+                                    fecha = JOptionPane.showInputDialog("Introduce "
+                                            + "la nueva fecha de caducidad para el "
+                                            + "abono,\n Con el formato aaaa-mm-dd");
+
+                                } while (fecha.length() < 9 || fecha.charAt(4) != '-' || fecha.charAt(7) != '-');
+
+                                fechaA = fecha.trim().split("-");
+                                //Usamos el método estático esNumero de la clase GestionVehiculos
+                                //para ver si la fecha es correcta.
+                                if (GestionVehiculos.esNumero(fechaA[0])
+                                        && GestionVehiculos.esNumero(fechaA[1])
+                                        && GestionVehiculos.esNumero(fechaA[2])) {
+                                    if (Integer.valueOf(fechaA[0]) > 2000
+                                            && (Integer.valueOf(fechaA[1]) >= 1 && Integer.valueOf(fechaA[1]) <= 12)
+                                            && (Integer.valueOf(fechaA[2]) >= 1 && Integer.valueOf(fechaA[2]) <= 31)) {
+                                        fechaCorrecta = true;
+                                    }
+                                }
+
+                            } while (fechaA.length < 3 || !fechaCorrecta);
                             System.out.println("Matricula: " + matricula);
                             int numPlaza = reservaD2.findPlaza(matricula);
-                            System.out.println("Lo qu edevuelve: " + reservaD2.findPlaza(matricula) );
+                            System.out.println("Lo qu edevuelve: " + reservaD2.findPlaza(matricula));
                             reserva = reservaD.findByPk(matricula, numPlaza);
                             reserva.toString();
                             ReservasVO reservaAux = reserva;
                             //Cambiamos la fecha de fin de abono
-                            
-                            System.out.println("Año : " + anio);
-                            System.out.println("Mes: " + mes);
-                            System.out.println("dia: " + dia);
-                            System.out.println("numPlaza: " + numPlaza);
-                        
-                            reservaD.updatereserva(matricula, numPlaza, new ReservasVO(matricula, numPlaza, reservaAux.getPin_fijo(), reservaAux.getFeciniabono(), LocalDate.of(Integer.valueOf(anio), Integer.valueOf(mes), Integer.valueOf(dia)), reservaAux.getPrecio()));
+                            LocalDate fechaR = LocalDate.of(Integer.valueOf(fechaA[0]), Integer.valueOf(fechaA[1]), Integer.valueOf(fechaA[2]));
+                            ReservasVO reservaModificada = new ReservasVO(matricula, numPlaza, reservaAux.getPin_fijo(), reservaAux.getFeciniabono(), fechaR);
+                            reservaD.updatereserva(matricula, numPlaza, reservaModificada);
                             JOptionPane.showMessageDialog(null, "La fecha se ha actualizado satisfactoriamente");
                             break;
                     }
@@ -368,10 +387,10 @@ public class Admin_Gab {
                     System.out.println(sqle.getMessage());
                 }
             }
+        }
     }
-}
 
-public static void main(String[] args) {
+    public static void main(String[] args) {
 //        alta();
         modificarAbonado();
     }
