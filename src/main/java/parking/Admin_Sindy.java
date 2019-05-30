@@ -422,7 +422,8 @@ public class Admin_Sindy {
         do {
             do {
 
-                fechaIni = JOptionPane.showInputDialog("Introduce la primera fecha");
+                fechaIni = JOptionPane.showInputDialog("Introduce la primera "
+                        + "fecha.\n Formato: AAAA-MM-DD");
 
             } while (fechaIni.length() < 9 || fechaIni.charAt(4) != '-' || fechaIni.charAt(7) != '-');
 
@@ -447,7 +448,8 @@ public class Admin_Sindy {
         do {
             do {
 
-                horaIni = JOptionPane.showInputDialog("Introduce la primera hora");
+                horaIni = JOptionPane.showInputDialog("Introduce la primera "
+                        + "hora.\n Formato: hh:mm:ss");
 
             } while (horaIni.length() < 7 || horaIni.charAt(2) != ':' || horaIni.charAt(5) != ':');
 
@@ -474,7 +476,8 @@ public class Admin_Sindy {
             fechaCorrecta = false;
             do {
 
-                fechaFin = JOptionPane.showInputDialog("Introduce la segunda fecha");
+                fechaFin = JOptionPane.showInputDialog("Introduce la segunda "
+                        + "fecha.\n Formato: AAAA-MM-DD");
 
             } while (fechaFin.length() < 9 || fechaFin.charAt(4) != '-' || fechaFin.charAt(7) != '-');
 
@@ -497,12 +500,13 @@ public class Admin_Sindy {
 
         //Lo ponemos a false para poder usarlo al comprobar la segunda hora
         horaCorrecta = false;
-        
+
         /*HORA FIN*/
         do {
             do {
 
-                horaFin = JOptionPane.showInputDialog("Introduce la segunda hora");
+                horaFin = JOptionPane.showInputDialog("Introduce la segunda"
+                        + " hora.\n Formato: hh:mm:ss");
 
             } while (horaFin.length() < 7 || horaFin.charAt(2) != ':' || horaFin.charAt(5) != ':');
 
@@ -537,10 +541,14 @@ public class Admin_Sindy {
 
         listaTickets = (ArrayList<TicketsVO>) daoTickets.getAll();
         for (TicketsVO ticketsVO : listaTickets) {
-            if (ticketsVO.getFecfinpin().isAfter(fecha_ini)
-                    && ticketsVO.getFecfinpin().isBefore(fecha_fin)) {
-                if (ticketsVO.getHorasalticket().isAfter(hora_ini)
-                        && ticketsVO.getHorasalticket().isBefore(hora_fin)) {
+            if ((ticketsVO.getFecfinpin().isAfter(fecha_ini)
+                    || ticketsVO.getFecfinpin().equals(fecha_ini))
+                    && (ticketsVO.getFecfinpin().isBefore(fecha_fin)
+                    || ticketsVO.getFecfinpin().isEqual(fecha_fin))) {
+                if ((ticketsVO.getHorasalticket().isAfter(hora_ini)
+                        || ticketsVO.getHorasalticket().equals(hora_ini))
+                        && (ticketsVO.getHorasalticket().isBefore(hora_fin)
+                        || ticketsVO.getHorasalticket().equals(hora_fin))) {
                     contadorTickets++;
                     listaFacturaTicket.add(ticketsVO);
                     precioTotal = precioTotal + ticketsVO.getPrecio();
@@ -556,7 +564,8 @@ public class Admin_Sindy {
                 tickets = tickets + ticketsVO + "\n";
             }
 
-            JOptionPane.showMessageDialog(null, "El número de cobros que se han realizado entre " + fechaIni + " " + horaIni
+            JOptionPane.showMessageDialog(null, "El número de cobros que se han "
+                    + "realizado entre\n " + fechaIni + " " + horaIni
                     + " y " + fechaFin + " " + horaFin + " es igual a: "
                     + contadorTickets + "\n" + tickets + "\n Ganacias: "
                     + precioTotal);
