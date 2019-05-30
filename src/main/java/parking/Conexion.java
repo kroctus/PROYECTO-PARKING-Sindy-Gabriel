@@ -16,10 +16,11 @@ import java.sql.SQLException;
 
 public class Conexion {
 
-    private static final String SERVIDOR = "jdbc:mysql://192.168.56.101:3306/";
-    private static final String NOMBRE_BASE_DATOS = "parkingdawS_G";
-    private static final String USER = "gabriel";
-    private static final String PASS = "1234";
+
+    private static final String SERVIDOR = "jdbc:mysql://127.0.0.1:3306/";
+    private static final String NOMBRE_BASE_DATOS = "parkingdaws_g";
+    private static final String USER = "root";
+    private static final String PASS = "fairy tail21";
 
     private static Connection instancia = null;
 

@@ -143,28 +143,6 @@ public class CopiaDeSeguridad {
 
     }
 
-    // Actualiza el estado de la tabla seleccionada por el que se tiene en las carpertas de backup
-    public static void recuperar() {
-
-        JOptionPane.showMessageDialog(null, "Bienvenido al menú de recuperación de copias de seguridad");
-        int tabla = JOptionPane.showOptionDialog(null, "Selecciona la tabla que deseas recuperar: ",
-                "Menú", JOptionPane.YES_NO_CANCEL_OPTION,
-                JOptionPane.QUESTION_MESSAGE, null, new Object[]{
-                    "Clientes", "Vehiculos", "Plazas", "Reservas", "Tickets"},
-                "Turismo");
-
-        switch (tabla) {
-            case 1:
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
-            case 4:
-                break;
-        }
-
-    }
 
     //métodos que leen  cada uno de los archivos de backups y extraen sus datos para actualizar las tablas
     public static void leerClinetes(String nombre) throws FileNotFoundException, IOException {
