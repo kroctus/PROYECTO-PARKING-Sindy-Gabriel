@@ -102,9 +102,11 @@ public class Menu {
                     switch (opcion7) {
                         case 0:
                             System.out.println("Dar de alta");
+                            Admin_Gab.alta();
                             break;
                         case 1:
                             System.out.println("Modificar abonos");
+                            Admin_Gab.modificarAbonado();
                             break;
                         case 2:
                             System.out.println("Dar de baja");
