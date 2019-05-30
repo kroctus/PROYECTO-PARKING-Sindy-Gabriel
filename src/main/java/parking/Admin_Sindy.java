@@ -407,31 +407,132 @@ public class Admin_Sindy {
         ArrayList<TicketsVO> listaFacturaTicket = new ArrayList<>();
         String fechaIni, fechaFin, horaIni, horaFin;
         String tickets = "";
+        String[] fechaI, fechaF, horaI, horaF;
         double precioTotal = 0;
         int contadorTickets = 0;
+        boolean fechaCorrecta = false, horaCorrecta = false;
 
         JOptionPane.showMessageDialog(null, "A continuación se le solicitará "
                 + "dos fechas y dos horas\n para saber el importe de la"
                 + " ganancia entre dichos rangos.\n El formato será el siguiente:\n "
                 + "Hora -> hh:mm:ss\n Fecha -> AAAA-MM-DD");
-        fechaIni = JOptionPane.showInputDialog("Introduce la primera fecha");
-        horaIni = JOptionPane.showInputDialog("Introduce la primera hora");
-        fechaFin = JOptionPane.showInputDialog("Introduce la segunda fecha");
-        horaFin = JOptionPane.showInputDialog("Introduce la segunda hora");
+
+        /*FECHA INICIO*/
+        do {
+            do {
+
+                fechaIni = JOptionPane.showInputDialog("Introduce la primera fecha");
+
+            } while (fechaIni.length() < 9 || fechaIni.charAt(4) != '-' || fechaIni.charAt(7) != '-');
+
+            fechaI = fechaIni.trim().split("-");
+            //Usamos el método estático esNumero de la clase GestionVehiculos
+            //para ver si la fecha es correcta.
+            if (GestionVehiculos.esNumero(fechaI[0])
+                    && GestionVehiculos.esNumero(fechaI[1])
+                    && GestionVehiculos.esNumero(fechaI[2])) {
+                System.out.println("SON NUMEROS");
+                if (Integer.valueOf(fechaI[0]) > 2000
+                        && (Integer.valueOf(fechaI[1]) >= 1 && Integer.valueOf(fechaI[1]) <= 12)
+                        && (Integer.valueOf(fechaI[2]) >= 1 && Integer.valueOf(fechaI[2]) <= 31)) {
+                    System.out.println("ESTA LA FECHA BIEN");
+                    fechaCorrecta = true;
+                }
+            }
+
+        } while (fechaI.length < 3 || !fechaCorrecta);
+
+        /*HORA INICIO*/
+        do {
+            do {
+
+                horaIni = JOptionPane.showInputDialog("Introduce la primera hora");
+
+            } while (horaIni.length() < 7 || horaIni.charAt(2) != ':' || horaIni.charAt(5) != ':');
+
+            horaI = horaIni.trim().split(":");
+            //Usamos el método estático esNumero de la clase GestionVehiculos
+            //para ver si la fecha es correcta.
+            if (GestionVehiculos.esNumero(horaI[0])
+                    && GestionVehiculos.esNumero(horaI[1])
+                    && GestionVehiculos.esNumero(horaI[2])) {
+                System.out.println("SON NUMEROS");
+                if ((Integer.valueOf(horaI[0]) >= 0 && Integer.valueOf(horaI[0]) <= 23)
+                        && (Integer.valueOf(horaI[1]) >= 0 && Integer.valueOf(horaI[1]) < 60)
+                        && (Integer.valueOf(horaI[2]) >= 0 && Integer.valueOf(horaI[2]) < 60)) {
+                    System.out.println("ESTA LA Hora BIEN");
+                    horaCorrecta = true;
+                }
+            }
+
+        } while (fechaI.length < 3 || !horaCorrecta);
+
+        /*FECHA FIN*/
+        do {
+            //Lo ponemos a false para poder usarlo al comprobar la segunda fecha.
+            fechaCorrecta = false;
+            do {
+
+                fechaFin = JOptionPane.showInputDialog("Introduce la segunda fecha");
+
+            } while (fechaFin.length() < 9 || fechaFin.charAt(4) != '-' || fechaFin.charAt(7) != '-');
+
+            fechaF = fechaFin.trim().split("-");
+            //Usamos el método estático esNumero de la clase GestionVehiculos
+            //para ver si la fecha es correcta.
+            if (GestionVehiculos.esNumero(fechaF[0])
+                    && GestionVehiculos.esNumero(fechaF[1])
+                    && GestionVehiculos.esNumero(fechaF[2])) {
+                System.out.println("SON NUMEROS");
+                if (Integer.valueOf(fechaI[0]) > 2000
+                        && (Integer.valueOf(fechaF[1]) >= 1 && Integer.valueOf(fechaF[1]) <= 12)
+                        && (Integer.valueOf(fechaF[2]) >= 1 && Integer.valueOf(fechaF[2]) <= 31)) {
+                    System.out.println("ESTA LA FECHA BIEN");
+                    fechaCorrecta = true;
+                }
+            }
+
+        } while (fechaI.length < 3 || !fechaCorrecta);
+
+        //Lo ponemos a false para poder usarlo al comprobar la segunda hora
+        horaCorrecta = false;
+        
+        /*HORA FIN*/
+        do {
+            do {
+
+                horaFin = JOptionPane.showInputDialog("Introduce la segunda hora");
+
+            } while (horaFin.length() < 7 || horaFin.charAt(2) != ':' || horaFin.charAt(5) != ':');
+
+            horaF = horaFin.trim().split(":");
+            //Usamos el método estático esNumero de la clase GestionVehiculos
+            //para ver si la fecha es correcta.
+            if (GestionVehiculos.esNumero(horaF[0])
+                    && GestionVehiculos.esNumero(horaF[1])
+                    && GestionVehiculos.esNumero(horaF[2])) {
+                System.out.println("SON NUMEROS");
+                if ((Integer.valueOf(horaF[0]) >= 0 && Integer.valueOf(horaF[0]) <= 23)
+                        && (Integer.valueOf(horaF[1]) >= 0 && Integer.valueOf(horaF[1]) < 60)
+                        && (Integer.valueOf(horaF[2]) >= 0 && Integer.valueOf(horaF[2]) < 60)) {
+                    System.out.println("ESTA LA Hora BIEN");
+                    horaCorrecta = true;
+                }
+            }
+
+        } while (fechaI.length < 3 || !horaCorrecta);
 
         //Pasamos el string a LocalDate dividiendo el tokens por el guion ("-").
-        String[] fechaI = fechaIni.trim().split("-");
-        LocalDate fecha_ini = LocalDate.of(Integer.valueOf(fechaI[0]), Integer.valueOf(fechaI[1]), Integer.valueOf(fechaI[2]));
-
-        String[] fechaF = fechaFin.trim().split("-");
-        LocalDate fecha_fin = LocalDate.of(Integer.valueOf(fechaF[0]), Integer.valueOf(fechaF[1]), Integer.valueOf(fechaF[2]));
+        LocalDate fecha_ini = LocalDate.of(Integer.valueOf(fechaI[0]),
+                Integer.valueOf(fechaI[1]), Integer.valueOf(fechaI[2]));
+        LocalDate fecha_fin = LocalDate.of(Integer.valueOf(fechaF[0]),
+                Integer.valueOf(fechaF[1]), Integer.valueOf(fechaF[2]));
 
         //Pasamos el string a LocalTime dividiendo el tokens por los dos puntos (":").
-        String[] horaI = horaIni.trim().split(":");
-        LocalTime hora_ini = LocalTime.of(Integer.valueOf(horaI[0]), Integer.valueOf(horaI[1]), Integer.valueOf(horaI[2]));
-
-        String[] horaF = horaFin.trim().split(":");
-        LocalTime hora_fin = LocalTime.of(Integer.valueOf(horaF[0]), Integer.valueOf(horaF[1]), Integer.valueOf(horaF[2]));
+        LocalTime hora_ini = LocalTime.of(Integer.valueOf(horaI[0]),
+                Integer.valueOf(horaI[1]), Integer.valueOf(horaI[2]));
+        LocalTime hora_fin = LocalTime.of(Integer.valueOf(horaF[0]),
+                Integer.valueOf(horaF[1]), Integer.valueOf(horaF[2]));
 
         listaTickets = (ArrayList<TicketsVO>) daoTickets.getAll();
         for (TicketsVO ticketsVO : listaTickets) {
@@ -448,7 +549,7 @@ public class Admin_Sindy {
 
         if (listaFacturaTicket.isEmpty()) {
             JOptionPane.showMessageDialog(null, "El importe de la ganancia es 0 ya"
-                    + " que no\n se ha encontrado ningun cobo entre esas dos fechas");
+                    + " que no\n se ha encontrado ningun cobro entre esas dos fechas");
         } else {
             for (TicketsVO ticketsVO : listaFacturaTicket) {
                 tickets = tickets + ticketsVO + "\n";
