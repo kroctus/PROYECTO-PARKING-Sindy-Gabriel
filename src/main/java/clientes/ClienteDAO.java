@@ -46,7 +46,7 @@ public class ClienteDAO implements ICliente {
                 c.setDni(res.getString("dni"));
                 c.setEmail(res.getString("email"));
                 c.setNumTarjeta(res.getString("numTarjetaCredito"));
-                c.setTipoAbono(ClienteVO.obtenerTipoAbono(res.getString("tipoAbono")));
+                c.setTipoAbono(Cliente.obtenerTipoAbono(res.getString("tipoAbono")));
                 //Añadimos el objeto a la lista
                 lista.add(c);
             }
@@ -79,7 +79,7 @@ public class ClienteDAO implements ICliente {
                 c.setDni(res.getString("dni"));
                 c.setEmail(res.getString("email"));
                 c.setNumTarjeta(res.getString("numTarjetaCredito"));
-                c.setTipoAbono(ClienteVO.obtenerTipoAbono(res.getString("tipoAbono")));
+                c.setTipoAbono(Cliente.obtenerTipoAbono(res.getString("tipoAbono")));
                 return c;
             }
 
@@ -107,7 +107,7 @@ public class ClienteDAO implements ICliente {
                 prest.setString(4, cliente.getApellido1());
                 prest.setString(5, cliente.getApellido2());
                 prest.setString(6, cliente.getNumTarjeta());
-                prest.setString(7, ClienteVO.obtenerTipoAbono(cliente));
+                prest.setString(7, Cliente.obtenerTipoAbono(cliente));
                 prest.setString(8, cliente.getEmail());
                 numFilas = prest.executeUpdate();
             }
@@ -183,7 +183,7 @@ public class ClienteDAO implements ICliente {
                 prest.setString(3, nuevosDatos.getApellido1());
                 prest.setString(4, nuevosDatos.getApellido2());
                 prest.setString(5, nuevosDatos.getNumTarjeta());
-                prest.setString(6, ClienteVO.obtenerTipoAbono(nuevosDatos));
+                prest.setString(6, Cliente.obtenerTipoAbono(nuevosDatos));
                 prest.setString(7, nuevosDatos.getEmail());
 
                 numFilas = prest.executeUpdate();
