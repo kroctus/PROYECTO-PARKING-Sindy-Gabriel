@@ -38,13 +38,7 @@ public class ReservasVO {
         this.numplaza = numplaza;
         this.pin_fijo = pin_fijo;
         this.feciniabono = feciniabono;
-        this.fecfinabono = fecfinabono;
-        try {
-            this.precio = ReservasVO.obtenerPrecio(this.matricula);
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        
+        this.fecfinabono = fecfinabono;        
     }
 
     public ReservasVO(String matricula, int numplaza, String pin_fijo, LocalDate feciniabono, LocalDate fecfinabono, double precio) {
@@ -110,42 +104,11 @@ public class ReservasVO {
     @Override
     public String toString() {
         try {
-            return matricula + " : " + numplaza + " : " + pin_fijo + " : " + feciniabono + " : " + fecfinabono + " : " + obtenerPrecio(matricula);
+            return matricula + " : " + numplaza + " : " + pin_fijo + " : " + feciniabono + " : " + fecfinabono + " : " + Reservas.obtenerPrecio(matricula);
         } catch (SQLException ex) {
             Logger.getLogger(ReservasVO.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println(ex.getMessage());
         }
         return matricula + " : " + numplaza + " : " + pin_fijo + " : " + feciniabono + " : " + fecfinabono + " : " + precio;
-    }
-
-    public static int obtenerPrecio(String matricula) throws SQLException {
-        int tipoAbonado = 0;
-
-        ClienteDAO daoCliente = new ClienteDAO();
-        ArrayList<ClienteVO> listaCliente = new ArrayList<>();
-        listaCliente = (ArrayList<ClienteVO>) daoCliente.getAll();
-        for (ClienteVO clienteVO : listaCliente) {
-            if (clienteVO.getMatricula().equalsIgnoreCase(matricula)) {
-                tipoAbonado = clienteVO.getTipoAbono();
-            }
-
-        }
-
-        if (tipoAbonado != 0) {
-            switch (tipoAbonado) {
-                //1mensual25 2trimestral70 3semestral130 4anual200
-                case 1:
-                    return 25;
-                case 2:
-                    return 70;
-                case 3:
-                    return 130;
-                case 4:
-                    return 200;
-            }
-        }
-
-        return 0;
-
     }
 }

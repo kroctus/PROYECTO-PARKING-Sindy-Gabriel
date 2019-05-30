@@ -112,7 +112,7 @@ public class ReservasDAO implements IReservas {
                 prest.setString(3, reserva.getPin_fijo());
                 prest.setDate(4, Date.valueOf(reserva.getFeciniabono()));
                 prest.setDate(5, Date.valueOf(reserva.getFecfinabono()));
-                prest.setDouble(6, ReservasVO.obtenerPrecio(reserva.getMatricula()));
+                prest.setDouble(6, Reservas.obtenerPrecio(reserva.getMatricula()));
 
                 numFilas = prest.executeUpdate();
             }
