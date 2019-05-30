@@ -239,9 +239,6 @@ public class Admin_Sindy {
 
                     listaVehiculo.add(new VehiculoVO(tokens[0], Integer.valueOf(tokens[1])));
                 }
-                for (VehiculoVO vehiculoVO : listaVehiculo) {
-                    System.out.println(vehiculoVO);
-                }
 
             } catch (FileNotFoundException e) {
                 System.out.println(e.getMessage());
@@ -263,9 +260,6 @@ public class Admin_Sindy {
 
                     listaPlazas.add(new PlazaVO(Integer.valueOf(tokens[0]), Integer.valueOf(tokens[1]), Integer.valueOf(tokens[2]), Double.valueOf(tokens[3])));
                 }
-                for (PlazaVO plazas : listaPlazas) {
-                    System.out.println(plazas);
-                }
 
             } catch (FileNotFoundException e) {
                 System.out.println(e.getMessage());
@@ -285,9 +279,6 @@ public class Admin_Sindy {
 
                     tokens = linea.split(" : ");
                     listaClientes.add(new ClienteVO(tokens[0], tokens[1], tokens[2], tokens[3], tokens[4], tokens[5], Integer.valueOf(tokens[6]), tokens[7]));
-                }
-                for (ClienteVO clientes : listaClientes) {
-                    System.out.println(clientes);
                 }
 
             } catch (FileNotFoundException e) {
@@ -315,9 +306,6 @@ public class Admin_Sindy {
                     LocalDate fechafin = LocalDate.of(Integer.valueOf(fecha2[0]), Integer.valueOf(fecha2[1]), Integer.valueOf(fecha2[2]));
 
                     listaReservas.add(new ReservasVO(tokens[0], Integer.valueOf(tokens[1]), tokens[2], fechaIni, fechafin));
-                }
-                for (ReservasVO reservas : listaReservas) {
-                    System.out.println(reservas);
                 }
 
             } catch (FileNotFoundException e) {
@@ -354,9 +342,6 @@ public class Admin_Sindy {
                     LocalTime horafin = LocalTime.of(Integer.valueOf(hora2[0]), Integer.valueOf(hora2[1]), Integer.valueOf(hora2[2]));
 
                     listaTickets.add(new TicketsVO(Integer.valueOf(tokens[0]), tokens[1], tokens[2], fechaini, fechafin, horaini, horafin, Double.valueOf(tokens[7])));
-                }
-                for (TicketsVO tickets : listaTickets) {
-                    System.out.println(tickets);
                 }
 
             } catch (FileNotFoundException e) {
